@@ -26,7 +26,7 @@ if ($_SESSION['is_password_reset'] == 0) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>HRIS | Department Settings</title>
+  <title>Lakan | Membership Settings</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -52,13 +52,13 @@ if ($_SESSION['is_password_reset'] == 0) {
       <div id="content">
 
         <div class="pagetitle">
-          <h1>Department</h1>
+          <h1>Membership Type Settings</h1>
           <br>
 
           <nav>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/lakan/views/dashboard_module.php">Home</a></li>
-              <li class="breadcrumb-item active">Department</li>
+              <li class="breadcrumb-item active">Membership Type</li>
             </ol>
           </nav>
 
@@ -71,28 +71,27 @@ if ($_SESSION['is_password_reset'] == 0) {
             <!-- Left side columns -->
             <div class="col-lg-12">
 
-              <?php include './../modals/department/modal_add_department.php'; ?>
-              <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal" data-bs-target="#addDepartmentModal">
-                <i class="bi bi-person-add"></i> Add Department
+              <?php include './../modals/membership_type/modal_add_membership_type.php'; ?>
+              <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal" data-bs-target="#addMembershipModal">
+                <i class="bi bi-blockquote-right"></i> Add Membership Type
               </a>
 
-              <a href="./../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="bi bi-file-excel"></i> Generate Excel</a>
+              <!-- <a href="./../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="bi bi-file-excel"></i> Generate Excel</a> -->
 
               <div class="row">
                 <div class="col-xl-12 col-lg-12">
                   <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
 
                     <div class="table-responsive">
-                      <div id="modalContainerDepartment"></div>
+                      <div id="modalContainerMembershipType"></div>
 
-                      <table class="table custom-table table-hover" name="department_table" id="department_table">
+                      <table class="table custom-table table-hover" name="membership_type_table" id="membership_type_table">
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>Department Name</th>
+                            <th>Membership Type Name</th>
+                            <th>Price</th>
                             <th>Description</th>
-                            <th>Date Created</th>
-                            <th>Date Updated</th>
                             <th>Manage</th>
                           </tr>
                         </thead>
@@ -137,48 +136,48 @@ if ($_SESSION['is_password_reset'] == 0) {
 <script>
   // CSS responsive width for table
   $('.toggle-sidebar-btn').click(function() {
-    $('#department_table').css('width', '100%');
+    $('#membership_type_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
-  // Table for Supplier
+  // Table for Membership Type
   $(document).ready(function() {
-    var department_table = $('#department_table').DataTable({
+    var membership_type_table = $('#membership_type_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
       "serverSide": true,
-      "ajax": "./../controllers/tables/department_table.php",
+      "ajax": "./../controllers/tables/membership_type_table.php",
       "order": [
         [0, "desc"]
       ] // <-- DESCENDING order by first column
     });
 
     window.reloadDataTable = function() {
-      department_table.ajax.reload();
+      membership_type_table.ajax.reload();
     };
 
   });
 
-  // Edit Department
+  // Edit Membership Type
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#department_table').on('click', 'tr td:nth-child(6) .fetchDataDepartment', function() {
+    $('#membership_type_table').on('click', 'tr td:nth-child(5) .fetchDataMembershipType', function() {
       // The event.preventDefault ignores to go top of the page.
       event.preventDefault();
 
-      var department_id = $(this).closest('tr').find('td').first().text(); // Get the department_id from the clicked row
-      console.log('Button clicked, User ID: ' + department_id);
+      var membership_type_id = $(this).closest('tr').find('td').first().text(); // Get the membership_type_id from the clicked row
+      console.log('Button clicked, User ID: ' + membership_type_id);
 
       $.ajax({
-        url: './../modals/department/modal_edit_department.php', // Path to PHP script to fetch modal content
+        url: './../modals/membership_type/modal_edit_membership_type.php', // Path to PHP script to fetch modal content
         method: 'POST',
         data: {
-          department_id: department_id
+          membership_type_id: membership_type_id
         },
         success: function(response) {
-          $('#modalContainerDepartment').html(response);
-          $('#editDepartmentModal').modal('show');
-          console.log("Modal content loaded for Department ID: " + department_id);
+          $('#modalContainerMembershipType').html(response);
+          $('#editMembershipTypeModal').modal('show');
+          console.log("Modal content loaded for Membership Type ID: " + membership_type_id);
         },
         error: function(xhr, status, error) {
           console.error("Error: " + xhr.responseText);
@@ -187,23 +186,23 @@ if ($_SESSION['is_password_reset'] == 0) {
     });
   });
 
-  // Delete Department
+  // Delete Membership Type
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#department_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function() {
-      var department_id = $(this).closest('tr').find('td').first().text(); // Get the department_id from the clicked row
-      console.log('Button clicked, User ID: ' + department_id);
+    $('#membership_type_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function() {
+      var membership_type_id = $(this).closest('tr').find('td').first().text(); // Get the membership_type_id from the clicked row
+      console.log('Button clicked, User ID: ' + membership_type_id);
 
       $.ajax({
         url: './../modals/users/modal_delete_user.php', // Path to PHP script to fetch modal content
         method: 'POST',
         data: {
-          department_id: department_id
+          membership_type_id: membership_type_id
         },
         success: function(response) {
-          $('#modalContainerDepartment').html(response);
+          $('#modalContainerMembershipType').html(response);
           $('#deleteDataUserModal').modal('show');
-          console.log("Modal content loaded for User ID: " + department_id);
+          console.log("Modal content loaded for User ID: " + membership_type_id);
         },
         error: function(xhr, status, error) {
           console.error("Error: " + xhr.responseText);

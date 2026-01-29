@@ -11,10 +11,10 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" data-module="employees"
-        href="/lakan/views/employeelist_module.php?module=employees">
+      <a class="nav-link" data-module="active"
+        href="/lakan/views/active_members.php?module=active">
         <i class="bi bi-person-lines-fill"></i>
-        <span>Employee List</span>
+        <span>Members (Active)</span>
       </a>
     </li>
 
@@ -22,143 +22,17 @@
       <a class="nav-link" data-module="emparchives"
         href="/lakan/views/employeearchive_module.php?module=emparchives">
         <i class="bi bi-person-lines-fill"></i>
-        <span>Employee Archives</span>
+        <span>Members (Expired)</span>
       </a>
-    </li>
-
-    <li class="nav-item" <?php if ($_SESSION['user_type_id'] != 1) echo 'style="display: none;"'; ?>>
-      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>For Signing</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="forms-elements.html">
-            <i class="bi bi-journal-text"></i><span>Memo</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-layouts.html">
-            <i class="bi bi-journal-text"></i><span>Change Shift</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-editors.html">
-            <i class="bi bi-journal-text"></i><span>Leaves</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Overtime</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Damaged</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Issued Items</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Clearance</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Incident Report</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Receiving</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-    <!-- End Forms Nav -->
-
-    <li class="nav-item" <?php if ($_SESSION['user_type_id'] != 1) echo 'style="display: none;"'; ?>>
-      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-gear"></i><span>Adminitrator Tools</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="tables-general.html">
-            <i class="bi bi-journal-text"></i><span>General Memo</span>
-          </a>
-        </li>
-        <li>
-          <a href="tables-data.html">
-            <i class="bi bi-journal-text"></i><span>Test</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-    <!-- End Tables Nav -->
-
-    <li class="nav-item" <?php if ($_SESSION['user_type_id'] == 1) echo 'style="display: none;"'; ?>>
-      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>Employee Form</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="forms-elements.html">
-            <i class="bi bi-journal-text"></i><span>Memo</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-layouts.html">
-            <i class="bi bi-journal-text"></i><span>Change Shift</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-editors.html">
-            <i class="bi bi-journal-text"></i><span>Leaves</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Overtime</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Damaged</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Issued Items</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Clearance</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Incident Report</span>
-          </a>
-        </li>
-        <li>
-          <a href="forms-validation.html">
-            <i class="bi bi-journal-text"></i><span>Receiving</span>
-          </a>
-        </li>
-      </ul>
     </li>
 
     <li class="nav-heading">Admin Panel</li>
 
     <li class="nav-item">
-      <a class="nav-link" data-module="department"
-        href="/lakan/views/department_module.php?module=department">
+      <a class="nav-link" data-module="type"
+        href="/lakan/views/membership_type.php?module=type">
         <i class="bi bi-building"></i>
-        <span>Department</span>
+        <span>Membership Type</span>
       </a>
     </li>
 

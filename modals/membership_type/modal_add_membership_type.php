@@ -1,8 +1,8 @@
-<div class="modal fade" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
+<div class="modal fade" id="addMembershipModal" tabindex="-1" role="dialog" aria-labelledby="addMembershipModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addDepartmentModalLabel">Create Department</h5>
+        <h5 class="modal-title" id="addMembershipModalLabel">Create Membership Type</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
       </div>
@@ -10,34 +10,47 @@
       <div class="modal-body">
         <form method="post" enctype="multipart/form-data">
           <div class="form-row">
-            <!-- Department Name -->
+            <!-- Membership Type Name -->
             <div class="input-group mb-3">
               <span class="input-group-text">
-                <i class="bi bi-diagram-3"></i>
+                <i class="bi bi-blockquote-left"></i>
               </span>
               <div class="form-floating flex-grow-1">
-                <input type="text" class="form-control" id="department_name" name="department_name" placeholder="Department Name" required>
-                <label for="department_name">
-                  Department Name <span class="text-danger">*</span>
+                <input type="text" class="form-control" id="membership_type_name" name="membership_type_name" placeholder=" Membership Type Name" required>
+                <label for="membership_type_name">
+                  Membership Type Name <span class="text-danger">*</span>
                 </label>
               </div>
             </div>
 
-            <!-- Department Description (Optional) -->
+            <!-- Membership Type Price -->
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="bi bi-cash"></i>
+              </span>
+              <div class="form-floating flex-grow-1">
+                <input type="text" class="form-control" id="membershiptype_price" name="membershiptype_price" placeholder="Membership Type Price" required>
+                <label for="membershiptype_price">
+                  Membership Type Price <span class="text-danger">*</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Membership Type Description (Optional) -->
             <div class="input-group mb-3">
               <span class="input-group-text">
                 <i class="bi bi-card-text"></i>
               </span>
               <div class="form-floating flex-grow-1">
-                <textarea class="form-control" id="department_description" name="department_description" placeholder="Department Description" style="height: 100px"></textarea>
-                <label for="department_description">
-                  Department Description <span class="text-muted">(Optional)</span>
+                <textarea class="form-control" id="membership_type_description" name="membership_type_description" placeholder="Membership Type Description" style="height: 100px"></textarea>
+                <label for="membership_type_description">
+                  Membership Type Description <span class="text-muted">(Optional)</span>
                 </label>
               </div>
             </div>
 
           </div>
-          <input type="hidden" name="add_department" value="1">
+          <input type="hidden" name="add_membership_type" value="1">
           <!-- Modal Footer Buttons -->
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -57,13 +70,21 @@
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const priceInput = document.getElementById('membershiptype_price');
+
+    priceInput.addEventListener('input', function() {
+      // Remove any non-digit characters
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+  });
+
   document.addEventListener("DOMContentLoaded", function() {
-
     // Initialize Bootstrap 5 modal object
-    const addDepartmentModalEl = document.getElementById('addDepartmentModal');
-    const addDepartmentModal = new bootstrap.Modal(addDepartmentModalEl);
+    const addMembershipModalEl = document.getElementById('addMembershipModal');
+    const addMembershipModal = new bootstrap.Modal(addMembershipModalEl);
 
-    const form = addDepartmentModalEl.querySelector('form');
+    const form = addMembershipModalEl.querySelector('form');
     const submitBtn = form.querySelector('button[type="submit"]');
 
     form.addEventListener('submit', function(e) {
@@ -79,7 +100,7 @@
 
       $.ajax({
         type: 'POST',
-        url: '/lakan/controllers/add_department_process.php',
+        url: '/lakan/controllers/add_membership_type_process.php',
         data: formData,
         success: function(response) {
           try {
@@ -99,7 +120,7 @@
               form.reset();
 
               // Close modal (Bootstrap 5)
-              addDepartmentModal.hide();
+              addMembershipModal.hide();
 
               // Reload DataTable if you have one
               if (typeof window.reloadDataTable === 'function') {

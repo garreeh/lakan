@@ -1,13 +1,13 @@
 <?php
 
 // Query for Department
-$sql = "SELECT * FROM department";
-$resultDepartment = mysqli_query($conn, $sql);
+$sql = "SELECT * FROM membership_type";
+$resultMembershipType = mysqli_query($conn, $sql);
 
-$department_names = [];
-if ($resultDepartment) {
-  while ($row = mysqli_fetch_assoc($resultDepartment)) {
-    $department_names[] = $row;
+$membership_type_names = [];
+if ($resultMembershipType) {
+  while ($row = mysqli_fetch_assoc($resultMembershipType)) {
+    $membership_type_names[] = $row;
   }
 }
 
@@ -16,33 +16,24 @@ if ($resultDepartment) {
 <style>
 </style>
 
-<div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+<div class="modal fade" id="addMembersModal" tabindex="-1" role="dialog" aria-labelledby="addMembersModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addEmployeeModalLabel">Create New Employee</h5>
+        <h5 class="modal-title" id="addMembersModalLabel">Create New Members</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
       </div>
 
       <div class="modal-body">
         <form method="post" enctype="multipart/form-data">
           <div class="form-row">
-            <!-- Employee Number -->
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="bi bi-list-ol"></i></span>
-              <div class="form-floating flex-grow-1">
-                <input type="text" class="form-control" id="employee_number" name="employee_number" placeholder="Employee Code" required>
-                <label for="employee_number">Employee Code <span class="text-danger">*</span></label>
-              </div>
-            </div>
 
             <!-- Last Name -->
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="text" class="form-control" id="emp_lastname" name="emp_lastname" placeholder="Last Name" required>
-                <label for="emp_lastname">Last Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
+                <label for="last_name">Last Name <span class="text-danger">*</span></label>
               </div>
             </div>
 
@@ -50,8 +41,8 @@ if ($resultDepartment) {
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="text" class="form-control" id="emp_firstname" name="emp_firstname" placeholder="First Name" required>
-                <label for="emp_firstname">First Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
+                <label for="first_name">First Name <span class="text-danger">*</span></label>
               </div>
             </div>
 
@@ -59,47 +50,77 @@ if ($resultDepartment) {
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="text" class="form-control" id="emp_middlename" name="emp_middlename" placeholder="Middle Name">
-                <label for="emp_middlename">Middle Name</label>
+                <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Middle Name">
+                <label for="middle_name">Middle Name</label>
               </div>
-            </div>
-
-            <!-- Department -->
-            <div class="input-group mb-3">
-
-              <!-- It has style because of the Selectize -->
-              <span class="input-group-text" style="height: 34px !important;">
-                <i class="bi bi-building"></i>
-              </span>
-
-              <select class="form-control" id="department_id" name="department_id" required>
-                <option value="">Select Department <span class="text-danger">*</span></option>
-
-                <?php foreach ($department_names as $dept): ?>
-                  <option value="<?php echo htmlspecialchars($dept['department_id']); ?>">
-                    <?php echo htmlspecialchars($dept['department_name']); ?>
-                  </option>
-                <?php endforeach; ?>
-              </select>
             </div>
 
             <!-- Birthdate -->
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="birth_date" name="birth_date" placeholder="Date Hired" required>
+                <input type="date" class="form-control" id="birth_date" name="birth_date" placeholder="Birth Hired" required>
                 <label for="birth_date">Birth Date <span class="text-danger">*</span></label>
               </div>
             </div>
 
-            <!-- Date Hired -->
+            <!-- Age -->
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+              <div class="form-floating flex-grow-1">
+                <input type="text" class="form-control" id="age" name="age" placeholder="Age" readonly>
+                <label for="age">Age</label>
+              </div>
+            </div>
+
+            <!-- Start Date -->
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="date_hired" name="date_hired" placeholder="Date Hired" required>
-                <label for="date_hired">Date Hired <span class="text-danger">*</span></label>
+                <input type="date" class="form-control" id="start_date_membership" name="start_date_membership" placeholder="Start Hired" required>
+                <label for="start_date_membership">Start Date Subscription<span class="text-danger">*</span></label>
               </div>
             </div>
+
+            <!-- End Date -->
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+              <div class="form-floating flex-grow-1">
+                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" placeholder="End Date" required>
+                <label for="end_date_membership">End Date Subscription<span class="text-danger">*</span></label>
+              </div>
+            </div>
+
+            <!-- Gender -->
+            <div class="input-group mb-3">
+              <span class="input-group-text" style="height: 34px !important;">
+                <i class="bi bi-gender-ambiguous"></i>
+              </span>
+              <select class="form-control" id="gender" name="gender" required>
+                <option value="" selected disabled>Choose Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+
+
+            <!-- Membership Type -->
+            <div class="input-group mb-3">
+              <!-- It has style because of the Selectize -->
+              <span class="input-group-text" style="height: 34px !important;">
+                <i class="bi bi-collection"></i>
+              </span>
+
+              <select class="form-control" id="membership_type_id" name="membership_type_id" required>
+                <option value="">Select Membership Type <span class="text-danger">*</span></option>
+                <?php foreach ($membership_type_names as $membs): ?>
+                  <option value="<?php echo htmlspecialchars($membs['membership_type_id']); ?>">
+                    <?php echo htmlspecialchars($membs['membership_type_name']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+
           </div>
           <input type="hidden" name="add_employee" value="1">
           <!-- Modal Footer Buttons -->
@@ -121,13 +142,38 @@ if ($resultDepartment) {
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
+  // Age Computation
+  document.addEventListener('DOMContentLoaded', function() {
+    const birthInput = document.getElementById('birth_date');
+    const ageInput = document.getElementById('age');
+
+    birthInput.addEventListener('change', function() {
+      const birthDate = new Date(this.value);
+      if (!isNaN(birthDate)) {
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+
+        // Adjust if birthday hasn't occurred yet this year
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+
+        ageInput.value = age;
+      } else {
+        ageInput.value = '';
+      }
+    });
+  });
+
+  // Bridge Communication for backend
   document.addEventListener("DOMContentLoaded", function() {
 
     // Initialize Bootstrap 5 modal object
-    const addEmployeeModalEl = document.getElementById('addEmployeeModal');
-    const addEmployeeModal = new bootstrap.Modal(addEmployeeModalEl);
+    const addMembersModalEl = document.getElementById('addMembersModal');
+    const addMembersModal = new bootstrap.Modal(addMembersModalEl);
 
-    const form = addEmployeeModalEl.querySelector('form');
+    const form = addMembersModalEl.querySelector('form');
     const submitBtn = form.querySelector('button[type="submit"]');
 
     form.addEventListener('submit', function(e) {
@@ -143,7 +189,7 @@ if ($resultDepartment) {
 
       $.ajax({
         type: 'POST',
-        url: '/lakan/controllers/add_employee_process.php',
+        url: '/lakan/controllers/add_customer_process.php',
         data: formData,
         success: function(response) {
           try {
@@ -163,7 +209,7 @@ if ($resultDepartment) {
               form.reset();
 
               // Close modal (Bootstrap 5)
-              addEmployeeModal.hide();
+              addMembersModal.hide();
 
               // Reload DataTable if you have one
               if (typeof window.reloadDataTable === 'function') {

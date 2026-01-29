@@ -26,7 +26,7 @@ if ($_SESSION['is_password_reset'] == 0) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>HRIS | Employee List</title>
+  <title>Lakan | Members (Active)</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -57,15 +57,18 @@ if ($_SESSION['is_password_reset'] == 0) {
       <div id="content">
 
         <div class="pagetitle">
-          <h1>Employee List</h1>
+          <h1>Members (Active)</h1>
           <br>
 
           <nav>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/lakan/views/dashboard_module.php">Home</a></li>
-              <li class="breadcrumb-item active">Employee List</li>
+              <li class="breadcrumb-item">
+                <a href="/lakan/views/dashboard_module.php">Home</a>
+              </li>
+              <li class="breadcrumb-item active">Members (Active)</li>
             </ol>
           </nav>
+
 
         </div>
 
@@ -76,9 +79,9 @@ if ($_SESSION['is_password_reset'] == 0) {
             <!-- Left side columns -->
             <div class="col-lg-12">
 
-              <?php include './../modals/employee/modal_add_employee.php'; ?>
-              <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
-                <i class="bi bi-person-add"></i> Add Employee
+              <?php include './../modals/members/modal_add_members.php'; ?>
+              <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal" data-bs-target="#addMembersModal">
+                <i class="bi bi-person-add"></i> Add Members
               </a>
 
               <a href="./../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="bi bi-file-excel"></i> Generate Excel</a>
@@ -88,18 +91,16 @@ if ($_SESSION['is_password_reset'] == 0) {
                   <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
 
                     <div class="table-responsive">
-                      <div id="modalContainerSupplier"></div>
+                      <div id="modalContainerCustomers"></div>
 
-                      <table class="table custom-table table-hover" name="users_table" id="users_table">
+                      <table class="table custom-table table-hover" name="customers_table" id="customers_table">
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>Employee #</th>
                             <th>Firstname</th>
                             <th>Lastname</th>
-                            <th>Account Status</th>
-                            <th>Date Hired</th>
-                            <!-- <th>Date Created</th> -->
+                            <th>Subs Start Date</th>
+                            <th>Subs End Date</th>
                             <th>Manage</th>
                           </tr>
                         </thead>
@@ -158,24 +159,24 @@ if ($_SESSION['is_password_reset'] == 0) {
   });
 
   $('.toggle-sidebar-btn').click(function() {
-    $('#users_table').css('width', '100%');
+    $('#customers_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Supplier
   $(document).ready(function() {
-    var users_table = $('#users_table').DataTable({
+    var customers_table = $('#customers_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
       "serverSide": true,
-      "ajax": "./../controllers/tables/users_table.php",
+      "ajax": "./../controllers/tables/customers_table.php",
       "order": [
         [0, "desc"]
       ] // <-- DESCENDING order by first column
     });
 
     window.reloadDataTable = function() {
-      users_table.ajax.reload();
+      customers_table.ajax.reload();
     };
 
   });
@@ -183,7 +184,7 @@ if ($_SESSION['is_password_reset'] == 0) {
   //Bridge for Modal Backend to Frontend
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#users_table').on('click', 'tr td:nth-child(8) .fetchDataUser', function() {
+    $('#customers_table').on('click', 'tr td:nth-child(8) .fetchDataUser', function() {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -194,7 +195,7 @@ if ($_SESSION['is_password_reset'] == 0) {
           user_id: user_id
         },
         success: function(response) {
-          $('#modalContainerSupplier').html(response);
+          $('#modalContainerCustomers').html(response);
           $('#fetchDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
@@ -207,7 +208,7 @@ if ($_SESSION['is_password_reset'] == 0) {
 
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#users_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function() {
+    $('#customers_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function() {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -218,7 +219,7 @@ if ($_SESSION['is_password_reset'] == 0) {
           user_id: user_id
         },
         success: function(response) {
-          $('#modalContainerSupplier').html(response);
+          $('#modalContainerCustomers').html(response);
           $('#deleteDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
@@ -232,7 +233,7 @@ if ($_SESSION['is_password_reset'] == 0) {
   //Bridge for Modal Backend to Frontend
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#users_table').on('click', 'tr td:nth-child(4) .fetchDataPassword', function() {
+    $('#customers_table').on('click', 'tr td:nth-child(4) .fetchDataPassword', function() {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -243,7 +244,7 @@ if ($_SESSION['is_password_reset'] == 0) {
           user_id: user_id
         },
         success: function(response) {
-          $('#modalContainerSupplier').html(response);
+          $('#modalContainerCustomers').html(response);
           $('#fetchDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
