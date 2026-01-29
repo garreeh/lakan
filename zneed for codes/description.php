@@ -11,9 +11,9 @@ if ($resultDepartment) {
   }
 }
 
-if (isset($_GET['emp_id'])) {
-  $emp_id = $_GET['emp_id'];
-  $sql = "SELECT * FROM users WHERE emp_id = $emp_id";
+if (isset($_GET['lakan_user_id'])) {
+  $lakan_user_id = $_GET['lakan_user_id'];
+  $sql = "SELECT * FROM users WHERE lakan_user_id = $lakan_user_id";
   $result = mysqli_query($conn, $sql);
 
   if ($result) {

@@ -7,10 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-if ($_SESSION['is_password_reset'] == 0) {
-  header("Location: /lakan/password_reset.php");
-  exit();
-}
+
 
 // if (!isset($_SESSION['user_type_id']) || $_SESSION['user_type_id'] != 1) {
 //   header("Location: /lakan/views/users/user_dashboard.php");
@@ -84,7 +81,7 @@ if ($_SESSION['is_password_reset'] == 0) {
                 <i class="bi bi-person-add"></i> Add Members
               </a>
 
-              <a href="./../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="bi bi-file-excel"></i> Generate Excel</a>
+              <!-- <a href="./../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="bi bi-file-excel"></i> Generate Excel</a> -->
 
               <div class="row">
                 <div class="col-xl-12 col-lg-12">
@@ -101,6 +98,8 @@ if ($_SESSION['is_password_reset'] == 0) {
                             <th>Lastname</th>
                             <th>Subs Start Date</th>
                             <th>Subs End Date</th>
+                            <th>Status</th>
+
                             <th>Manage</th>
                           </tr>
                         </thead>

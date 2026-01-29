@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-if (isset($_SESSION['emp_id'])) {
+if (isset($_SESSION['lakan_user_id'])) {
   header("Location: /lakan/views/dashboard_module.php");
   exit();
 }
@@ -98,8 +98,8 @@ if (isset($_SESSION['emp_id'])) {
                       </span>
 
                       <div class="form-floating flex-grow-1">
-                        <input type="password" class="form-control" id="emp_password" name="emp_password" placeholder="Password" required>
-                        <label for="emp_password">Password</label>
+                        <input type="password" class="form-control" id="lakan_password" name="lakan_password" placeholder="Password" required>
+                        <label for="lakan_password">Password</label>
                       </div>
 
                       <button class="btn btn-outline-secondary"
@@ -160,7 +160,7 @@ if (isset($_SESSION['emp_id'])) {
 
   // Toggle password
   $('#togglePassword').on('click', function() {
-    const input = $('#emp_password');
+    const input = $('#lakan_password');
     const type = input.attr('type') === 'password' ? 'text' : 'password';
     input.attr('type', type);
     $(this).html(type === 'password' ?
@@ -182,18 +182,12 @@ if (isset($_SESSION['emp_id'])) {
       type: 'POST',
       data: {
         username_or_email: $('#username_or_email').val(),
-        emp_password: $('#emp_password').val()
+        lakan_password: $('#lakan_password').val()
       },
       dataType: 'json',
       success: function(response) {
         if (response.success) {
-
-          if (response.is_password_reset === '1') {
-            window.location.href = '/lakan/views/dashboard_module.php';
-          } else {
-            window.location.href = '/lakan/password_reset.php?emp_id=' + response.emp_id;
-          }
-
+          window.location.href = '/lakan/views/dashboard_module.php';
         } else {
           showToast(response.message);
         }

@@ -2,21 +2,21 @@
 session_start();
 include './connections/connections.php';
 
-// Get emp_id from URL
-if (!isset($_GET['emp_id']) || empty($_GET['emp_id'])) {
-  // No emp_id → redirect to login page
+// Get lakan_user_id from URL
+if (!isset($_GET['lakan_user_id']) || empty($_GET['lakan_user_id'])) {
+  // No lakan_user_id → redirect to login page
   header("Location: /lakan/index.php");
   exit();
 }
 
-$emp_id = intval($_GET['emp_id']); // Sanitize emp_id
+$lakan_user_id = intval($_GET['lakan_user_id']); // Sanitize lakan_user_id
 
-// Optional: verify emp_id exists in database
-$query = "SELECT emp_id, is_password_reset FROM users WHERE emp_id = $emp_id LIMIT 1";
+// Optional: verify lakan_user_id exists in database
+$query = "SELECT lakan_user_id, is_password_reset FROM users WHERE lakan_user_id = $lakan_user_id LIMIT 1";
 $result = mysqli_query($conn, $query);
 
 if (!$result || mysqli_num_rows($result) === 0) {
-  // Invalid emp_id → redirect to login
+  // Invalid lakan_user_id → redirect to login
   header("Location: /lakan/views/login.php");
   exit();
 }

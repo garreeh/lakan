@@ -1,5 +1,12 @@
 <aside id="sidebar" class="sidebar">
 
+  <!-- Sidebar Logo -->
+  <div class="sidebar-header text-center py-3">
+    <a href="/lakan/index.php" class="d-flex flex-column align-items-center">
+      <img src="./../assets/img/logo.jpg" alt="LAKAN Logo" class="img-fluid " style="width: 100px; height: 100px;">
+    </a>
+  </div>
+
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
@@ -19,8 +26,8 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" data-module="emparchives"
-        href="/lakan/views/employeearchive_module.php?module=emparchives">
+      <a class="nav-link" data-module="inactive"
+        href="/lakan/views/expired_members.php?module=inactive">
         <i class="bi bi-person-lines-fill"></i>
         <span>Members (Expired)</span>
       </a>
@@ -36,24 +43,14 @@
       </a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link" data-module="position"
-        href="/lakan/views/position_module.php?module=position">
-        <i class="bi bi-person-badge"></i>
-        <span>Position</span>
-      </a>
-    </li>
-    <!-- End Profile Page Nav -->
-
-    <li class="nav-heading">My Settings</li>
+    <li class="nav-heading">Users Panel</li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="/lakan/views/admin/admin_profile.php">
+      <a class="nav-link collapsed" href="/lakan/views/user_module.php">
         <i class="bi bi-person"></i>
-        <span>Profile</span>
+        <span>User List</span>
       </a>
     </li>
-    <!-- End Profile Page Nav -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="pages-faq.html">
@@ -61,11 +58,11 @@
         <span>Settings</span>
       </a>
     </li>
-    <!-- End Settings Page Nav -->
 
   </ul>
 
 </aside>
+
 
 <script>
   const params = new URLSearchParams(window.location.search);

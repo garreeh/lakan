@@ -6,19 +6,19 @@
 
   <div class="row">
     <div class="col-lg-3 col-md-4 label">Employee Code</div>
-    <div class="col-lg-9 col-md-8" id="employee_number_<?php echo $emp_id; ?>">
+    <div class="col-lg-9 col-md-8" id="employee_number_<?php echo $lakan_user_id; ?>">
       <?php echo $employee['employee_number'] ?>
     </div>
   </div>
 
   <div class="row">
     <div class="col-lg-3 col-md-4 label">Full Name</div>
-    <div class="col-lg-9 col-md-8" id="emp_fullname_<?php echo $emp_id; ?>">
+    <div class="col-lg-9 col-md-8" id="cus_fullname_<?php echo $lakan_user_id; ?>">
       <?php
       echo htmlspecialchars(
-        $employee['emp_firstname'] .
-          (!empty($employee['emp_middlename']) ? ' ' . $employee['emp_middlename'] : '') .
-          ' ' . $employee['emp_lastname']
+        $employee['lakan_firstname'] .
+          (!empty($employee['lakan_middleaname']) ? ' ' . $employee['lakan_middleaname'] : '') .
+          ' ' . $employee['lakan_lastname']
       );
       ?>
     </div>
@@ -26,7 +26,7 @@
 
   <div class="row">
     <div class="col-lg-3 col-md-4 label">Department</div>
-    <div class="col-lg-9 col-md-8" id="department_name_<?php echo $emp_id; ?>">
+    <div class="col-lg-9 col-md-8" id="end_date_<?php echo $lakan_user_id; ?>">
       <?php echo $employee['department_name'] ?>
     </div>
   </div>

@@ -2,18 +2,17 @@
 
 <?php
 
-if (isset($_SESSION['emp_id'])) {
-  $emp_id = $_SESSION['emp_id'];
-  $query = "SELECT emp_firstname, emp_lastname, employment_status FROM users WHERE emp_id = $emp_id";
+if (isset($_SESSION['lakan_user_id'])) {
+  $lakan_user_id = $_SESSION['lakan_user_id'];
+  $query = "SELECT lakan_firstname, lakan_lastname FROM users WHERE lakan_user_id = $lakan_user_id";
   $result = $conn->query($query);
 
   if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $emp_firstname = $row["emp_firstname"];
-    $emp_lastname = $row["emp_lastname"];
-    $employment_status = $row["employment_status"];
+    $lakan_firstname = $row["lakan_firstname"];
+    $lakan_lastname = $row["lakan_lastname"];
 
-    $full_name = $emp_firstname . " " . $emp_lastname;
+    $full_name = $lakan_firstname . " " . $lakan_lastname;
   } else {
     $full_name = "Unknown"; // If no employee found
   }
@@ -31,13 +30,6 @@ if (isset($_SESSION['emp_id'])) {
   </a>
 
   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-    <li class="dropdown-header">
-      <h6><?php echo $full_name; ?></h6>
-      <span><?php echo !empty($employment_status) ? $employment_status : "Personnel"; ?></span>
-    </li>
-    <li>
-      <hr class="dropdown-divider">
-    </li>
 
     <li>
       <a class="dropdown-item d-flex align-items-center" href="users-profile.html">

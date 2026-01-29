@@ -35,21 +35,21 @@ $columns = array(
     ),
 
     array(
-        'db'  => 'users.emp_username',
+        'db'  => 'users.lakan_username',
         'dt'  => 3,
-        'field' => 'emp_username',
+        'field' => 'lakan_username',
         'formatter' => function ($lab4, $row) {
 
-            return $row['emp_username'];
+            return $row['lakan_username'];
         }
     ),
 
     array(
-        'db' => 'users.emp_password',
+        'db' => 'users.lakan_password',
         'dt' => 4,
-        'field' => 'emp_password',
+        'field' => 'lakan_password',
         'formatter' => function ($lab5, $row) {
-            $emp_password = $row['emp_password'];
+            $lakan_password = $row['lakan_password'];
 
             // $color = '#FFFFE0'; // Light Yellow
             $color = '#FFCCCB'; // Light Red
@@ -62,7 +62,7 @@ $columns = array(
             $border_radius = '10px'; // Adjust the value as needed
 
             // Return the HTML with the specified styles
-            return '<span style="display: inline-block; background-color: ' . $color . '; width: ' . $width . '; height: ' . $height . '; border-radius: ' . $border_radius . '; text-align: center; line-height: ' . $height . ';">' . $emp_password . '</span>';
+            return '<span style="display: inline-block; background-color: ' . $color . '; width: ' . $width . '; height: ' . $height . '; border-radius: ' . $border_radius . '; text-align: center; line-height: ' . $height . ';">' . $lakan_password . '</span>';
         }
     ),
 

@@ -73,37 +73,6 @@ if ($resultMembershipType) {
               </div>
             </div>
 
-            <!-- Start Date -->
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-              <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="start_date_membership" name="start_date_membership" placeholder="Start Hired" required>
-                <label for="start_date_membership">Start Date Subscription<span class="text-danger">*</span></label>
-              </div>
-            </div>
-
-            <!-- End Date -->
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-              <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" placeholder="End Date" required>
-                <label for="end_date_membership">End Date Subscription<span class="text-danger">*</span></label>
-              </div>
-            </div>
-
-            <!-- Gender -->
-            <div class="input-group mb-3">
-              <span class="input-group-text" style="height: 34px !important;">
-                <i class="bi bi-gender-ambiguous"></i>
-              </span>
-              <select class="form-control" id="gender" name="gender" required>
-                <option value="" selected disabled>Choose Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
-
-
             <!-- Membership Type -->
             <div class="input-group mb-3">
               <!-- It has style because of the Selectize -->
@@ -118,6 +87,41 @@ if ($resultMembershipType) {
                     <?php echo htmlspecialchars($membs['membership_type_name']); ?>
                   </option>
                 <?php endforeach; ?>
+              </select>
+            </div>
+
+            <!-- Start Date -->
+            <div class="input-group mb-3" id="startDateWrapper">
+              <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+              <div class="form-floating flex-grow-1">
+                <input type="date" class="form-control" id="start_date_membership" name="start_date_membership" required>
+                <label for="start_date_membership">
+                  Start Date Subscription <span class="text-danger">*</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="input-group mb-3" id="endDateWrapper">
+              <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+              <div class="form-floating flex-grow-1">
+                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" required>
+                <label for="end_date_membership">
+                  End Date Subscription <span class="text-danger">*</span>
+                </label>
+              </div>
+            </div>
+
+
+            <!-- Gender -->
+            <div class="input-group mb-3">
+              <span class="input-group-text" style="height: 34px !important;">
+                <i class="bi bi-gender-ambiguous"></i>
+              </span>
+              <select class="form-control" id="gender" name="gender" required>
+                <option value="" selected disabled>Choose Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
               </select>
             </div>
 
@@ -142,6 +146,36 @@ if ($resultMembershipType) {
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
+  // VIP
+  document.addEventListener("DOMContentLoaded", function() {
+    const startWrapper = document.getElementById('startDateWrapper');
+    const endWrapper = document.getElementById('endDateWrapper');
+    const startInput = document.getElementById('start_date_membership');
+    const endInput = document.getElementById('end_date_membership');
+
+    const select = $('#membership_type_id').selectize({
+      onChange: function(value) {
+
+        if (value === '4') { // VIP
+          startWrapper.style.display = 'none';
+          endWrapper.style.display = 'none';
+
+          startInput.required = false;
+          endInput.required = false;
+
+          startInput.value = '';
+          endInput.value = '';
+        } else {
+          startWrapper.style.display = '';
+          endWrapper.style.display = '';
+
+          startInput.required = true;
+          endInput.required = true;
+        }
+      }
+    });
+
+  });
   // Age Computation
   document.addEventListener('DOMContentLoaded', function() {
     const birthInput = document.getElementById('birth_date');

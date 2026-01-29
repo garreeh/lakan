@@ -80,7 +80,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
                 <form class="row g-3 user" id="setLoginForm">
 
-                  <input type="hidden" id="emp_id" value="<?php echo isset($_GET['emp_id']) ? intval($_GET['emp_id']) : 0; ?>">
+                  <input type="hidden" id="lakan_user_id" value="<?php echo isset($_GET['lakan_user_id']) ? intval($_GET['lakan_user_id']) : 0; ?>">
 
                   <!-- Username -->
                   <div class="col-12">
@@ -113,11 +113,11 @@ if (session_status() == PHP_SESSION_NONE) {
                         <input
                           type="password"
                           class="form-control"
-                          id="emp_password"
-                          name="emp_password"
+                          id="lakan_password"
+                          name="lakan_password"
                           placeholder="New Password"
                           required>
-                        <label for="emp_password">New Password</label>
+                        <label for="lakan_password">New Password</label>
                       </div>
 
                       <button
@@ -205,7 +205,7 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  const newPassword = document.getElementById('emp_password');
+  const newPassword = document.getElementById('lakan_password');
   const confirmPassword = document.getElementById('emp_pass_confirm');
   const matchMsg = document.getElementById('passwordMatchMsg');
   const submitBtn = document.getElementById('setLoginBtn');
@@ -278,9 +278,9 @@ if (session_status() == PHP_SESSION_NONE) {
       url: './controllers/save_password_login_process.php',
       type: 'POST',
       data: {
-        emp_id: $('#emp_id').val(),
+        lakan_user_id: $('#lakan_user_id').val(),
         username: $('#username').val(),
-        emp_password: $('#emp_password').val()
+        lakan_password: $('#lakan_password').val()
       },
       dataType: 'json',
       success: function(response) {

@@ -2,7 +2,7 @@
 session_start();
 include './../connections/connections.php';
 
-if (!isset($_POST['username_or_email'], $_POST['emp_password'])) {
+if (!isset($_POST['username_or_email'], $_POST['lakan_password'])) {
 	echo json_encode([
 		'success' => false,
 		'message' => 'Missing credentials.'
@@ -11,11 +11,10 @@ if (!isset($_POST['username_or_email'], $_POST['emp_password'])) {
 }
 
 $usernameOrEmail = $conn->real_escape_string($_POST['username_or_email']);
-$emp_password    = $conn->real_escape_string($_POST['emp_password']);
+$lakan_password = $conn->real_escape_string($_POST['lakan_password']);
 
-// Query to Check
-$query = "SELECT * FROM users WHERE emp_username = '$usernameOrEmail' OR emp_email = '$usernameOrEmail'";
-
+// Query to check user by username or email
+$query = "SELECT * FROM users WHERE lakan_username = '$usernameOrEmail' OR lakan_email = '$usernameOrEmail'";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {
@@ -32,21 +31,19 @@ if (mysqli_num_rows($result) === 0) {
 		'success' => false,
 		'message' => 'That username or email doesn’t seem to be registered.'
 	]);
-
 	exit();
 }
 
-// Finding Matching Password when have same username
+// Verify password
 $authenticatedUser = null;
-
 while ($row = mysqli_fetch_assoc($result)) {
-	if (password_verify($emp_password, $row['emp_password'])) {
+	if (password_verify($lakan_password, $row['lakan_password'])) {
 		$authenticatedUser = $row;
 		break;
 	}
 }
 
-// Password Wrong
+// Password incorrect
 if (!$authenticatedUser) {
 	echo json_encode([
 		'success' => false,
@@ -55,22 +52,17 @@ if (!$authenticatedUser) {
 	exit();
 }
 
-// Login Success Sessions Save
-if ($authenticatedUser['is_password_reset'] == 1) {
-	$_SESSION['emp_id'] = $authenticatedUser['emp_id'];
-	$_SESSION['emp_email'] = $authenticatedUser['emp_email'];
-	$_SESSION['emp_username'] = $authenticatedUser['emp_username'];
-	$_SESSION['emp_firstname'] = $authenticatedUser['emp_firstname'];
-	$_SESSION['emp_middlename'] = $authenticatedUser['emp_middlename'];
-	$_SESSION['emp_lastname'] = $authenticatedUser['emp_lastname'];
-	$_SESSION['user_type_id'] = $authenticatedUser['user_type_id'];
-	$_SESSION['employment_status'] = $authenticatedUser['employment_status'];
-	$_SESSION['is_password_reset'] = $authenticatedUser['is_password_reset'];
-}
+// Login Success — Save sessions
+$_SESSION['lakan_user_id'] = $authenticatedUser['lakan_user_id'];
+$_SESSION['lakan_username'] = $authenticatedUser['lakan_username'];
+$_SESSION['lakan_firstname'] = $authenticatedUser['lakan_firstname'];
+$_SESSION['lakan_middlename'] = $authenticatedUser['lakan_middlename'];
+$_SESSION['lakan_lastname'] = $authenticatedUser['lakan_lastname'];
+$_SESSION['user_type_id'] = $authenticatedUser['user_type_id'];
 
+// Return success response
 echo json_encode([
 	'success' => true,
-	'emp_id'  => $authenticatedUser['emp_id'],
-	'is_password_reset' => $authenticatedUser['is_password_reset']
+	'lakan_user_id' => $authenticatedUser['lakan_user_id']
 ]);
 exit();

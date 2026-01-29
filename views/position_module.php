@@ -7,10 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-if ($_SESSION['is_password_reset'] == 0) {
-  header("Location: /lakan/password_reset.php");
-  exit();
-}
+
 
 // if (!isset($_SESSION['user_type_id']) || $_SESSION['user_type_id'] != 1) {
 //   header("Location: /lakan/views/users/user_dashboard.php");

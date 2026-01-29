@@ -1,5 +1,4 @@
 <?php
-
 // Set timezone to Manila
 date_default_timezone_set('Asia/Manila');
 
@@ -24,11 +23,11 @@ $columns = array(
     'field' => 'first_name',
     'formatter' => function ($lab2, $row) {
       return '<a 
-                href="../views/edit_details.php?module=active&customer_id=' . $row['customer_id'] . '" 
-                class="datatable-clickable"
-                title="View / Edit employee">
-                ' . htmlspecialchars($lab2) . '
-              </a>';
+                    href="../views/edit_details.php?module=inactive&customer_id=' . $row['customer_id'] . '" 
+                    class="datatable-clickable"
+                    title="View / Edit employee">
+                    ' . htmlspecialchars($lab2) . '
+                  </a>';
     }
   ),
 
@@ -37,7 +36,7 @@ $columns = array(
     'dt' => 2,
     'field' => 'last_name',
     'formatter' => function ($lab3, $row) {
-      return '<a href="../views/edit_details.php?module=active&customer_id=' . $row['customer_id'] . '">' . $lab3 . '</a>';
+      return '<a href="../views/edit_details.php?module=inactive&customer_id=' . $row['customer_id'] . '">' . $lab3 . '</a>';
     }
   ),
 
@@ -67,24 +66,15 @@ $columns = array(
     }
   ),
 
-
-
-  // Active Status Column
+  // Active/Inactive Badge
   array(
     'db' => 'start_date_membership',
     'dt' => 5,
     'field' => 'start_date_membership',
     'formatter' => function ($startDate, $row) {
-      $today = date('Y-m-d');
+      $today = date('Y-m-d'); // Manila timezone
 
-      // VIP always active
-      if ($row['membership_type_id'] == 4) {
-        $isActive = true;
-      } else {
-        // Normal logic
-        $isActive = (!empty($row['start_date_membership']) && !empty($row['end_date_membership'])) &&
-          ($row['start_date_membership'] <= $today && $row['end_date_membership'] >= $today);
-      }
+      $isActive = ($row['start_date_membership'] <= $today && $row['end_date_membership'] >= $today);
 
       // Default styles
       $bgColor = '#adb5bd'; // gray
@@ -98,21 +88,21 @@ $columns = array(
       }
 
       return '
-        <span style="
-            display:inline-block;
-            min-width:140px;
-            height:30px;
-            line-height:30px;
-            text-align:center;
-            border-radius:10px;
-            background-color:' . $bgColor . ';
-            color:' . $textColor . ';
-            font-weight:600;
-            font-size:13px;
-        ">
-            ' . $statusText . '
-        </span>
-      ';
+            <span style="
+                display:inline-block;
+                min-width:140px;
+                height:30px;
+                line-height:30px;
+                text-align:center;
+                border-radius:10px;
+                background-color:' . $bgColor . ';
+                color:' . $textColor . ';
+                font-weight:600;
+                font-size:13px;
+            ">
+                ' . $statusText . '
+            </span>
+        ';
     }
   ),
 
@@ -122,24 +112,15 @@ $columns = array(
     'field' => 'customer_id',
     'formatter' => function ($lab6, $row) {
       return '
-        <div class="dropdown">
-            <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['customer_id'] . '" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                &#x22EE;
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['customer_id'] . '">
-                <a class="dropdown-item fetchDataEmployee" href="../views/edit_details.php?module=active&customer_id=' . $row['customer_id'] . '">View Details</a>
-                <a class="dropdown-item fetchDataEmployee" href="#">Deactivate</a>
-            </div>
-        </div>';
-    }
-  ),
-
-  array(
-    'db' => 'membership_type_id',
-    'dt' => 7,
-    'field' => 'membership_type_id',
-    'formatter' => function ($lab1, $row) {
-      return $row['membership_type_id'];
+                <div class="dropdown">
+                    <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['customer_id'] . '" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        &#x22EE;
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['customer_id'] . '">
+                        <a class="dropdown-item fetchDataEmployee" href="../views/edit_details.php?module=inactive&customer_id=' . $row['customer_id'] . '">View Details</a>
+                        <a class="dropdown-item fetchDataEmployee" href="#">Deactivate</a>
+                    </div>
+                </div>';
     }
   ),
 );
@@ -150,9 +131,12 @@ include './../../connections/ssp_connection.php';
 // Include the SSP class
 require('./../../assets/datatables/ssp.class_with_where.php');
 
-// Filter: Include all records; VIPs will be counted active anyway
+// Today's date in Manila
 $today = date('Y-m-d');
-$where = "start_date_membership <= '$today' AND end_date_membership >= '$today' OR membership_type_id = 4";
+
+// WHERE clause for inactive customers excluding VIPs (membership_type_id = 4)
+$where = "NOT (start_date_membership <= '$today' AND end_date_membership >= '$today') 
+          AND membership_type_id != 4";
 
 // Fetch and encode data
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));

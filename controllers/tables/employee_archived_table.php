@@ -2,15 +2,15 @@
 
 // Define table and primary key
 $table = 'users';
-$primaryKey = 'emp_id';
+$primaryKey = 'lakan_user_id';
 // Define columns for DataTables
 $columns = array(
     array(
-        'db' => 'emp_id',
+        'db' => 'lakan_user_id',
         'dt' => 0,
-        'field' => 'emp_id',
+        'field' => 'lakan_user_id',
         'formatter' => function ($lab1, $row) {
-            return $row['emp_id'];
+            return $row['lakan_user_id'];
         }
     ),
 
@@ -19,27 +19,27 @@ $columns = array(
         'dt' => 1,
         'field' => 'employee_number',
         'formatter' => function ($lab2, $row) {
-            // return $row['emp_firstname'];
-            return '<a href="../views/edit_employee.php?module=employees&emp_id=' . $row['emp_id'] . '">' . $lab2 . '</a>';
+            // return $row['lakan_firstname'];
+            return '<a href="../views/edit_employee.php?module=employees&lakan_user_id=' . $row['lakan_user_id'] . '">' . $lab2 . '</a>';
         }
     ),
 
     array(
-        'db' => 'emp_firstname',
+        'db' => 'lakan_firstname',
         'dt' => 2,
-        'field' => 'emp_firstname',
+        'field' => 'lakan_firstname',
         'formatter' => function ($lab2, $row) {
-            // return $row['emp_firstname'];
-            return '<a href="../views/edit_employee.php?module=employees&emp_id=' . $row['emp_id'] . '">' . $lab2 . '</a>';
+            // return $row['lakan_firstname'];
+            return '<a href="../views/edit_employee.php?module=employees&lakan_user_id=' . $row['lakan_user_id'] . '">' . $lab2 . '</a>';
         }
     ),
 
     array(
-        'db' => 'emp_lastname',
+        'db' => 'lakan_lastname',
         'dt' => 3,
-        'field' => 'emp_lastname',
+        'field' => 'lakan_lastname',
         'formatter' => function ($lab3, $row) {
-            return '<a href="../views/edit_employee.php?module=employees&emp_id=' . $row['emp_id'] . '">' . $lab3 . '</a>';
+            return '<a href="../views/edit_employee.php?module=employees&lakan_user_id=' . $row['lakan_user_id'] . '">' . $lab3 . '</a>';
         }
     ),
 
@@ -96,16 +96,16 @@ $columns = array(
     ),
 
     array(
-        'db' => 'emp_id',
+        'db' => 'lakan_user_id',
         'dt' => 6,
-        'field' => 'emp_id',
+        'field' => 'lakan_user_id',
         'formatter' => function ($lab6, $row) {
             return '
                 <div class="dropdown">
-                    <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['emp_id'] . '" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['lakan_user_id'] . '" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         &#x22EE;
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['emp_id'] . '">
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['lakan_user_id'] . '">
                         <a class="dropdown-item fetchDataEmployee" href="#">Activate</a>
                     </div>
                 </div>';

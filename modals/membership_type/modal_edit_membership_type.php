@@ -24,7 +24,7 @@ if (isset($_POST['membership_type_id'])) {
                 <!-- Membership Type Name -->
                 <div class="input-group mb-3">
                   <span class="input-group-text">
-                    <i class="bi bi-diagram-3"></i>
+                    <i class="bi bi-blockquote-left"></i>
                   </span>
                   <div class="form-floating flex-grow-1">
                     <input type="text" class="form-control" id="membership_type_name" name="membership_type_name" placeholder="Department Name" value="<?php echo $row['membership_type_name'] ?>" required>
@@ -37,7 +37,7 @@ if (isset($_POST['membership_type_id'])) {
                 <!-- Membership Type Price -->
                 <div class="input-group mb-3">
                   <span class="input-group-text">
-                    <i class="bi bi-diagram-3"></i>
+                    <i class="bi bi-cash"></i>
                   </span>
                   <div class="form-floating flex-grow-1">
                     <input type="text" class="form-control" id="membershiptype_price_edit" name="membershiptype_price" placeholder="Membership Type Price" value="<?php echo $row['membershiptype_price'] ?>" required>
