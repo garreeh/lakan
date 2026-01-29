@@ -91,6 +91,7 @@ if (session_status() == PHP_SESSION_NONE) {
                       <div id="modalContainerCustomers"></div>
 
                       <table class="table custom-table table-hover" name="customers_table" id="customers_table">
+
                         <thead>
                           <tr>
                             <th>ID</th>

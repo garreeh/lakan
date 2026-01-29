@@ -52,12 +52,12 @@
       </a>
     </li>
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">p
       <a class="nav-link collapsed" href="pages-faq.html">
         <i class="bi bi-gear"></i>
         <span>Settings</span>
       </a>
-    </li>
+    </li> -->
 
   </ul>
 
