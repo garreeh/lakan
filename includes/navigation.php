@@ -33,6 +33,16 @@
       </a>
     </li>
 
+    <li class="nav-heading">Reports</li>
+
+    <li class="nav-item">
+      <a class="nav-link" data-module="sales"
+        href="/lakan/views/sales_module.php?module=sales">
+        <i class="bi bi-file-bar-graph"></i>
+        <span>Sales Reports</span>
+      </a>
+    </li>
+
     <li class="nav-heading">Admin Panel</li>
 
     <li class="nav-item">

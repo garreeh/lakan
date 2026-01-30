@@ -23,7 +23,7 @@ if (session_status() == PHP_SESSION_NONE) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Lakan | Dashboard</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -60,45 +60,69 @@ if (session_status() == PHP_SESSION_NONE) {
               <div class="row">
                 <?php include './../controllers/customer_counts.php'; ?>
                 <!-- Active -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card info-card sales-card">
+                <div class="row g-4">
+                  <!-- Active Members -->
+                  <div class="col-xl-3 col-md-6 mb-4 d-flex">
+                    <div class="card info-card sales-card flex-fill">
+                      <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Active Members</h5>
 
-                    <div class="card-body">
-                      <h5 class="card-title">Active Members</h5>
-
-                      <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                          <i class="bi bi-person-check"></i>
-                        </div>
-                        <div class="ps-3">
-                          <h6><?php echo $activeCount; ?></h6>
-                          <span class="text-success small fw-bold">Currently Active</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-                <!-- Expired -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card info-card sales-card">
-
-                    <div class="card-body">
-                      <h5 class="card-title">Expired Subscriptions</h5>
-
-                      <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                          <i class="bi bi-person-x"></i>
-                        </div>
-                        <div class="ps-3">
-                          <h6><?php echo $expiredCount; ?></h6>
-                          <span class="text-danger small fw-bold">Needs Renewal</span>
+                        <div class="d-flex align-items-center mt-auto">
+                          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-check"></i>
+                          </div>
+                          <div class="ps-3">
+                            <h6><?php echo $activeCount; ?></h6>
+                            <span class="text-success small fw-bold">Currently Active</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-
                   </div>
+
+                  <!-- Expired Subscriptions -->
+                  <div class="col-xl-3 col-md-6 mb-4 d-flex">
+                    <div class="card info-card sales-card flex-fill">
+                      <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Expired Subscriptions</h5>
+
+                        <div class="d-flex align-items-center mt-auto">
+                          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-x"></i>
+                          </div>
+                          <div class="ps-3">
+                            <h6><?php echo $expiredCount; ?></h6>
+                            <span class="text-danger small fw-bold">Needs Renewal</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <?php include './../controllers/dashboard_sales_month.php'; ?>
+
+                  <!-- Sales This Month -->
+                  <div class="col-xl-3 col-md-6 mb-4 d-flex">
+                    <div class="card info-card sales-card flex-fill">
+                      <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Sales This Month</h5>
+
+                        <div class="d-flex align-items-center mt-auto">
+                          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-wallet2"></i>
+                          </div>
+                          <div class="ps-3">
+                            <h6 style="color:#28a745; font-weight:bold;">
+                              ₱<?php echo number_format($totalSalesMonth, 2); ?>
+                            </h6>
+                            <span class="text-success small fw-bold"><?php echo $monthLabel; ?></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
                 </div>
 
                 <!-- End Revenue Card -->

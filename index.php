@@ -51,6 +51,8 @@ if (isset($_SESSION['lakan_user_id'])) {
       }
     }
   </style>
+
+
 </head>
 
 <body>
@@ -65,7 +67,7 @@ if (isset($_SESSION['lakan_user_id'])) {
 
 
 
-            <div class="card mb-5 w-50">
+            <div class="card mb-5">
 
               <div class="card-body">
 
@@ -76,21 +78,21 @@ if (isset($_SESSION['lakan_user_id'])) {
                 </div>
 
                 <form class="row g-3 user" id="loginForm">
-
-                  <div class=" col-12">
+                  <!-- Username / Email -->
+                  <div class="col-12">
                     <div class="input-group has-validation">
                       <span class="input-group-text">
                         <i class="bi bi-person"></i>
                       </span>
 
-                      <div class="form-floating">
+                      <div class="form-floating flex-grow-1">
                         <input type="text" class="form-control" id="username_or_email" name="username_or_email" placeholder="Username or Email" required>
                         <label for="username_or_email">Username or Email</label>
                       </div>
                     </div>
                   </div>
 
-
+                  <!-- Password with toggle -->
                   <div class="col-12">
                     <div class="input-group">
                       <span class="input-group-text">
@@ -102,26 +104,25 @@ if (isset($_SESSION['lakan_user_id'])) {
                         <label for="lakan_password">Password</label>
                       </div>
 
-                      <button class="btn btn-outline-secondary"
-                        type="button"
-                        id="togglePassword">
+                      <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                         <i class="bi bi-eye"></i>
                       </button>
                     </div>
                   </div>
 
-                  <hr>
+                  <div class="col-12">
+                    <hr>
+                  </div>
 
-                  <button type="submit"
-                    id="loginBtn"
-                    class="btn btn-primary w-100">
-
-                    <span id="btnText">Login</span>
-                    <span id="btnSpinner"
-                      class="spinner-border spinner-border-sm ms-2 d-none"
-                      role="status"></span>
-                  </button>
+                  <!-- Submit Button -->
+                  <div class="col-12">
+                    <button type="submit" id="loginBtn" class="btn btn-primary w-100">
+                      <span id="btnText">Login</span>
+                      <span id="btnSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
+                    </button>
+                  </div>
                 </form>
+
 
               </div>
             </div>
