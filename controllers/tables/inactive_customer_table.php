@@ -132,11 +132,18 @@ include './../../connections/ssp_connection.php';
 require('./../../assets/datatables/ssp.class_with_where.php');
 
 // Today's date in Manila
-$today = date('Y-m-d');
 
 // WHERE clause for inactive customers excluding VIPs (membership_type_id = 4)
-$where = "NOT (start_date_membership <= '$today' AND end_date_membership >= '$today') 
-          AND membership_type_id != 4";
+$now = date('Y-m-d H:i:s');
+
+$where = "
+membership_type_id != 4
+AND (
+    end_date_membership < '$now'
+    OR start_date_membership IS NULL
+    OR end_date_membership IS NULL
+)
+";
 
 // Fetch and encode data
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));

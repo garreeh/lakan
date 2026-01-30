@@ -75,44 +75,54 @@ $columns = array(
     'dt' => 5,
     'field' => 'start_date_membership',
     'formatter' => function ($startDate, $row) {
+
       $today = date('Y-m-d');
 
-      // VIP always active
-      if ($row['membership_type_id'] == 4) {
-        $isActive = true;
-      } else {
-        // Normal logic
-        $isActive = (!empty($row['start_date_membership']) && !empty($row['end_date_membership'])) &&
-          ($row['start_date_membership'] <= $today && $row['end_date_membership'] >= $today);
-      }
-
-      // Default styles
+      // Defaults
+      $statusText = 'Inactive';
       $bgColor = '#adb5bd'; // gray
       $textColor = '#000';
-      $statusText = 'Inactive';
 
-      if ($isActive) {
+      // VIP → always active
+      if ($row['membership_type_id'] == 4) {
+        $statusText = 'VIP';
+        $bgColor = '#cce5ff'; // blue
+        $textColor = '#004085';
+
+        // Upcoming (future start date)
+      } elseif (!empty($row['start_date_membership']) && $row['start_date_membership'] > $today) {
+        $statusText = 'Upcoming';
+        $bgColor = '#fff3cd'; // yellow
+        $textColor = '#856404';
+
+        // Active (within date range)
+      } elseif (
+        !empty($row['start_date_membership']) &&
+        !empty($row['end_date_membership']) &&
+        $row['start_date_membership'] <= $today &&
+        $row['end_date_membership'] >= $today
+      ) {
+        $statusText = 'Active';
         $bgColor = '#d4edda'; // green
         $textColor = '#155724';
-        $statusText = 'Active';
       }
 
       return '
-        <span style="
-            display:inline-block;
-            min-width:140px;
-            height:30px;
-            line-height:30px;
-            text-align:center;
-            border-radius:10px;
-            background-color:' . $bgColor . ';
-            color:' . $textColor . ';
-            font-weight:600;
-            font-size:13px;
-        ">
-            ' . $statusText . '
-        </span>
-      ';
+      <span style="
+          display:inline-block;
+          min-width:140px;
+          height:30px;
+          line-height:30px;
+          text-align:center;
+          border-radius:10px;
+          background-color:' . $bgColor . ';
+          color:' . $textColor . ';
+          font-weight:600;
+          font-size:13px;
+      ">
+          ' . $statusText . '
+      </span>
+    ';
     }
   ),
 
@@ -152,7 +162,14 @@ require('./../../assets/datatables/ssp.class_with_where.php');
 
 // Filter: Include all records; VIPs will be counted active anyway
 $today = date('Y-m-d');
-$where = "start_date_membership <= '$today' AND end_date_membership >= '$today' OR membership_type_id = 4";
 
+$where = "
+(
+    start_date_membership <= '$today'
+    AND end_date_membership >= '$today'
+)
+OR start_date_membership > '$today'
+OR membership_type_id = 4
+";
 // Fetch and encode data
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));
