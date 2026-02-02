@@ -65,7 +65,7 @@ if ($resultMembershipType) {
             </div>
 
             <!-- Age -->
-            <div class="input-group mb-3">
+            <div class="input-group mb-3" style="display:none;">
               <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
               <div class="form-floating flex-grow-1">
                 <input type="text" class="form-control" id="age" name="age" placeholder="Age" readonly>
@@ -105,7 +105,7 @@ if ($resultMembershipType) {
             <div class="input-group mb-3" id="endDateWrapper">
               <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" required>
+                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" required readonly>
                 <label for="end_date_membership">
                   End Date Subscription <span class="text-danger">*</span>
                 </label>
@@ -146,35 +146,79 @@ if ($resultMembershipType) {
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
-  // VIP
-  document.addEventListener("DOMContentLoaded", function() {
-    const startWrapper = document.getElementById('startDateWrapper');
-    const endWrapper = document.getElementById('endDateWrapper');
+  // Hide VIP, and Auto Compute for the End Date Subs
+  document.addEventListener('DOMContentLoaded', function() {
     const startInput = document.getElementById('start_date_membership');
     const endInput = document.getElementById('end_date_membership');
+    const membershipSelect = document.getElementById('membership_type_id');
+    const startWrapper = document.getElementById('startDateWrapper');
+    const endWrapper = document.getElementById('endDateWrapper');
 
-    const select = $('#membership_type_id').selectize({
-      onChange: function(value) {
+    // Initialize Selectize if not already
+    const selectize = $(membershipSelect).selectize()[0].selectize;
+    // console.log('Selectize instance:', selectize);
 
-        if (value === '4') { // VIP
-          startWrapper.style.display = 'none';
-          endWrapper.style.display = 'none';
+    function updateEndDate() {
+      const startDate = startInput.value;
+      // console.log('Start Date:', startDate);
 
-          startInput.required = false;
-          endInput.required = false;
+      let durationMonths = 0;
+      if (selectize) {
+        const selectedValue = selectize.getValue();
+        // console.log('Selected Value:', selectedValue);
 
-          startInput.value = '';
-          endInput.value = '';
-        } else {
-          startWrapper.style.display = '';
-          endWrapper.style.display = '';
+        if (selectedValue && selectize.options[selectedValue]) {
+          const selectedText = selectize.options[selectedValue].text.trim();
+          // console.log('Selected Text:', selectedText);
 
-          startInput.required = true;
-          endInput.required = true;
+          // Hide/show Start and End date for VIP
+          if (selectedText.toUpperCase() === 'VIP') {
+            startWrapper.style.display = 'none';
+            endWrapper.style.display = 'none';
+            startInput.value = '';
+            endInput.value = '';
+            // console.log('VIP selected → hiding start and end date');
+            return;
+          } else {
+            startWrapper.style.display = 'flex';
+            endWrapper.style.display = 'flex';
+          }
+
+          // Extract the number from text (handles extra spaces)
+          const match = selectedText.match(/\d+/);
+          durationMonths = match ? parseInt(match[0]) : 0;
+
+          // console.log('Duration Months:', durationMonths);
         }
       }
-    });
 
+      if (!startDate || durationMonths <= 0) {
+        // console.log('No start date or no duration, clearing end date');
+        endInput.value = '';
+        return;
+      }
+
+      const start = new Date(startDate);
+      const end = new Date(start);
+      end.setMonth(end.getMonth() + durationMonths);
+
+      const yyyy = end.getFullYear();
+      const mm = String(end.getMonth() + 1).padStart(2, '0');
+      const dd = String(end.getDate()).padStart(2, '0');
+      const endValue = `${yyyy}-${mm}-${dd}`;
+
+      // console.log('Computed End Date:', endValue);
+      endInput.value = endValue;
+    }
+
+    // Trigger when start date changes
+    startInput.addEventListener('change', updateEndDate);
+
+    // Trigger when membership type changes
+    selectize.on('change', updateEndDate);
+
+    // Run once on page load in case VIP is already selected
+    updateEndDate();
   });
   // Age Computation
   document.addEventListener('DOMContentLoaded', function() {

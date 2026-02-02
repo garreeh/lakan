@@ -134,12 +134,12 @@ require('./../../assets/datatables/ssp.class_with_where.php');
 // Today's date in Manila
 
 // WHERE clause for inactive customers excluding VIPs (membership_type_id = 4)
-$now = date('Y-m-d H:i:s');
+$today = date('Y-m-d');
 
 $where = "
 membership_type_id != 4
 AND (
-    end_date_membership < '$now'
+    end_date_membership < '$today'
     OR start_date_membership IS NULL
     OR end_date_membership IS NULL
 )
