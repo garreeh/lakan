@@ -40,10 +40,16 @@ $columns = array(
     'dt' => 3,
     'field' => 'start_date_membership',
     'formatter' => function ($val) {
-      return (!empty($val) && $val !== '0000-00-00')
-        ? date('F j, Y', strtotime($val))
-        : '-';
+      if (
+        empty($val) ||
+        $val === '0000-00-00' ||
+        $val === '0000-00-00 00:00:00'
+      ) {
+        return '-';
+      }
+      return date('F j, Y', strtotime($val));
     }
+
   ),
 
   array(
@@ -51,9 +57,14 @@ $columns = array(
     'dt' => 4,
     'field' => 'end_date_membership',
     'formatter' => function ($val) {
-      return (!empty($val) && $val !== '0000-00-00')
-        ? date('F j, Y', strtotime($val))
-        : '-';
+      if (
+        empty($val) ||
+        $val === '0000-00-00' ||
+        $val === '0000-00-00 00:00:00'
+      ) {
+        return '-';
+      }
+      return date('F j, Y', strtotime($val));
     }
   ),
 
