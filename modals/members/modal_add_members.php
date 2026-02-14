@@ -150,54 +150,60 @@ if ($resultMembershipType) {
   document.addEventListener('DOMContentLoaded', function() {
     const startInput = document.getElementById('start_date_membership');
     const endInput = document.getElementById('end_date_membership');
+    const discountInput = document.getElementById('discount'); // optional: fill discount automatically
     const membershipSelect = document.getElementById('membership_type_id');
     const startWrapper = document.getElementById('startDateWrapper');
     const endWrapper = document.getElementById('endDateWrapper');
 
     // Initialize Selectize if not already
     const selectize = $(membershipSelect).selectize()[0].selectize;
-    // console.log('Selectize instance:', selectize);
 
     function updateEndDate() {
       const startDate = startInput.value;
-      // console.log('Start Date:', startDate);
 
       let durationMonths = 0;
+      let discountPercent = 0;
+
       if (selectize) {
         const selectedValue = selectize.getValue();
-        // console.log('Selected Value:', selectedValue);
 
         if (selectedValue && selectize.options[selectedValue]) {
-          const selectedText = selectize.options[selectedValue].text.trim();
-          // console.log('Selected Text:', selectedText);
+          const selectedText = selectize.options[selectedValue].text.trim().toUpperCase();
 
           // Hide/show Start and End date for VIP
-          if (selectedText.toUpperCase() === 'VIP') {
+          if (selectedText === 'VIP') {
             startWrapper.style.display = 'none';
             endWrapper.style.display = 'none';
             startInput.value = '';
             endInput.value = '';
-            // console.log('VIP selected → hiding start and end date');
+            if (discountInput) discountInput.value = '';
             return;
           } else {
             startWrapper.style.display = 'flex';
             endWrapper.style.display = 'flex';
           }
 
-          // Extract the number from text (handles extra spaces)
-          const match = selectedText.match(/\d+/);
-          durationMonths = match ? parseInt(match[0]) : 0;
+          // Extract months (first number in text)
+          const monthMatch = selectedText.match(/(\d+)\s*MONTH/);
+          durationMonths = monthMatch ? parseInt(monthMatch[1]) : 0;
 
-          // console.log('Duration Months:', durationMonths);
+          // Extract discount (number inside parentheses with %)
+          const discountMatch = selectedText.match(/\((\d+)%\)/);
+          discountPercent = discountMatch ? parseInt(discountMatch[1]) : 0;
+
+          // Auto-fill discount input if exists
+          if (discountInput) {
+            discountInput.value = discountPercent > 0 ? discountPercent : '';
+          }
         }
       }
 
       if (!startDate || durationMonths <= 0) {
-        // console.log('No start date or no duration, clearing end date');
         endInput.value = '';
         return;
       }
 
+      // Compute end date
       const start = new Date(startDate);
       const end = new Date(start);
       end.setMonth(end.getMonth() + durationMonths);
@@ -205,10 +211,7 @@ if ($resultMembershipType) {
       const yyyy = end.getFullYear();
       const mm = String(end.getMonth() + 1).padStart(2, '0');
       const dd = String(end.getDate()).padStart(2, '0');
-      const endValue = `${yyyy}-${mm}-${dd}`;
-
-      // console.log('Computed End Date:', endValue);
-      endInput.value = endValue;
+      endInput.value = `${yyyy}-${mm}-${dd}`;
     }
 
     // Trigger when start date changes
