@@ -41,8 +41,21 @@ if (isset($_POST['membership_type_id'])) {
                   </span>
                   <div class="form-floating flex-grow-1">
                     <input type="text" class="form-control" id="membershiptype_price_edit" name="membershiptype_price" placeholder="Membership Type Price" value="<?php echo $row['membershiptype_price'] ?>" required>
-                    <label for="membership_type_name">
+                    <label for="membershiptype_price">
                       Membership Type Price <span class="text-danger">*</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Membership Type Discount -->
+                <div class="input-group mb-3">
+                  <span class="input-group-text">
+                    <i class="bi bi-cash"></i>
+                  </span>
+                  <div class="form-floating flex-grow-1">
+                    <input type="text" class="form-control number-only-edit" id="discount_edit" name="discount" placeholder="Discount" value="<?php echo $row['discount'] ?>" required>
+                    <label for="discount">
+                      Discount <span class="text-danger">*</span>
                     </label>
                   </div>
                 </div>
@@ -86,6 +99,13 @@ if (isset($_POST['membership_type_id'])) {
 ?>
 
 <script>
+  document.addEventListener("input", function(e) {
+    if (e.target.classList.contains("number-only-edit")) {
+      let value = e.target.value.replace(/[^0-9.]/g, "");
+      if (parseFloat(value) > 100) value = 100;
+      e.target.value = value;
+    }
+  });
   document.getElementById('editMembershipTypeModal').addEventListener('shown.bs.modal', function() {
     const priceInput = document.getElementById('membershiptype_price_edit');
     if (priceInput) {
@@ -165,4 +185,36 @@ if (isset($_POST['membership_type_id'])) {
   function reloadDataTable() {
     $('#membership_type_table').DataTable().ajax.reload(null, false);
   }
+
+  // Discount
+  document.getElementById('editMembershipTypeModal').addEventListener('shown.bs.modal', function() {
+
+    const membershipPriceField = document.getElementById("membershiptype_price_edit");
+    const membershipDiscountField = document.getElementById("discount_edit");
+
+    if (!membershipPriceField || !membershipDiscountField) return;
+
+    // 🔹 Store original price when modal opens
+    let originalPrice = parseFloat(membershipPriceField.value) || 0;
+
+    function updateDiscountedPrice() {
+      let discountPercent = parseFloat(membershipDiscountField.value) || 0;
+
+      if (discountPercent > 100) discountPercent = 100;
+      if (discountPercent < 0) discountPercent = 0;
+
+      let discountedPrice = originalPrice - (originalPrice * discountPercent / 100);
+
+      membershipPriceField.value = discountedPrice.toFixed(2);
+    }
+
+    // Recompute when discount changes
+    membershipDiscountField.addEventListener("input", updateDiscountedPrice);
+
+    // 🔹 If user edits price manually → update original price
+    membershipPriceField.addEventListener("input", function() {
+      originalPrice = parseFloat(membershipPriceField.value) || 0;
+    });
+
+  });
 </script>

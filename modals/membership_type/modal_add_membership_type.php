@@ -36,14 +36,28 @@
               </div>
             </div>
 
+            <!-- Membership Type Discount -->
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="bi bi-percent"></i>
+              </span>
+              <div class="form-floating flex-grow-1">
+                <input type="text" class="form-control number-only" id="discount" name="discount" placeholder="Discount">
+                <label for="discount">
+                  Discount
+                </label>
+              </div>
+            </div>
+
+
             <!-- Membership Type Description (Optional) -->
             <div class="input-group mb-3">
               <span class="input-group-text">
                 <i class="bi bi-card-text"></i>
               </span>
               <div class="form-floating flex-grow-1">
-                <textarea class="form-control" id="membership_type_description" name="membership_type_description" placeholder="Membership Type Description" style="height: 100px"></textarea>
-                <label for="membership_type_description">
+                <textarea class="form-control" id="membershiptype_description" name="membershiptype_description" placeholder="Membership Type Description" style="height: 100px"></textarea>
+                <label for="membershiptype_description">
                   Membership Type Description <span class="text-muted">(Optional)</span>
                 </label>
               </div>
@@ -70,6 +84,15 @@
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
+  document.addEventListener("input", function(e) {
+    if (e.target.classList.contains("number-only")) {
+      let value = e.target.value.replace(/[^0-9.]/g, "");
+      if (parseFloat(value) > 100) value = 100;
+      e.target.value = value;
+    }
+  });
+
+
   document.addEventListener('DOMContentLoaded', function() {
     const priceInput = document.getElementById('membershiptype_price');
 
@@ -169,4 +192,29 @@
     });
 
   });
+
+  // Discount
+  const priceInput = document.getElementById("membershiptype_price");
+  const discountInput = document.getElementById("discount");
+
+  let originalPrice = 0;
+
+  // Whenever user types in the price, store it as original
+  priceInput.addEventListener("input", function() {
+    originalPrice = parseFloat(priceInput.value) || 0;
+  });
+
+  // Function to compute discounted price
+  function applyDiscount() {
+    let discount = parseFloat(discountInput.value) || 0;
+
+    if (discount > 100) discount = 100;
+    if (discount < 0) discount = 0;
+
+    let finalPrice = originalPrice - (originalPrice * discount / 100);
+    priceInput.value = finalPrice.toFixed(2);
+  }
+
+  // Apply discount when user changes the discount field
+  discountInput.addEventListener("input", applyDiscount);
 </script>

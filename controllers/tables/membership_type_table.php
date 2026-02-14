@@ -13,6 +13,7 @@ $columns = array(
       return $row['membership_type_id'];
     }
   ),
+
   array(
     'db' => 'membership_type_name',
     'dt' => 1,
@@ -31,20 +32,31 @@ $columns = array(
     }
   ),
 
+  array(
+    'db' => 'discount',
+    'dt' => 3,
+    'field' => 'discount',
+    'formatter' => function ($d, $row) {
+      if ($d === null || $d === '' || $d == 0) {
+        return '-';
+      }
+      return $d . '%';
+    }
+  ),
+
 
   array(
     'db' => 'membershiptype_description',
-    'dt' => 3,
+    'dt' => 4,
     'field' => 'membershiptype_description',
     'formatter' => function ($lab3, $row) {
       return $row['membershiptype_description'];
     }
   ),
 
-
   array(
     'db' => 'membership_type_id',
-    'dt' => 4,
+    'dt' => 5,
     'field' => 'membership_type_id',
     'formatter' => function ($lab6, $row) {
       return '

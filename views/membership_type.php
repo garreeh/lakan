@@ -88,6 +88,8 @@ if (session_status() == PHP_SESSION_NONE) {
                             <th>ID</th>
                             <th>Membership Type Name</th>
                             <th>Price</th>
+                            <th>Discount</th>
+
                             <th>Description</th>
                             <th>Manage</th>
                           </tr>
@@ -158,7 +160,7 @@ if (session_status() == PHP_SESSION_NONE) {
   // Edit Membership Type
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#membership_type_table').on('click', 'tr td:nth-child(5) .fetchDataMembershipType', function() {
+    $('#membership_type_table').on('click', 'tr td:nth-child(6) .fetchDataMembershipType', function() {
       // The event.preventDefault ignores to go top of the page.
       event.preventDefault();
 

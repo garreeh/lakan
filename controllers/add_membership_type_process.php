@@ -6,6 +6,8 @@ if (isset($_POST['add_membership_type'])) {
   // Retrieve and sanitize POST data
   $membership_type_name = isset($_POST['membership_type_name']) ? $conn->real_escape_string(trim($_POST['membership_type_name'])) : '';
   $membershiptype_price = isset($_POST['membershiptype_price']) ? $conn->real_escape_string(trim($_POST['membershiptype_price'])) : '';
+  $discount = isset($_POST['discount']) ? $conn->real_escape_string(trim($_POST['discount'])) : '';
+
   $membershiptype_description = isset($_POST['membershiptype_description']) ? $conn->real_escape_string(trim($_POST['membershiptype_description'])) : '';
 
   // FLEXIBLE DUPLICATE CHECK: Only first + last name matter
@@ -21,8 +23,8 @@ if (isset($_POST['add_membership_type'])) {
   }
 
   // INSERT MEMBERSHIP TYPE
-  $insert_sql = "INSERT INTO membership_type (membership_type_name, membershiptype_price, membershiptype_description) 
-                 VALUES ('$membership_type_name', '$membershiptype_price', '$membershiptype_description')";
+  $insert_sql = "INSERT INTO membership_type (membership_type_name, membershiptype_price, discount, membershiptype_description) 
+                 VALUES ('$membership_type_name', '$membershiptype_price', '$discount', '$membershiptype_description')";
 
   if (mysqli_query($conn, $insert_sql)) {
     echo json_encode([

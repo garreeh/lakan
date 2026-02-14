@@ -7,6 +7,7 @@ if (isset($_POST['edit_membership_type'])) {
   $membership_type_id = $conn->real_escape_string($_POST['membership_type_id']);
   $membership_type_name = $conn->real_escape_string($_POST['membership_type_name']);
   $membershiptype_price = $conn->real_escape_string($_POST['membershiptype_price']);
+  $discount = $conn->real_escape_string($_POST['discount']);
   $membershiptype_description = $conn->real_escape_string($_POST['membershiptype_description']);
 
   // Construct SQL query for UPDATE
@@ -14,6 +15,7 @@ if (isset($_POST['edit_membership_type'])) {
           SET 
             membership_type_name = '$membership_type_name',
             membershiptype_price = '$membershiptype_price',
+            discount = '$discount',
             membershiptype_description = '$membershiptype_description'
           WHERE membership_type_id = '$membership_type_id'";
 
