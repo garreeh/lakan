@@ -126,13 +126,12 @@ if (isset($_GET['customer_id'])) {
                     <!-- Profile Image -->
                     <div class="d-flex justify-content-center mb-3">
                       <?php if ($profileSrc): ?>
-                        <img id="profile_pic_<?php echo $data['customer_id']; ?>"
-                          src="<?php echo $profileSrc; ?>"
-                          alt="Profile"
-                          class="rounded-circle border border-light shadow-sm"
+                        <img id="profile_pic_<?php echo $data['customer_id']; ?>" src="<?php echo $profileSrc; ?>"
+                          alt="Profile" class="rounded-circle border border-light shadow-sm"
                           style="width:120px; height:120px; object-fit:cover;">
                       <?php else: ?>
-                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center border border-light shadow-sm"
+                        <div
+                          class="rounded-circle bg-light d-flex align-items-center justify-content-center border border-light shadow-sm"
                           style="width:120px; height:120px;">
                           <span class="text-muted fs-2">&#128100;</span> <!-- user icon -->
                         </div>
@@ -144,8 +143,8 @@ if (isset($_GET['customer_id'])) {
                       <?php
                       echo htmlspecialchars(
                         $data['first_name'] .
-                          (!empty($data['middle_name']) ? ' ' . $data['middle_name'] : '') .
-                          ' ' . $data['last_name']
+                        (!empty($data['middle_name']) ? ' ' . $data['middle_name'] : '') .
+                        ' ' . $data['last_name']
                       );
                       ?>
                     </h5>
@@ -189,17 +188,13 @@ if (isset($_GET['customer_id'])) {
 
                     <div class="d-flex justify-content-center gap-2 mt-3">
                       <!-- Renew Membership Button -->
-                      <a href="#"
-                        class="btn btn-sm btn-success shadow-lg"
-                        data-bs-toggle="modal"
+                      <a href="#" class="btn btn-sm btn-success shadow-lg" data-bs-toggle="modal"
                         data-bs-target="#renewMembershipModal">
                         <i class="bi bi-arrow-repeat me-1"></i> Renew
                       </a>
 
                       <!-- Membership History Button -->
-                      <a href="#"
-                        class="btn btn-sm btn-primary shadow-lg"
-                        data-bs-toggle="modal"
+                      <a href="#" class="btn btn-sm btn-primary shadow-lg" data-bs-toggle="modal"
                         data-bs-target="#membershipHistoryModal">
                         <i class="bi bi-clock-history me-1"></i> History
                       </a>
@@ -221,7 +216,8 @@ if (isset($_GET['customer_id'])) {
                     <ul class="nav nav-tabs nav-tabs-bordered">
 
                       <li class="nav-item">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Personal Details</button>
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Personal
+                          Details</button>
                       </li>
 
                       <!-- <li class="nav-item">
@@ -258,7 +254,8 @@ if (isset($_GET['customer_id'])) {
 
   <!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Template Main JS File -->
   <script src="./../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -287,19 +284,19 @@ if (isset($_GET['customer_id'])) {
 
 <script>
   // For Selectize
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('select').selectize({
       sortField: 'text'
     });
   });
 
-  $('.toggle-sidebar-btn').click(function() {
+  $('.toggle-sidebar-btn').click(function () {
     $('#users_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Supplier
-  $(document).ready(function() {
+  $(document).ready(function () {
     var users_table = $('#users_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
@@ -309,15 +306,15 @@ if (isset($_GET['customer_id'])) {
         [0, "desc"]
       ] // <-- DESCENDING order by first column
     });
-    window.reloadDataTable = function() {
+    window.reloadDataTable = function () {
       users_table.ajax.reload();
     };
   });
 
   //Bridge for Modal Backend to Frontend
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#users_table').on('click', 'tr td:nth-child(8) .fetchDataUser', function() {
+    $('#users_table').on('click', 'tr td:nth-child(8) .fetchDataUser', function () {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -327,21 +324,21 @@ if (isset($_GET['customer_id'])) {
         data: {
           user_id: user_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerSupplier').html(response);
           $('#fetchDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });
     });
   });
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#users_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function() {
+    $('#users_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function () {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -351,12 +348,12 @@ if (isset($_GET['customer_id'])) {
         data: {
           user_id: user_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerSupplier').html(response);
           $('#deleteDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });
@@ -364,9 +361,9 @@ if (isset($_GET['customer_id'])) {
   });
 
   //Bridge for Modal Backend to Frontend
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#users_table').on('click', 'tr td:nth-child(4) .fetchDataPassword', function() {
+    $('#users_table').on('click', 'tr td:nth-child(4) .fetchDataPassword', function () {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -376,12 +373,12 @@ if (isset($_GET['customer_id'])) {
         data: {
           user_id: user_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerSupplier').html(response);
           $('#fetchDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });

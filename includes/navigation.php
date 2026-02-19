@@ -10,32 +10,28 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link" data-module="dashboard"
-        href="/lakan/views/dashboard_module.php?module=dashboard">
+      <a class="nav-link" data-module="dashboard" href="/lakan/views/dashboard_module.php?module=dashboard">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" data-module="active"
-        href="/lakan/views/active_members.php?module=active">
+      <a class="nav-link" data-module="active" href="/lakan/views/active_members.php?module=active">
         <i class="bi bi-person-lines-fill"></i>
         <span>Members (Active)</span>
       </a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" data-module="inactive"
-        href="/lakan/views/expired_members.php?module=inactive">
+      <a class="nav-link" data-module="inactive" href="/lakan/views/expired_members.php?module=inactive">
         <i class="bi bi-person-lines-fill"></i>
         <span>Members (Expired)</span>
       </a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" data-module="walkin"
-        href="/lakan/views/walk_in.php?module=walkin">
+      <a class="nav-link" data-module="walkin" href="/lakan/views/walk_in.php?module=walkin">
         <i class="bi bi-person-walking"></i>
         <span>Walk-in</span>
       </a>
@@ -44,8 +40,7 @@
     <li class="nav-heading">Reports</li>
 
     <li class="nav-item">
-      <a class="nav-link" data-module="sales"
-        href="/lakan/views/sales_module.php?module=sales">
+      <a class="nav-link" data-module="sales" href="/lakan/views/sales_module.php?module=sales">
         <i class="bi bi-file-bar-graph"></i>
         <span>Sales Reports</span>
       </a>
@@ -54,8 +49,7 @@
     <li class="nav-heading">Admin Panel</li>
 
     <li class="nav-item">
-      <a class="nav-link" data-module="type"
-        href="/lakan/views/membership_type.php?module=type">
+      <a class="nav-link" data-module="type" href="/lakan/views/membership_type.php?module=type">
         <i class="bi bi-building"></i>
         <span>Membership Type</span>
       </a>

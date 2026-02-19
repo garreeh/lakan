@@ -69,7 +69,8 @@ if (session_status() == PHP_SESSION_NONE) {
             <div class="col-lg-12">
 
               <?php include './../modals/user/modal_add_user.php'; ?>
-              <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal" data-bs-target="#addUserModal">
+              <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal"
+                data-bs-target="#addUserModal">
                 <i class="bi bi-person"></i> Add User
               </a>
 
@@ -111,7 +112,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
   <!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Template Main JS File -->
   <script src="./../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -134,13 +136,13 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <script>
   // CSS responsive width for table
-  $('.toggle-sidebar-btn').click(function() {
+  $('.toggle-sidebar-btn').click(function () {
     $('#users_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   // Table for Membership Type
-  $(document).ready(function() {
+  $(document).ready(function () {
     var users_table = $('#users_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
@@ -151,16 +153,16 @@ if (session_status() == PHP_SESSION_NONE) {
       ] // <-- DESCENDING order by first column
     });
 
-    window.reloadDataTable = function() {
+    window.reloadDataTable = function () {
       users_table.ajax.reload();
     };
 
   });
 
   // Edit Membership Type
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#users_table').on('click', 'tr td:nth-child(6) .fetchDataUsers', function() {
+    $('#users_table').on('click', 'tr td:nth-child(6) .fetchDataUsers', function () {
       // The event.preventDefault ignores to go top of the page.
       event.preventDefault();
 
@@ -173,12 +175,12 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           lakan_user_id: lakan_user_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerUserLists').html(response);
           $('#editUsersModal').modal('show');
           console.log("Modal content loaded for Membership Type ID: " + lakan_user_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });
@@ -186,9 +188,9 @@ if (session_status() == PHP_SESSION_NONE) {
   });
 
   // Delete Membership Type
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#users_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function() {
+    $('#users_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function () {
       var lakan_user_id = $(this).closest('tr').find('td').first().text(); // Get the lakan_user_id from the clicked row
       console.log('Button clicked, User ID: ' + lakan_user_id);
 
@@ -198,12 +200,12 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           lakan_user_id: lakan_user_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerUserLists').html(response);
           $('#deleteDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + lakan_user_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });

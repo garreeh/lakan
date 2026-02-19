@@ -19,7 +19,7 @@ if (isset($_GET['customer_id'])) {
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-?>
+      ?>
       <div class="modal fade" id="updateMemberDetails" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -41,19 +41,13 @@ if (isset($_GET['customer_id'])) {
                     : './assets/img/profile-img.jpg';
                   ?>
 
-                  <img id="profilePreview"
-                    src="<?= $profileImg ?>"
-                    class="rounded-circle mb-2"
+                  <img id="profilePreview" src="<?= $profileImg ?>" class="rounded-circle mb-2"
                     style="width:150px;height:150px;object-fit:cover;border:3px solid #ddd;">
 
                   <!-- Keep old image -->
 
                   <div class="mt-2" style="width:50%;">
-                    <input type="file"
-                      id="profile_pic"
-                      name="profile_pic"
-                      accept="image/*"
-                      class="form-control"
+                    <input type="file" id="profile_pic" name="profile_pic" accept="image/*" class="form-control"
                       onchange="previewProfilePic(this)">
                     <small class=" text-muted">Upload profile picture (jpg, png, max 20MB)</small>
                   </div>
@@ -76,7 +70,8 @@ if (isset($_GET['customer_id'])) {
                         First Name <span class="text-danger">*</span>
                       </label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" value="<?php echo $row['first_name'] ?>" required>
+                        <input type="text" class="form-control" id="first_name" name="first_name"
+                          placeholder="Enter First Name" value="<?php echo $row['first_name'] ?>" required>
                       </div>
                     </div>
                   </div>
@@ -87,7 +82,8 @@ if (isset($_GET['customer_id'])) {
                         Middle Name
                       </label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Middle Name" value="<?php echo $row['middle_name'] ?>">
+                        <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Middle Name"
+                          value="<?php echo $row['middle_name'] ?>">
                       </div>
                     </div>
                   </div>
@@ -98,7 +94,8 @@ if (isset($_GET['customer_id'])) {
                         Last Name <span class="text-danger">*</span>
                       </label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="<?php echo $row['last_name'] ?>" required>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"
+                          value="<?php echo $row['last_name'] ?>" required>
                       </div>
                     </div>
                   </div>
@@ -114,7 +111,8 @@ if (isset($_GET['customer_id'])) {
                         Birth Date <span class="text-danger">*</span>
                       </label>
                       <div class="input-group">
-                        <input type="date" class="form-control" id="birth_date_edit" name="birth_date" value="<?php echo date('Y-m-d', strtotime($row['birth_date'])); ?>" required>
+                        <input type="date" class="form-control" id="birth_date_edit" name="birth_date"
+                          value="<?php echo date('Y-m-d', strtotime($row['birth_date'])); ?>" required>
                       </div>
                     </div>
                   </div>
@@ -125,7 +123,8 @@ if (isset($_GET['customer_id'])) {
                         Age <span class="text-danger">*</span>
                       </label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="age_edit" name="age" placeholder="Enter Age" value="<?php echo $row['age'] ?>" required readonly>
+                        <input type="text" class="form-control" id="age_edit" name="age" placeholder="Enter Age"
+                          value="<?php echo $row['age'] ?>" required readonly>
                       </div>
                     </div>
                   </div>
@@ -172,7 +171,8 @@ if (isset($_GET['customer_id'])) {
                         Mobile #
                       </label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="contact_no" name="contact_no" placeholder="Enter Mobile #" value="<?php echo $row['contact_no'] ?>">
+                        <input type="text" class="form-control" id="contact_no" name="contact_no" placeholder="Enter Mobile #"
+                          value="<?php echo $row['contact_no'] ?>">
                       </div>
                     </div>
                   </div>
@@ -183,7 +183,8 @@ if (isset($_GET['customer_id'])) {
                         Email
                       </label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter Telephone #" value="<?php echo $row['email'] ?>">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter Telephone #"
+                          value="<?php echo $row['email'] ?>">
                       </div>
                     </div>
                   </div>
@@ -198,7 +199,8 @@ if (isset($_GET['customer_id'])) {
                         Emergency Contact Name
                       </label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name" placeholder="Enter Emergency Contact Person" value="<?php echo $row['emergency_contact_name'] ?>">
+                        <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name"
+                          placeholder="Enter Emergency Contact Person" value="<?php echo $row['emergency_contact_name'] ?>">
                       </div>
                     </div>
                   </div>
@@ -210,7 +212,8 @@ if (isset($_GET['customer_id'])) {
                         Emergency Contact #
                       </label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="emergency_contact_no" name="emergency_contact_no" placeholder="Enter Emergency Contact Person" value="<?php echo $row['emergency_contact_no'] ?>">
+                        <input type="text" class="form-control" id="emergency_contact_no" name="emergency_contact_no"
+                          placeholder="Enter Emergency Contact Person" value="<?php echo $row['emergency_contact_no'] ?>">
                       </div>
                     </div>
                   </div>
@@ -247,14 +250,14 @@ if (isset($_GET['customer_id'])) {
           const file = input.files[0];
           if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
               document.getElementById('profilePreview').src = e.target.result;
             };
             reader.readAsDataURL(file);
           }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
           const birthInput = document.getElementById('birth_date_edit');
           const ageInput = document.getElementById('age_edit');
 
@@ -285,8 +288,8 @@ if (isset($_GET['customer_id'])) {
 
 
         // Function for connecting to backend real time.
-        $(document).ready(function() {
-          $('#updateMemberDetails form').submit(function(event) {
+        $(document).ready(function () {
+          $('#updateMemberDetails form').submit(function (event) {
             event.preventDefault();
 
             var $form = $(this);
@@ -307,7 +310,7 @@ if (isset($_GET['customer_id'])) {
               processData: false,
               contentType: false,
               dataType: 'json',
-              success: function(response) {
+              success: function (response) {
                 // console.log("Response object:", response);
                 if (response.success) {
                   Toastify({
@@ -335,7 +338,7 @@ if (isset($_GET['customer_id'])) {
                   }).showToast();
                 }
               },
-              error: function(xhr, status, error) {
+              error: function (xhr, status, error) {
                 console.error("AJAX error:", error);
                 Toastify({
                   text: "An error occurred while updating. Check console.",
@@ -344,7 +347,7 @@ if (isset($_GET['customer_id'])) {
                   backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
                 }).showToast();
               },
-              complete: function() {
+              complete: function () {
                 $submitButton.prop('disabled', false).html(originalHtml);
               }
             });
@@ -404,7 +407,7 @@ if (isset($_GET['customer_id'])) {
         }
       </script>
 
-<?php
+      <?php
     }
   }
 }

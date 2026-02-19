@@ -75,7 +75,8 @@ if (session_status() == PHP_SESSION_NONE) {
                     <div class="table-responsive">
                       <div id="modalContainerInactiveCustomer"></div>
 
-                      <table class="table custom-table table-hover" name="inactive_customer_table" id="inactive_customer_table">
+                      <table class="table custom-table table-hover" name="inactive_customer_table"
+                        id="inactive_customer_table">
                         <thead>
                           <tr>
                             <th>ID</th>
@@ -104,7 +105,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
   <!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Template Main JS File -->
   <script src="./../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -134,13 +136,13 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  $('.toggle-sidebar-btn').click(function() {
+  $('.toggle-sidebar-btn').click(function () {
     $('#inactive_customer_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Supplier
-  $(document).ready(function() {
+  $(document).ready(function () {
     var inactive_customer_table = $('#inactive_customer_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
@@ -151,16 +153,16 @@ if (session_status() == PHP_SESSION_NONE) {
       ] // <-- DESCENDING order by first column
     });
 
-    window.reloadDataTable = function() {
+    window.reloadDataTable = function () {
       inactive_customer_table.ajax.reload();
     };
 
   });
 
   //Bridge for Modal Backend to Frontend
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#inactive_customer_table').on('click', 'tr td:nth-child(8) .fetchDataUser', function() {
+    $('#inactive_customer_table').on('click', 'tr td:nth-child(8) .fetchDataUser', function () {
       var customer_id = $(this).closest('tr').find('td').first().text(); // Get the customer_id from the clicked row
       console.log('Button clicked, User ID: ' + customer_id);
 
@@ -170,21 +172,21 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           customer_id: customer_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerInactiveCustomer').html(response);
           $('#fetchDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + customer_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });
     });
   });
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#inactive_customer_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function() {
+    $('#inactive_customer_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function () {
       var customer_id = $(this).closest('tr').find('td').first().text(); // Get the customer_id from the clicked row
       console.log('Button clicked, User ID: ' + customer_id);
 
@@ -194,12 +196,12 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           customer_id: customer_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerInactiveCustomer').html(response);
           $('#deleteDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + customer_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });

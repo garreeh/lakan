@@ -9,7 +9,7 @@ if (isset($_POST['lakan_user_id'])) {
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-?>
+      ?>
       <div class="modal fade" id="editUsersModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -71,14 +71,11 @@ if (isset($_POST['lakan_user_id'])) {
                   <div class="col-md-12">
                     <div class="input-group">
                       <div class="form-floating flex-grow-1">
-                        <input type="password" class="form-control"
-                          id="edit_lakan_password"
-                          name="lakan_password"
+                        <input type="password" class="form-control" id="edit_lakan_password" name="lakan_password"
                           placeholder="New Password">
                         <label>New Password (leave blank to keep current)</label>
                       </div>
-                      <span class="input-group-text" style="cursor:pointer"
-                        onclick="togglePasswordEdit()">
+                      <span class="input-group-text" style="cursor:pointer" onclick="togglePasswordEdit()">
                         <i class="bi bi-eye" id="editPasswordIcon"></i>
                       </span>
                     </div>
@@ -100,7 +97,7 @@ if (isset($_POST['lakan_user_id'])) {
         </div>
       </div>
 
-<?php
+      <?php
     }
   }
 }
@@ -124,18 +121,18 @@ if (isset($_POST['lakan_user_id'])) {
     }
   }
 
-  document.getElementById('editUsersModal').addEventListener('shown.bs.modal', function() {
+  document.getElementById('editUsersModal').addEventListener('shown.bs.modal', function () {
     const priceInput = document.getElementById('membershiptype_price_edit');
     if (priceInput) {
-      priceInput.addEventListener('input', function() {
+      priceInput.addEventListener('input', function () {
         this.value = this.value.replace(/[^0-9]/g, '');
       });
     }
   });
 
   // Function for connecting to backend real time.
-  $(document).ready(function() {
-    $('#editUsersModal form').submit(function(event) {
+  $(document).ready(function () {
+    $('#editUsersModal form').submit(function (event) {
       event.preventDefault();
 
       var $form = $(this);
@@ -158,7 +155,7 @@ if (isset($_POST['lakan_user_id'])) {
         type: 'POST',
         url: '/lakan/controllers/edit_user_process.php',
         data: formData,
-        success: function(response) {
+        success: function (response) {
           response = JSON.parse(response);
 
           if (response.success) {
@@ -180,7 +177,7 @@ if (isset($_POST['lakan_user_id'])) {
             }).showToast();
           }
         },
-        error: function(xhr) {
+        error: function (xhr) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while editing Membership Type. Please try again later.",
@@ -189,7 +186,7 @@ if (isset($_POST['lakan_user_id'])) {
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function() {
+        complete: function () {
           // Restore button state
           $submitButton
             .prop('disabled', false)

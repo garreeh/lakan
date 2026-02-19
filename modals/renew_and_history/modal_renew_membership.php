@@ -19,8 +19,9 @@ if (isset($_GET['customer_id'])) {
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-?>
-      <div class="modal fade" id="renewMembershipModal" tabindex="-1" role="dialog" aria-labelledby="renewMembershipModal" aria-hidden="true">
+      ?>
+      <div class="modal fade" id="renewMembershipModal" tabindex="-1" role="dialog" aria-labelledby="renewMembershipModal"
+        aria-hidden="true">
         <div class="modal-dialog modal-l" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -48,7 +49,8 @@ if (isset($_GET['customer_id'])) {
                       <i class="bi bi-calendar-event"></i>
                     </span>
                     <div class="form-floating flex-grow-1">
-                      <input type="date" class="form-control" id="start_date_membership" name="start_date_membership" placeholder="Start Date" required>
+                      <input type="date" class="form-control" id="start_date_membership" name="start_date_membership"
+                        placeholder="Start Date" required>
                       <label for="start_date_membership">
                         New Start Date <span class="text-danger">*</span>
                       </label>
@@ -61,7 +63,8 @@ if (isset($_GET['customer_id'])) {
                       <i class="bi bi-calendar-event-fill"></i>
                     </span>
                     <div class="form-floating flex-grow-1">
-                      <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" placeholder="End Date" required>
+                      <input type="date" class="form-control" id="end_date_membership" name="end_date_membership"
+                        placeholder="End Date" required>
                       <label for="end_date_membership">
                         New End Date <span class="text-danger">*</span>
                       </label>
@@ -103,7 +106,7 @@ if (isset($_GET['customer_id'])) {
           </div>
         </div>
       </div>
-<?php
+      <?php
     }
   }
 }
@@ -116,7 +119,7 @@ if (isset($_GET['customer_id'])) {
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     // Initialize Bootstrap 5 modal object
     const renewMembershipModalEl = document.getElementById('renewMembershipModal');
     const renewMembershipModal = new bootstrap.Modal(renewMembershipModalEl);
@@ -124,7 +127,7 @@ if (isset($_GET['customer_id'])) {
     const form = renewMembershipModalEl.querySelector('form');
     const submitBtn = form.querySelector('button[type="submit"]');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       // Disable button and show spinner
@@ -139,7 +142,7 @@ if (isset($_GET['customer_id'])) {
         type: 'POST',
         url: '/lakan/controllers/renew_membership_process.php',
         data: formData,
-        success: function(response) {
+        success: function (response) {
           try {
             response = JSON.parse(response);
 
@@ -193,7 +196,7 @@ if (isset($_GET['customer_id'])) {
             }).showToast();
           }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while adding data. Please try again later.",
@@ -204,7 +207,7 @@ if (isset($_GET['customer_id'])) {
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function() {
+        complete: function () {
           // Re-enable button and reset text
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalText;

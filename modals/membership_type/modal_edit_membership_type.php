@@ -8,7 +8,7 @@ if (isset($_POST['membership_type_id'])) {
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-?>
+      ?>
       <div class="modal fade" id="editMembershipTypeModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-l" role="document">
@@ -27,7 +27,8 @@ if (isset($_POST['membership_type_id'])) {
                     <i class="bi bi-blockquote-left"></i>
                   </span>
                   <div class="form-floating flex-grow-1">
-                    <input type="text" class="form-control" id="membership_type_name" name="membership_type_name" placeholder="Department Name" value="<?php echo $row['membership_type_name'] ?>" required>
+                    <input type="text" class="form-control" id="membership_type_name" name="membership_type_name"
+                      placeholder="Department Name" value="<?php echo $row['membership_type_name'] ?>" required>
                     <label for="membership_type_name">
                       Membership Type Name <span class="text-danger">*</span>
                     </label>
@@ -40,7 +41,8 @@ if (isset($_POST['membership_type_id'])) {
                     <i class="bi bi-cash"></i>
                   </span>
                   <div class="form-floating flex-grow-1">
-                    <input type="text" class="form-control" id="membershiptype_price_edit" name="membershiptype_price" placeholder="Membership Type Price" value="<?php echo $row['membershiptype_price'] ?>" required>
+                    <input type="text" class="form-control" id="membershiptype_price_edit" name="membershiptype_price"
+                      placeholder="Membership Type Price" value="<?php echo $row['membershiptype_price'] ?>" required>
                     <label for="membershiptype_price">
                       Membership Type Price <span class="text-danger">*</span>
                     </label>
@@ -53,7 +55,8 @@ if (isset($_POST['membership_type_id'])) {
                     <i class="bi bi-cash"></i>
                   </span>
                   <div class="form-floating flex-grow-1">
-                    <input type="text" class="form-control number-only-edit" id="discount_edit" name="discount" placeholder="Discount" value="<?php echo $row['discount'] ?>" required>
+                    <input type="text" class="form-control number-only-edit" id="discount_edit" name="discount"
+                      placeholder="Discount" value="<?php echo $row['discount'] ?>" required>
                     <label for="discount">
                       Discount <span class="text-danger">*</span>
                     </label>
@@ -67,9 +70,7 @@ if (isset($_POST['membership_type_id'])) {
                   </span>
                   <div class="form-floating flex-grow-1">
                     <!-- Do not edit the lining of the textarea, the value of it will have newlines (Spaces) -->
-                    <textarea class="form-control"
-                      id="membershiptype_description"
-                      name="membershiptype_description"
+                    <textarea class="form-control" id="membershiptype_description" name="membershiptype_description"
                       placeholder="Department Description"
                       style="height: 100px"><?php echo htmlspecialchars($row['membershiptype_description'] ?? ''); ?></textarea>
 
@@ -92,32 +93,32 @@ if (isset($_POST['membership_type_id'])) {
         </div>
       </div>
 
-<?php
+      <?php
     }
   }
 }
 ?>
 
 <script>
-  document.addEventListener("input", function(e) {
+  document.addEventListener("input", function (e) {
     if (e.target.classList.contains("number-only-edit")) {
       let value = e.target.value.replace(/[^0-9.]/g, "");
       if (parseFloat(value) > 100) value = 100;
       e.target.value = value;
     }
   });
-  document.getElementById('editMembershipTypeModal').addEventListener('shown.bs.modal', function() {
+  document.getElementById('editMembershipTypeModal').addEventListener('shown.bs.modal', function () {
     const priceInput = document.getElementById('membershiptype_price_edit');
     if (priceInput) {
-      priceInput.addEventListener('input', function() {
+      priceInput.addEventListener('input', function () {
         this.value = this.value.replace(/[^0-9]/g, '');
       });
     }
   });
 
   // Function for connecting to backend real time.
-  $(document).ready(function() {
-    $('#editMembershipTypeModal form').submit(function(event) {
+  $(document).ready(function () {
+    $('#editMembershipTypeModal form').submit(function (event) {
       event.preventDefault();
 
       var $form = $(this);
@@ -140,7 +141,7 @@ if (isset($_POST['membership_type_id'])) {
         type: 'POST',
         url: '/lakan/controllers/edit_membership_type_process.php',
         data: formData,
-        success: function(response) {
+        success: function (response) {
           response = JSON.parse(response);
 
           if (response.success) {
@@ -162,7 +163,7 @@ if (isset($_POST['membership_type_id'])) {
             }).showToast();
           }
         },
-        error: function(xhr) {
+        error: function (xhr) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while editing Membership Type. Please try again later.",
@@ -171,7 +172,7 @@ if (isset($_POST['membership_type_id'])) {
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function() {
+        complete: function () {
           // Restore button state
           $submitButton
             .prop('disabled', false)
@@ -187,7 +188,7 @@ if (isset($_POST['membership_type_id'])) {
   }
 
   // Discount
-  document.getElementById('editMembershipTypeModal').addEventListener('shown.bs.modal', function() {
+  document.getElementById('editMembershipTypeModal').addEventListener('shown.bs.modal', function () {
 
     const membershipPriceField = document.getElementById("membershiptype_price_edit");
     const membershipDiscountField = document.getElementById("discount_edit");
@@ -212,7 +213,7 @@ if (isset($_POST['membership_type_id'])) {
     membershipDiscountField.addEventListener("input", updateDiscountedPrice);
 
     // 🔹 If user edits price manually → update original price
-    membershipPriceField.addEventListener("input", function() {
+    membershipPriceField.addEventListener("input", function () {
       originalPrice = parseFloat(membershipPriceField.value) || 0;
     });
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 11, 2026 at 01:17 AM
+-- Generation Time: Feb 18, 2026 at 11:01 AM
 -- Server version: 11.8.3-MariaDB-log
 -- PHP Version: 7.2.34
 
@@ -103,6 +103,7 @@ CREATE TABLE `membership_type` (
   `membership_type_id` int(11) NOT NULL,
   `membership_type_name` varchar(255) DEFAULT NULL,
   `membershiptype_price` varchar(255) DEFAULT NULL,
+  `discount` varchar(255) NOT NULL,
   `membershiptype_description` varchar(255) DEFAULT NULL,
   `is_vip` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
@@ -113,11 +114,15 @@ CREATE TABLE `membership_type` (
 -- Dumping data for table `membership_type`
 --
 
-INSERT INTO `membership_type` (`membership_type_id`, `membership_type_name`, `membershiptype_price`, `membershiptype_description`, `is_vip`, `created_at`, `updated_at`) VALUES
-(1, '1 Month', '1499', '-', NULL, '2026-01-17 11:50:43', '2026-01-30 13:30:04'),
-(2, '3  Months', '3499', '-', NULL, '2026-01-17 11:51:48', '2026-01-30 13:30:11'),
-(3, '6 Months', '6499', '-', NULL, '2026-01-17 11:51:59', '2026-01-30 13:30:31'),
-(4, 'VIP', '0', '-', NULL, '2026-01-20 14:45:37', '2026-01-29 12:01:15');
+INSERT INTO `membership_type` (`membership_type_id`, `membership_type_name`, `membershiptype_price`, `discount`, `membershiptype_description`, `is_vip`, `created_at`, `updated_at`) VALUES
+(1, '1 Month', '1499', '', '-', NULL, '2026-01-17 11:50:43', '2026-01-30 13:30:04'),
+(2, '3  Months', '3499', '', '-', NULL, '2026-01-17 11:51:48', '2026-01-30 13:30:11'),
+(3, '6 Months', '6499.00', '0', '-', NULL, '2026-01-17 11:51:59', '2026-02-14 16:01:01'),
+(4, 'VIP', '0', '', '-', NULL, '2026-01-20 14:45:37', '2026-01-29 12:01:15'),
+(8, '1 Month (30%)', '1049.30', '30', '30% less', NULL, '2026-02-14 16:01:18', '2026-02-14 16:01:18'),
+(9, '3 Month (30%)', '2449.30', '30', '30% less', NULL, '2026-02-14 16:01:37', '2026-02-17 04:36:42'),
+(10, '6 Months (30%)', '4549.30', '30', '30% less', NULL, '2026-02-14 16:02:00', '2026-02-14 16:02:00'),
+(11, '1 Month (Student)', '999.00', '0', 'Student', NULL, '2026-02-14 16:03:29', '2026-02-14 16:03:29');
 
 -- --------------------------------------------------------
 
@@ -197,7 +202,7 @@ ALTER TABLE `membership_history`
 -- AUTO_INCREMENT for table `membership_type`
 --
 ALTER TABLE `membership_type`
-  MODIFY `membership_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `membership_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -29,7 +29,9 @@ if (isset($_SESSION['lakan_user_id'])) {
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -86,7 +88,8 @@ if (isset($_SESSION['lakan_user_id'])) {
                       </span>
 
                       <div class="form-floating flex-grow-1">
-                        <input type="text" class="form-control" id="username_or_email" name="username_or_email" placeholder="Username or Email" required>
+                        <input type="text" class="form-control" id="username_or_email" name="username_or_email"
+                          placeholder="Username or Email" required>
                         <label for="username_or_email">Username or Email</label>
                       </div>
                     </div>
@@ -100,7 +103,8 @@ if (isset($_SESSION['lakan_user_id'])) {
                       </span>
 
                       <div class="form-floating flex-grow-1">
-                        <input type="password" class="form-control" id="lakan_password" name="lakan_password" placeholder="Password" required>
+                        <input type="password" class="form-control" id="lakan_password" name="lakan_password"
+                          placeholder="Password" required>
                         <label for="lakan_password">Password</label>
                       </div>
 
@@ -135,7 +139,8 @@ if (isset($_SESSION['lakan_user_id'])) {
   </main>
   <!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Template Main JS File -->
   <!-- <script src="assets/js/main.js"></script> -->
@@ -160,7 +165,7 @@ if (isset($_SESSION['lakan_user_id'])) {
   }
 
   // Toggle password
-  $('#togglePassword').on('click', function() {
+  $('#togglePassword').on('click', function () {
     const input = $('#lakan_password');
     const type = input.attr('type') === 'password' ? 'text' : 'password';
     input.attr('type', type);
@@ -170,7 +175,7 @@ if (isset($_SESSION['lakan_user_id'])) {
   });
 
   // Submit form (AJAX)
-  $('#loginForm').on('submit', function(e) {
+  $('#loginForm').on('submit', function (e) {
     e.preventDefault();
 
     const btn = $('#loginBtn');
@@ -186,7 +191,7 @@ if (isset($_SESSION['lakan_user_id'])) {
         lakan_password: $('#lakan_password').val()
       },
       dataType: 'json',
-      success: function(response) {
+      success: function (response) {
         if (response.success) {
           window.location.href = '/lakan/views/dashboard_module.php';
         } else {
@@ -194,10 +199,10 @@ if (isset($_SESSION['lakan_user_id'])) {
         }
       },
 
-      error: function() {
+      error: function () {
         showToast('Server error. Please try again.');
       },
-      complete: function() {
+      complete: function () {
         $('#btnText').text('Login');
         $('#btnSpinner').addClass('d-none');
         btn.prop('disabled', false);

@@ -75,9 +75,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
               <div class="mb-3"></div>
 
-              <button class="btn btn-success shadow-sm w-100"
-                id="searchSalesReport"
-                disabled>
+              <button class="btn btn-success shadow-sm w-100" id="searchSalesReport" disabled>
                 Search
               </button>
             </div>
@@ -149,7 +147,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
   <!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Template Main JS File -->
   <script src="./../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -172,13 +171,13 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <script>
   // CSS responsive width for table
-  $('.toggle-sidebar-btn').click(function() {
+  $('.toggle-sidebar-btn').click(function () {
     $('#sales_report_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   // Table for Membership Type
-  $(document).ready(function() {
+  $(document).ready(function () {
 
     /* MEMBERSHIP TYPE TABLE */
     var sales_report_table = $('#sales_report_table').DataTable({
@@ -187,7 +186,7 @@ if (session_status() == PHP_SESSION_NONE) {
       serverSide: true,
       "ajax": {
         "url": "./../controllers/tables/sales_report_table.php",
-        "data": function(d) {
+        "data": function (d) {
           d.subcategory_id = $('#subcategory_id').val();
           d.category_id = $('#category_id').val(); // Include category_id
           d.date_from = $('#date_from').val();
@@ -199,7 +198,7 @@ if (session_status() == PHP_SESSION_NONE) {
       ] // descending by first column
     });
 
-    window.reloadDataTable = function() {
+    window.reloadDataTable = function () {
       sales_report_table.ajax.reload();
     };
 
@@ -211,7 +210,7 @@ if (session_status() == PHP_SESSION_NONE) {
       $('#searchSalesReport').prop('disabled', !(dateFrom && dateTo));
     }
 
-    $('#date_from, #date_to').on('change', function() {
+    $('#date_from, #date_to').on('change', function () {
       toggleSearchButton();
 
       // Update selected date preview
@@ -220,7 +219,7 @@ if (session_status() == PHP_SESSION_NONE) {
     });
 
     /* SEARCH BUTTON CLICK */
-    $('#searchSalesReport').on('click', function() {
+    $('#searchSalesReport').on('click', function () {
       const btn = $(this);
       const date_from = $('#date_from').val();
       const date_to = $('#date_to').val();
@@ -228,7 +227,7 @@ if (session_status() == PHP_SESSION_NONE) {
       btn.text('Searching...').prop('disabled', true);
 
       // Reload datatable first
-      sales_report_table.ajax.reload(function() {
+      sales_report_table.ajax.reload(function () {
 
         $.ajax({
           type: 'POST',
@@ -238,7 +237,7 @@ if (session_status() == PHP_SESSION_NONE) {
             date_from: date_from,
             date_to: date_to
           },
-          success: function(response) {
+          success: function (response) {
             try {
               const data = JSON.parse(response);
               console.log('Sales report:', data);
@@ -259,7 +258,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 });
 
                 // Display total formatted
-                container.html(`<p><strong>Total Sales:</strong> <span style="font-size: 28px; font-weight: bold; color: #28a745;">₱${totalSales.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>`);
+                container.html(`<p><strong>Total Sales:</strong> <span style="font-size: 28px; font-weight: bold; color: #28a745;">₱${totalSales.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></p>`);
               } else {
                 container.html('<p>No sales for selected dates.</p>');
               }
@@ -272,7 +271,7 @@ if (session_status() == PHP_SESSION_NONE) {
             btn.text('Search').prop('disabled', false);
           },
 
-          error: function(xhr, status, error) {
+          error: function (xhr, status, error) {
             console.error('AJAX Error:', error);
             btn.text('Search').prop('disabled', false);
           }

@@ -16,7 +16,8 @@ if ($resultMembershipType) {
 <style>
 </style>
 
-<div class="modal fade" id="addMembersModal" tabindex="-1" role="dialog" aria-labelledby="addMembersModalLabel" aria-hidden="true">
+<div class="modal fade" id="addMembersModal" tabindex="-1" role="dialog" aria-labelledby="addMembersModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -32,7 +33,8 @@ if ($resultMembershipType) {
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
+                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"
+                  required>
                 <label for="last_name">Last Name <span class="text-danger">*</span></label>
               </div>
             </div>
@@ -41,7 +43,8 @@ if ($resultMembershipType) {
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
+                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name"
+                  required>
                 <label for="first_name">First Name <span class="text-danger">*</span></label>
               </div>
             </div>
@@ -59,7 +62,8 @@ if ($resultMembershipType) {
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="birth_date" name="birth_date" placeholder="Birth Hired" required>
+                <input type="date" class="form-control" id="birth_date" name="birth_date" placeholder="Birth Hired"
+                  required>
                 <label for="birth_date">Birth Date <span class="text-danger">*</span></label>
               </div>
             </div>
@@ -94,7 +98,8 @@ if ($resultMembershipType) {
             <div class="input-group mb-3" id="startDateWrapper">
               <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="start_date_membership" name="start_date_membership" required>
+                <input type="date" class="form-control" id="start_date_membership" name="start_date_membership"
+                  required>
                 <label for="start_date_membership">
                   Start Date Subscription <span class="text-danger">*</span>
                 </label>
@@ -105,7 +110,8 @@ if ($resultMembershipType) {
             <div class="input-group mb-3" id="endDateWrapper">
               <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" required readonly>
+                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" required
+                  readonly>
                 <label for="end_date_membership">
                   End Date Subscription <span class="text-danger">*</span>
                 </label>
@@ -147,7 +153,7 @@ if ($resultMembershipType) {
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
   // Hide VIP, and Auto Compute for the End Date Subs
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const startInput = document.getElementById('start_date_membership');
     const endInput = document.getElementById('end_date_membership');
     const discountInput = document.getElementById('discount'); // optional: fill discount automatically
@@ -224,11 +230,11 @@ if ($resultMembershipType) {
     updateEndDate();
   });
   // Age Computation
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const birthInput = document.getElementById('birth_date');
     const ageInput = document.getElementById('age');
 
-    birthInput.addEventListener('change', function() {
+    birthInput.addEventListener('change', function () {
       const birthDate = new Date(this.value);
       if (!isNaN(birthDate)) {
         const today = new Date();
@@ -248,7 +254,7 @@ if ($resultMembershipType) {
   });
 
   // Bridge Communication for backend
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
 
     // Initialize Bootstrap 5 modal object
     const addMembersModalEl = document.getElementById('addMembersModal');
@@ -257,7 +263,7 @@ if ($resultMembershipType) {
     const form = addMembersModalEl.querySelector('form');
     const submitBtn = form.querySelector('button[type="submit"]');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       // Disable button and show spinner
@@ -272,7 +278,7 @@ if ($resultMembershipType) {
         type: 'POST',
         url: '/lakan/controllers/add_customer_process.php',
         data: formData,
-        success: function(response) {
+        success: function (response) {
           try {
             response = JSON.parse(response);
 
@@ -318,7 +324,7 @@ if ($resultMembershipType) {
             }).showToast();
           }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while adding employee. Please try again later.",
@@ -329,7 +335,7 @@ if ($resultMembershipType) {
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function() {
+        complete: function () {
           // Re-enable button and reset text
           submitBtn.disabled = false;
           submitBtn.innerHTML = "Submit";

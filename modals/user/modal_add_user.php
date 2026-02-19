@@ -1,4 +1,5 @@
-<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -18,7 +19,8 @@
                   <i class="bi bi-person"></i>
                 </span>
                 <div class="form-floating flex-grow-1">
-                  <input type="text" class="form-control" id="lakan_firstname" name="lakan_firstname" placeholder="First Name" required>
+                  <input type="text" class="form-control" id="lakan_firstname" name="lakan_firstname"
+                    placeholder="First Name" required>
                   <label for="lakan_firstname">First Name <span class="text-danger">*</span></label>
                 </div>
               </div>
@@ -31,7 +33,8 @@
                   <i class="bi bi-person"></i>
                 </span>
                 <div class="form-floating flex-grow-1">
-                  <input type="text" class="form-control" id="lakan_middlename" name="lakan_middlename" placeholder="Middle Name">
+                  <input type="text" class="form-control" id="lakan_middlename" name="lakan_middlename"
+                    placeholder="Middle Name">
                   <label for="lakan_middlename">Middle Name</label>
                 </div>
               </div>
@@ -44,7 +47,8 @@
                   <i class="bi bi-person"></i>
                 </span>
                 <div class="form-floating flex-grow-1">
-                  <input type="text" class="form-control" id="lakan_lastname" name="lakan_lastname" placeholder="Last Name" required>
+                  <input type="text" class="form-control" id="lakan_lastname" name="lakan_lastname"
+                    placeholder="Last Name" required>
                   <label for="lakan_lastname">Last Name <span class="text-danger">*</span></label>
                 </div>
               </div>
@@ -57,7 +61,8 @@
                   <i class="bi bi-person-badge"></i>
                 </span>
                 <div class="form-floating flex-grow-1">
-                  <input type="text" class="form-control" id="lakan_username" name="lakan_username" placeholder="Username" required>
+                  <input type="text" class="form-control" id="lakan_username" name="lakan_username"
+                    placeholder="Username" required>
                   <label for="lakan_username">Username <span class="text-danger">*</span></label>
                 </div>
               </div>
@@ -70,7 +75,8 @@
                   <i class="bi bi-envelope"></i>
                 </span>
                 <div class="form-floating flex-grow-1">
-                  <input type="email" class="form-control" id="lakan_email" name="lakan_email" placeholder="Email" required>
+                  <input type="email" class="form-control" id="lakan_email" name="lakan_email" placeholder="Email"
+                    required>
                   <label for="lakan_email">Email <span class="text-danger">*</span></label>
                 </div>
               </div>
@@ -84,21 +90,15 @@
                 </span>
 
                 <div class="form-floating flex-grow-1">
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="lakan_password"
-                    name="lakan_password"
-                    placeholder="Password"
-                    required>
+                  <input type="password" class="form-control" id="lakan_password" name="lakan_password"
+                    placeholder="Password" required>
                   <label for="lakan_password">
                     Password <span class="text-danger">*</span>
                   </label>
                 </div>
 
                 <!-- Eye Toggle -->
-                <span class="input-group-text" style="cursor:pointer"
-                  onclick="togglePassword()">
+                <span class="input-group-text" style="cursor:pointer" onclick="togglePassword()">
                   <i class="bi bi-eye" id="togglePasswordIcon"></i>
                 </span>
               </div>
@@ -142,16 +142,16 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const priceInput = document.getElementById('membershiptype_price');
 
-    priceInput.addEventListener('input', function() {
+    priceInput.addEventListener('input', function () {
       // Remove any non-digit characters
       this.value = this.value.replace(/[^0-9]/g, '');
     });
   });
 
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     // Initialize Bootstrap 5 modal object
     const addUserModalEl = document.getElementById('addUserModal');
     const addUserModal = new bootstrap.Modal(addUserModalEl);
@@ -159,7 +159,7 @@
     const form = addUserModalEl.querySelector('form');
     const submitBtn = form.querySelector('button[type="submit"]');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       // Disable button and show spinner
@@ -174,7 +174,7 @@
         type: 'POST',
         url: '/lakan/controllers/add_user_process.php',
         data: formData,
-        success: function(response) {
+        success: function (response) {
           try {
             response = JSON.parse(response);
 
@@ -220,7 +220,7 @@
             }).showToast();
           }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while adding employee. Please try again later.",
@@ -231,7 +231,7 @@
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function() {
+        complete: function () {
           // Re-enable button and reset text
           submitBtn.disabled = false;
           submitBtn.innerHTML = "Submit";

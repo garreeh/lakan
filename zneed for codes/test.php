@@ -1,4 +1,5 @@
-<div class="modal fade" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
+<div class="modal fade" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -16,7 +17,8 @@
                 <i class="bi bi-diagram-3"></i>
               </span>
               <div class="form-floating flex-grow-1">
-                <input type="text" class="form-control" id="department_name" name="department_name" placeholder="Department Name" required>
+                <input type="text" class="form-control" id="department_name" name="department_name"
+                  placeholder="Department Name" required>
                 <label for="department_name">
                   Department Name <span class="text-danger">*</span>
                 </label>
@@ -29,11 +31,8 @@
                 <i class="bi bi-card-text"></i>
               </span>
               <div class="form-floating mb-3">
-                <textarea class="form-control"
-                  id="department_description"
-                  name="department_description"
-                  placeholder="Department Description"
-                  style="height: 120px"></textarea>
+                <textarea class="form-control" id="department_description" name="department_description"
+                  placeholder="Department Description" style="height: 120px"></textarea>
 
                 <label for="department_description">
                   Department Description <span class="text-muted">(Optional)</span>
@@ -62,7 +61,7 @@
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
 
     // FORCE ENABLE (prevents read-only issue)
     const textarea = document.getElementById('department_description');
@@ -81,7 +80,7 @@
 
   });
 
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
 
     // Initialize Bootstrap 5 modal object
     const addDepartmentModalEl = document.getElementById('addDepartmentModal');
@@ -90,7 +89,7 @@
     const form = addDepartmentModalEl.querySelector('form');
     const submitBtn = form.querySelector('button[type="submit"]');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       // Disable button and show spinner
@@ -105,7 +104,7 @@
         type: 'POST',
         url: '/lakan/controllers/add_department_process.php',
         data: formData,
-        success: function(response) {
+        success: function (response) {
           try {
             response = JSON.parse(response);
 
@@ -151,7 +150,7 @@
             }).showToast();
           }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while adding employee. Please try again later.",
@@ -162,7 +161,7 @@
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function() {
+        complete: function () {
           // Re-enable button and reset text
           submitBtn.disabled = false;
           submitBtn.innerHTML = "Submit";

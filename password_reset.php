@@ -26,7 +26,9 @@ if (session_status() == PHP_SESSION_NONE) {
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -80,7 +82,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
                 <form class="row g-3 user" id="setLoginForm">
 
-                  <input type="hidden" id="lakan_user_id" value="<?php echo isset($_GET['lakan_user_id']) ? intval($_GET['lakan_user_id']) : 0; ?>">
+                  <input type="hidden" id="lakan_user_id"
+                    value="<?php echo isset($_GET['lakan_user_id']) ? intval($_GET['lakan_user_id']) : 0; ?>">
 
                   <!-- Username -->
                   <div class="col-12">
@@ -90,12 +93,7 @@ if (session_status() == PHP_SESSION_NONE) {
                       </span>
 
                       <div class="form-floating">
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="username"
-                          name="username"
-                          placeholder="Username"
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username"
                           required>
                         <label for="username">Username</label>
                       </div>
@@ -110,20 +108,12 @@ if (session_status() == PHP_SESSION_NONE) {
                       </span>
 
                       <div class="form-floating flex-grow-1">
-                        <input
-                          type="password"
-                          class="form-control"
-                          id="lakan_password"
-                          name="lakan_password"
-                          placeholder="New Password"
-                          required>
+                        <input type="password" class="form-control" id="lakan_password" name="lakan_password"
+                          placeholder="New Password" required>
                         <label for="lakan_password">New Password</label>
                       </div>
 
-                      <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        id="toggleNewPassword"
+                      <button class="btn btn-outline-secondary" type="button" id="toggleNewPassword"
                         title="Show / Hide Password">
                         <i class="bi bi-eye"></i>
                       </button>
@@ -138,20 +128,12 @@ if (session_status() == PHP_SESSION_NONE) {
                       </span>
 
                       <div class="form-floating flex-grow-1">
-                        <input
-                          type="password"
-                          class="form-control"
-                          id="emp_pass_confirm"
-                          name="emp_pass_confirm"
-                          placeholder="Confirm Password"
-                          required>
+                        <input type="password" class="form-control" id="emp_pass_confirm" name="emp_pass_confirm"
+                          placeholder="Confirm Password" required>
                         <label for="emp_pass_confirm">Confirm Password</label>
                       </div>
 
-                      <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        id="toggleConfirmPassword"
+                      <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword"
                         title="Show / Hide Password">
                         <i class="bi bi-eye"></i>
                       </button>
@@ -167,15 +149,9 @@ if (session_status() == PHP_SESSION_NONE) {
                   <hr>
 
                   <!-- Login Button -->
-                  <button
-                    type="submit"
-                    id="setLoginBtn"
-                    class="btn btn-primary w-100">
+                  <button type="submit" id="setLoginBtn" class="btn btn-primary w-100">
                     <span id="btnText">Save & Continue</span>
-                    <span
-                      id="btnSpinner"
-                      class="spinner-border spinner-border-sm ms-2 d-none"
-                      role="status"></span>
+                    <span id="btnSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
                   </button>
 
 
@@ -193,7 +169,8 @@ if (session_status() == PHP_SESSION_NONE) {
   </main>
   <!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Template Main JS File -->
   <!-- <script src="assets/js/main.js"></script> -->
@@ -233,7 +210,7 @@ if (session_status() == PHP_SESSION_NONE) {
   confirmPassword.addEventListener('input', checkPasswordMatch);
 
   // Toggle New Password
-  document.getElementById('toggleNewPassword').addEventListener('click', function() {
+  document.getElementById('toggleNewPassword').addEventListener('click', function () {
     const type = newPassword.type === 'password' ? 'text' : 'password';
     newPassword.type = type;
     this.innerHTML = type === 'password' ?
@@ -242,7 +219,7 @@ if (session_status() == PHP_SESSION_NONE) {
   });
 
   // Toggle Confirm Password
-  document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+  document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
     const type = confirmPassword.type === 'password' ? 'text' : 'password';
     confirmPassword.type = type;
     this.innerHTML = type === 'password' ?
@@ -266,7 +243,7 @@ if (session_status() == PHP_SESSION_NONE) {
   }
 
   // Submit Login Form (AJAX)
-  $('#setLoginForm').on('submit', function(e) {
+  $('#setLoginForm').on('submit', function (e) {
     e.preventDefault();
 
     const btn = $('#setLoginBtn');
@@ -283,14 +260,14 @@ if (session_status() == PHP_SESSION_NONE) {
         lakan_password: $('#lakan_password').val()
       },
       dataType: 'json',
-      success: function(response) {
+      success: function (response) {
         if (response.success) {
           // Change button text and keep it disabled
           // $('#btnText').text('Redirecting please wait...');
           $('#btnText').text('Great! Logging you in now...');
           btn.prop('disabled', true);
 
-          setTimeout(function() {
+          setTimeout(function () {
             window.location.href = '/lakan/views/dashboard_module.php';
           }, 2000); // 2 seconds delay
         } else {
@@ -299,11 +276,11 @@ if (session_status() == PHP_SESSION_NONE) {
           btn.prop('disabled', false);
         }
       },
-      error: function() {
+      error: function () {
         showToast('Server error. Please try again.');
         btn.prop('disabled', false);
       },
-      complete: function() {
+      complete: function () {
         $('#btnSpinner').addClass('d-none');
         // Do not change btnText here if success — we already changed it
         if (!response.success) {

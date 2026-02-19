@@ -77,7 +77,8 @@ if (session_status() == PHP_SESSION_NONE) {
             <div class="col-lg-12">
 
               <?php include './../modals/members/modal_add_members.php'; ?>
-              <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal" data-bs-target="#addMembersModal">
+              <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal"
+                data-bs-target="#addMembersModal">
                 <i class="bi bi-person-add"></i> Add Members
               </a>
 
@@ -121,7 +122,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
   <!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Template Main JS File -->
   <script src="./../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -152,19 +154,19 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('select').selectize({
       sortField: 'text'
     });
   });
 
-  $('.toggle-sidebar-btn').click(function() {
+  $('.toggle-sidebar-btn').click(function () {
     $('#customers_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Supplier
-  $(document).ready(function() {
+  $(document).ready(function () {
     var customers_table = $('#customers_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
@@ -175,16 +177,16 @@ if (session_status() == PHP_SESSION_NONE) {
       ] // <-- DESCENDING order by first column
     });
 
-    window.reloadDataTable = function() {
+    window.reloadDataTable = function () {
       customers_table.ajax.reload();
     };
 
   });
 
   //Bridge for Modal Backend to Frontend
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#customers_table').on('click', 'tr td:nth-child(8) .fetchDataUser', function() {
+    $('#customers_table').on('click', 'tr td:nth-child(8) .fetchDataUser', function () {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -194,21 +196,21 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           user_id: user_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerCustomers').html(response);
           $('#fetchDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });
     });
   });
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#customers_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function() {
+    $('#customers_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function () {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -218,12 +220,12 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           user_id: user_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerCustomers').html(response);
           $('#deleteDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });
@@ -231,9 +233,9 @@ if (session_status() == PHP_SESSION_NONE) {
   });
 
   //Bridge for Modal Backend to Frontend
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#customers_table').on('click', 'tr td:nth-child(4) .fetchDataPassword', function() {
+    $('#customers_table').on('click', 'tr td:nth-child(4) .fetchDataPassword', function () {
       var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
       console.log('Button clicked, User ID: ' + user_id);
 
@@ -243,12 +245,12 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           user_id: user_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerCustomers').html(response);
           $('#fetchDataUserModal').modal('show');
           console.log("Modal content loaded for User ID: " + user_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error: " + xhr.responseText);
         }
       });
