@@ -98,7 +98,10 @@ if (session_status() == PHP_SESSION_NONE) {
                             <th>ID</th>
                             <th>Firstname</th>
                             <th>Lastname</th>
-                            <th>Subs Start Date</th>
+                            <th>Main Start Date</th>
+                            <th>Last Paused Date</th>
+
+                            <th>Resume Date</th>
                             <th>Subs End Date</th>
                             <th>Status</th>
 

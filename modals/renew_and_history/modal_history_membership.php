@@ -12,8 +12,9 @@ if (isset($_GET['customer_id'])) {
   $result = mysqli_query($conn, $sql);
 
   if ($result && mysqli_num_rows($result) > 0) {
-?>
-    <div class="modal fade" id="membershipHistoryModal" tabindex="-1" aria-labelledby="membershipHistoryModalLabel" aria-hidden="true">
+    ?>
+    <div class="modal fade" id="membershipHistoryModal" tabindex="-1" aria-labelledby="membershipHistoryModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -28,8 +29,8 @@ if (isset($_GET['customer_id'])) {
               <?php
               while ($row = mysqli_fetch_assoc($result)) {
                 $start = !empty($row['start_date']) ? date('F j, Y', strtotime($row['start_date'])) : 'N/A';
-                $end   = !empty($row['end_date']) ? date('F j, Y', strtotime($row['end_date'])) : 'N/A';
-              ?>
+                $end = !empty($row['end_date']) ? date('F j, Y', strtotime($row['end_date'])) : 'N/A';
+                ?>
                 <div class="list-group-item list-group-item-action mb-2 shadow-sm rounded">
                   <div class="d-flex justify-content-between align-items-center">
                     <h6 class="mb-1 fw-bold"><?php echo htmlspecialchars($row['membership_type_name']); ?></h6>
@@ -49,7 +50,7 @@ if (isset($_GET['customer_id'])) {
         </div>
       </div>
     </div>
-<?php
+    <?php
   } else {
     echo '<div class="alert alert-warning">No membership history found for this customer.</div>';
   }

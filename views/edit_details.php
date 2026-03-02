@@ -198,6 +198,20 @@ if (isset($_GET['customer_id'])) {
                         data-bs-target="#membershipHistoryModal">
                         <i class="bi bi-clock-history me-1"></i> History
                       </a>
+
+                      <!-- Pause Button -->
+                      <a href="#" id="pauseBtn"
+                        class="btn btn-sm btn-warning shadow-lg <?php echo ($data['is_paused'] == 1) ? 'd-none' : ''; ?>"
+                        data-bs-toggle="modal" data-bs-target="#membershipPauseModal">
+                        <i class="bi bi-pause-circle me-1"></i> Pause Subs
+                      </a>
+
+                      <!-- Resume Button -->
+                      <a href="#" id="resumeBtn"
+                        class="btn btn-sm btn-info shadow-lg <?php echo ($data['is_paused'] == 1) ? '' : 'd-none'; ?>"
+                        data-bs-toggle="modal" data-bs-target="#membershipResumeModal">
+                        <i class="bi bi-play-circle me-1"></i> Resume Subs
+                      </a>
                     </div>
 
 
@@ -205,6 +219,10 @@ if (isset($_GET['customer_id'])) {
                 </div>
                 <?php include './../modals/renew_and_history/modal_renew_membership.php' ?>
                 <?php include './../modals/renew_and_history/modal_history_membership.php' ?>
+                <?php include './../modals/renew_and_history/modal_pause_membership.php' ?>
+                <?php include './../modals/renew_and_history/modal_resume_membership.php' ?>
+
+
 
               </div>
 
@@ -283,6 +301,22 @@ if (isset($_GET['customer_id'])) {
 </html>
 
 <script>
+  // Hide Pause Button
+  function showResumeButton() {
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resumeBtn = document.getElementById('resumeBtn');
+
+    if (pauseBtn) pauseBtn.classList.add('d-none');
+    if (resumeBtn) resumeBtn.classList.remove('d-none');
+  }
+
+  function showPauseButton() {
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resumeBtn = document.getElementById('resumeBtn');
+
+    if (pauseBtn) pauseBtn.classList.remove('d-none');
+    if (resumeBtn) resumeBtn.classList.add('d-none');
+  }
   // For Selectize
   $(document).ready(function () {
     $('select').selectize({

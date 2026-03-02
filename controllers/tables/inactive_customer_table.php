@@ -73,7 +73,7 @@ $columns = array(
     'field' => 'start_date_membership',
     'formatter' => function ($startDate, $row) {
       $today = date('Y-m-d'); // Manila timezone
-
+    
       $isActive = ($row['start_date_membership'] <= $today && $row['end_date_membership'] >= $today);
 
       // Default styles
@@ -143,7 +143,7 @@ AND (
     OR start_date_membership IS NULL
     OR end_date_membership IS NULL
 )
+AND (is_paused = 0 OR is_paused IS NULL)
 ";
-
 // Fetch and encode data
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));

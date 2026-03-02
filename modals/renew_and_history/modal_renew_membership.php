@@ -44,7 +44,7 @@ if (isset($_GET['customer_id'])) {
                   <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
 
                   <!-- Start Date Membership -->
-                  <div class="input-group mb-3">
+                  <div class="input-group mb-3" id="startDateWrapper">
                     <span class="input-group-text">
                       <i class="bi bi-calendar-event"></i>
                     </span>
@@ -53,20 +53,6 @@ if (isset($_GET['customer_id'])) {
                         placeholder="Start Date" required>
                       <label for="start_date_membership">
                         New Start Date <span class="text-danger">*</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  <!-- End Date Membership -->
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">
-                      <i class="bi bi-calendar-event-fill"></i>
-                    </span>
-                    <div class="form-floating flex-grow-1">
-                      <input type="date" class="form-control" id="end_date_membership" name="end_date_membership"
-                        placeholder="End Date" required>
-                      <label for="end_date_membership">
-                        New End Date <span class="text-danger">*</span>
                       </label>
                     </div>
                   </div>
@@ -88,6 +74,19 @@ if (isset($_GET['customer_id'])) {
                     </select>
                   </div>
 
+                  <!-- End Date Membership -->
+                  <div class="input-group mb-3" id="endDateWrapper">
+                    <span class="input-group-text">
+                      <i class="bi bi-calendar-event-fill"></i>
+                    </span>
+                    <div class="form-floating flex-grow-1">
+                      <input type="date" class="form-control" id="end_date_membership" name="end_date_membership"
+                        placeholder="End Date" required>
+                      <label for="end_date_membership">
+                        New End Date <span class="text-danger">*</span>
+                      </label>
+                    </div>
+                  </div>
 
                 </div>
                 <br>
@@ -119,6 +118,85 @@ if (isset($_GET['customer_id'])) {
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <script>
+  // Hide VIP, and Auto Compute for the End Date Subs
+  document.addEventListener('DOMContentLoaded', function () {
+    const startInput = document.getElementById('start_date_membership');
+    const endInput = document.getElementById('end_date_membership');
+    const discountInput = document.getElementById('discount'); // optional: fill discount automatically
+    const membershipSelect = document.getElementById('membership_type_id');
+    const startWrapper = document.getElementById('startDateWrapper');
+    const endWrapper = document.getElementById('endDateWrapper');
+
+    // Initialize Selectize if not already
+    const selectize = $(membershipSelect).selectize()[0].selectize;
+
+    function updateEndDate() {
+      const startDate = startInput.value;
+
+      let durationMonths = 0;
+      let discountPercent = 0;
+
+      if (selectize) {
+        const selectedValue = selectize.getValue();
+
+        if (selectedValue && selectize.options[selectedValue]) {
+          const selectedText = selectize.options[selectedValue].text.trim().toUpperCase();
+
+          // Hide/show Start and End date for VIP
+          if (selectedText === 'VIP') {
+            startWrapper.style.display = 'none';
+            endWrapper.style.display = 'none';
+            startInput.value = '';
+            endInput.value = '';
+            if (discountInput) discountInput.value = '';
+            return;
+          } else {
+            startWrapper.style.display = 'flex';
+            endWrapper.style.display = 'flex';
+          }
+
+          // Extract months (first number in text)
+          const monthMatch = selectedText.match(/(\d+)\s*MONTH/);
+          durationMonths = monthMatch ? parseInt(monthMatch[1]) : 0;
+
+          // Extract discount (number inside parentheses with %)
+          const discountMatch = selectedText.match(/\((\d+)%\)/);
+          discountPercent = discountMatch ? parseInt(discountMatch[1]) : 0;
+
+          // Auto-fill discount input if exists
+          if (discountInput) {
+            discountInput.value = discountPercent > 0 ? discountPercent : '';
+          }
+        }
+      }
+
+      if (!startDate || durationMonths <= 0) {
+        endInput.value = '';
+        return;
+      }
+
+      // Compute end date
+      const start = new Date(startDate);
+      const end = new Date(start);
+      end.setMonth(end.getMonth() + durationMonths);
+
+      const yyyy = end.getFullYear();
+      const mm = String(end.getMonth() + 1).padStart(2, '0');
+      const dd = String(end.getDate()).padStart(2, '0');
+      endInput.value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Trigger when start date changes
+    startInput.addEventListener('change', updateEndDate);
+
+    // Trigger when membership type changes
+    selectize.on('change', updateEndDate);
+
+    // Run once on page load in case VIP is already selected
+    updateEndDate();
+  });
+
+
   document.addEventListener("DOMContentLoaded", function () {
     // Initialize Bootstrap 5 modal object
     const renewMembershipModalEl = document.getElementById('renewMembershipModal');

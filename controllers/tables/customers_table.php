@@ -53,8 +53,42 @@ $columns = array(
   ),
 
   array(
-    'db' => 'end_date_membership',
+    'db' => 'last_paused_date',
     'dt' => 4,
+    'field' => 'last_paused_date',
+    'formatter' => function ($val) {
+      if (
+        empty($val) ||
+        $val === '0000-00-00' ||
+        $val === '0000-00-00 00:00:00'
+      ) {
+        return '-';
+      }
+      return date('F j, Y', strtotime($val));
+    }
+
+  ),
+
+  array(
+    'db' => 'date_resumed',
+    'dt' => 5,
+    'field' => 'date_resumed',
+    'formatter' => function ($val) {
+      if (
+        empty($val) ||
+        $val === '0000-00-00' ||
+        $val === '0000-00-00 00:00:00'
+      ) {
+        return '-';
+      }
+      return date('F j, Y', strtotime($val));
+    }
+
+  ),
+
+  array(
+    'db' => 'end_date_membership',
+    'dt' => 6,
     'field' => 'end_date_membership',
     'formatter' => function ($val) {
       if (
@@ -70,13 +104,13 @@ $columns = array(
 
   array(
     'db' => 'start_date_membership',
-    'dt' => 5,
+    'dt' => 7,
     'field' => 'start_date_membership',
     'formatter' => function ($val, $row) {
 
       $today = strtotime(date('Y-m-d'));
       $start = !empty($row['start_date_membership']) ? strtotime($row['start_date_membership']) : null;
-      $end   = !empty($row['end_date_membership']) ? strtotime($row['end_date_membership']) : null;
+      $end = !empty($row['end_date_membership']) ? strtotime($row['end_date_membership']) : null;
 
       $statusText = 'Inactive';
       $bgColor = '#adb5bd';
@@ -114,7 +148,7 @@ $columns = array(
 
   array(
     'db' => 'customer_id',
-    'dt' => 6,
+    'dt' => 8,
     'field' => 'customer_id',
     'formatter' => function ($val, $row) {
       return '
@@ -134,7 +168,7 @@ $columns = array(
   // IMPORTANT: searchable hidden column
   array(
     'db' => 'membership_type_id',
-    'dt' => 7,
+    'dt' => 9,
     'field' => 'membership_type_id'
   ),
 );
@@ -144,10 +178,12 @@ require './../../assets/datatables/ssp.class_with_where.php';
 
 $today = date('Y-m-d');
 
-/**
- * ✅ WRAPPED WHERE (THIS FIXES SEARCH)
- */
 $where = "
+(
+    customer.is_paused = 0
+    OR customer.is_paused IS NULL
+)
+AND
 (
     (start_date_membership <= '$today' AND end_date_membership >= '$today')
     OR start_date_membership > '$today'

@@ -24,18 +24,25 @@
     </li>
 
     <li class="nav-item">
+      <a class="nav-link" data-module="paused" href="/lakan/views/paused_members.php?module=paused">
+        <i class="bi bi-person-lines-fill"></i>
+        <span>Members (Paused)</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
       <a class="nav-link" data-module="inactive" href="/lakan/views/expired_members.php?module=inactive">
         <i class="bi bi-person-lines-fill"></i>
         <span>Members (Expired)</span>
       </a>
     </li>
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link" data-module="walkin" href="/lakan/views/walk_in.php?module=walkin">
         <i class="bi bi-person-walking"></i>
         <span>Walk-in</span>
       </a>
-    </li>
+    </li> -->
 
     <li class="nav-heading">Reports</li>
 
