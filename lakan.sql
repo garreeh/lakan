@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : PersonalProjectDB
+ Source Server         : PersonalProjects
  Source Server Type    : MySQL
- Source Server Version : 100432 (10.4.32-MariaDB)
+ Source Server Version : 100432
  Source Host           : localhost:3306
  Source Schema         : lakan
 
  Target Server Type    : MySQL
- Target Server Version : 100432 (10.4.32-MariaDB)
+ Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 29/01/2026 16:08:02
+ Date: 02/03/2026 23:11:26
 */
 
 SET NAMES utf8mb4;
@@ -39,16 +39,20 @@ CREATE TABLE `customer`  (
   `account_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `profile_pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `is_paused` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `date_paused` datetime NULL DEFAULT NULL,
+  `date_resumed` datetime NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `last_paused_date` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`customer_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of customer
 -- ----------------------------
-INSERT INTO `customer` VALUES (1, 2, 'Gajultos', 'Garry', '', '1998-12-18 00:00:00', '27', 'Male', '2025-12-12 00:00:00', '2026-12-12 00:00:00', 'Test34', 'Test3', 'Test3', NULL, NULL, 'gajultos.garrydevv@gmail.com', './../uploads/profile_picture/emp_1_1769663932.png', '2026-01-29 13:29:34', '2026-01-29 16:01:15');
-INSERT INTO `customer` VALUES (3, 4, 'Mariano', 'System', '', '1999-12-12 00:00:00', '26', 'Male', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', NULL, NULL, '', NULL, '2026-01-29 15:58:30', '2026-01-29 16:05:29');
+INSERT INTO `customer` VALUES (1, 2, 'Gajultos', 'Garry', '', '1998-12-18 00:00:00', '27', 'Male', '2025-12-12 00:00:00', '2026-02-11 00:00:00', 'Test34', 'Test3', 'Test3', NULL, NULL, 'gajultos.garrydevv@gmail.com', './../uploads/profile_picture/emp_1_1769663932.png', '0', NULL, '2026-02-12 00:00:00', '2026-01-29 13:29:34', '2026-03-02 22:53:56', '2026-03-04 00:00:00');
+INSERT INTO `customer` VALUES (3, 4, 'Mariano', 'System', '', '1999-12-12 00:00:00', '26', 'Male', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', NULL, NULL, '', NULL, '', NULL, NULL, '2026-01-29 15:58:30', '2026-03-02 20:17:20', NULL);
 
 -- ----------------------------
 -- Table structure for membership_history
@@ -63,7 +67,7 @@ CREATE TABLE `membership_history`  (
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   `membership_type_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`membership_history_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of membership_history
@@ -82,16 +86,18 @@ CREATE TABLE `membership_type`  (
   `is_vip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `discount` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`membership_type_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of membership_type
 -- ----------------------------
-INSERT INTO `membership_type` VALUES (1, '1 Month', '1500', '-', NULL, '2026-01-17 11:50:43', '2026-01-29 10:52:24');
-INSERT INTO `membership_type` VALUES (2, '3  Months', '3500', '-', NULL, '2026-01-17 11:51:48', '2026-01-29 10:52:24');
-INSERT INTO `membership_type` VALUES (3, '6 Months', '6500', '-', NULL, '2026-01-17 11:51:59', '2026-01-29 10:52:24');
-INSERT INTO `membership_type` VALUES (4, 'VIP', '0', '-', NULL, '2026-01-20 14:45:37', '2026-01-29 12:01:15');
+INSERT INTO `membership_type` VALUES (1, '1 Month', '1500', '-', NULL, '2026-01-17 11:50:43', '2026-02-14 23:26:57', '0');
+INSERT INTO `membership_type` VALUES (2, '3  Months', '3500', '-', NULL, '2026-01-17 11:51:48', '2026-02-14 23:26:59', '0');
+INSERT INTO `membership_type` VALUES (3, '6 Months', '6500', '-', NULL, '2026-01-17 11:51:59', '2026-02-14 23:27:00', '0');
+INSERT INTO `membership_type` VALUES (4, 'VIP', '0', '-', NULL, '2026-01-20 14:45:37', '2026-02-14 23:27:03', '0');
+INSERT INTO `membership_type` VALUES (8, '1 Month (30%)', '1049.30', '30% Discount', NULL, '2026-02-14 23:30:13', '2026-02-14 23:52:03', '30');
 
 -- ----------------------------
 -- Table structure for users
@@ -118,5 +124,22 @@ CREATE TABLE `users`  (
 -- ----------------------------
 INSERT INTO `users` VALUES (1, 1, 'Garry', 'Dela Torre', 'Gajultos', 'garry', '$2y$10$XZYyuL2IeWpjTyb5b/A.eeCqbZ8t.ItcBd5VxdB47XSjsruR66hau', '123123', '1', '2026-01-20 21:06:39', '2026-01-29 15:39:15', 'gajultos.garrydev@gmail.com');
 INSERT INTO `users` VALUES (293, NULL, 'John Edmund', 'Factura', 'Alarde', 'joed', '$2y$10$V3WHudCGjI52UpSsYRx1V.a2HOh.oBLbnPSpTXkYVwXDYq441KIAG', '123123', NULL, '2026-01-29 15:32:00', '2026-01-29 15:39:03', 'joed@gmail.com');
+
+-- ----------------------------
+-- Table structure for walk_in
+-- ----------------------------
+DROP TABLE IF EXISTS `walk_in`;
+CREATE TABLE `walk_in`  (
+  `walk_id` int NOT NULL AUTO_INCREMENT,
+  `walk_in_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `walk_in_price` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`walk_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of walk_in
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
