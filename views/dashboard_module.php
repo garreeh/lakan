@@ -80,6 +80,27 @@ if (session_status() == PHP_SESSION_NONE) {
                     </div>
                   </div>
 
+                  <!-- Paused Subscriptions -->
+                  <div class="col-xl-3 col-md-6 mb-4 d-flex">
+                    <div class="card info-card sales-card flex-fill">
+                      <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Paused Subscriptions</h5>
+
+                        <div class="d-flex align-items-center mt-auto">
+                          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-pause-circle"></i>
+                          </div>
+                          <div class="ps-3">
+                            <h6>
+                              <?php echo $pausedCount; ?>
+                            </h6>
+                            <span class="text-warning small fw-bold">Currently Paused</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <!-- Expired Subscriptions -->
                   <div class="col-xl-3 col-md-6 mb-4 d-flex">
                     <div class="card info-card sales-card flex-fill">

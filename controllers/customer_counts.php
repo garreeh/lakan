@@ -1,15 +1,10 @@
 <?php
+// Manila Timezone
+date_default_timezone_set('Asia/Manila');
+
 $today = date('Y-m-d');
 
-/* =====================
-   ACTIVE MEMBERS
-   ===================== */
-/*
-Includes:
-- VIP (membership_type_id = 4)
-- Active (today within range)
-- Upcoming (start_date > today)
-*/
+// FOR ACTIVE SUBS
 $activeQuery = "
   SELECT COUNT(*) AS total_active
   FROM customer
@@ -25,21 +20,24 @@ $activeResult = mysqli_query($conn, $activeQuery);
 $activeCount = mysqli_fetch_assoc($activeResult)['total_active'] ?? 0;
 
 
-/* =====================
-   EXPIRED MEMBERS
-   ===================== */
-/*
-Includes:
-- Non-VIP only
-- Ended memberships
-(matches Inactive table logic)
-*/
+// FOR EXPIRED SUBS
 $expiredQuery = "
   SELECT COUNT(*) AS total_expired
   FROM customer
   WHERE
-    membership_type_id != 4
+    (is_paused = 0 OR is_paused IS NULL)
+    AND membership_type_id != 4
     AND DATE(end_date_membership) < '$today'
 ";
 $expiredResult = mysqli_query($conn, $expiredQuery);
 $expiredCount = mysqli_fetch_assoc($expiredResult)['total_expired'] ?? 0;
+
+
+// FOR PAUSED SUBS
+$pausedQuery = "
+  SELECT COUNT(*) AS total_paused
+  FROM customer
+  WHERE is_paused = 1
+";
+$pausedResult = mysqli_query($conn, $pausedQuery);
+$pausedCount = mysqli_fetch_assoc($pausedResult)['total_paused'] ?? 0;

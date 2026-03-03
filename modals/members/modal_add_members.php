@@ -98,8 +98,7 @@ if ($resultMembershipType) {
             <div class="input-group mb-3" id="startDateWrapper">
               <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="start_date_membership" name="start_date_membership"
-                  required>
+                <input type="date" class="form-control" id="start_date_membership" name="start_date_membership">
                 <label for="start_date_membership">
                   Start Date Subscription <span class="text-danger">*</span>
                 </label>
@@ -110,8 +109,7 @@ if ($resultMembershipType) {
             <div class="input-group mb-3" id="endDateWrapper">
               <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
               <div class="form-floating flex-grow-1">
-                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" required
-                  readonly>
+                <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" readonly>
                 <label for="end_date_membership">
                   End Date Subscription <span class="text-danger">*</span>
                 </label>

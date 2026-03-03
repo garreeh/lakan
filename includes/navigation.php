@@ -1,3 +1,5 @@
+<?php include './../controllers/customer_counts.php'; ?>
+
 <aside id="sidebar" class="sidebar">
 
   <!-- Sidebar Logo -->
@@ -18,22 +20,49 @@
 
     <li class="nav-item">
       <a class="nav-link" data-module="active" href="/lakan/views/active_members.php?module=active">
-        <i class="bi bi-person-lines-fill"></i>
-        <span>Members (Active)</span>
+
+        <i class="bi bi-person-lines-fill me-2"></i>
+
+        <span class="w-100 d-inline-block position-relative">
+          Members (Active)
+
+          <!-- <span class="badge bg-success badge-fixed position-absolute end-0 top-50 translate-middle-y">
+            </?php echo $activeCount; ?>
+          </span> -->
+        </span>
+
       </a>
     </li>
 
     <li class="nav-item">
       <a class="nav-link" data-module="paused" href="/lakan/views/paused_members.php?module=paused">
-        <i class="bi bi-person-lines-fill"></i>
-        <span>Members (Paused)</span>
+
+        <i class="bi bi-person-lines-fill me-2"></i>
+
+        <span class="w-100 d-inline-block position-relative">
+          Members (Paused)
+
+          <span class="badge bg-warning text-dark badge-fixed position-absolute end-0 top-50 translate-middle-y">
+            <?php echo $pausedCount; ?>
+          </span>
+        </span>
+
       </a>
     </li>
 
     <li class="nav-item">
       <a class="nav-link" data-module="inactive" href="/lakan/views/expired_members.php?module=inactive">
-        <i class="bi bi-person-lines-fill"></i>
-        <span>Members (Expired)</span>
+
+        <i class="bi bi-person-lines-fill me-2"></i>
+
+        <span class="w-100 d-inline-block position-relative">
+          Members (Expired)
+
+          <span class="badge bg-danger badge-fixed position-absolute end-0 top-50 translate-middle-y">
+            <?php echo $expiredCount; ?>
+          </span>
+        </span>
+
       </a>
     </li>
 
