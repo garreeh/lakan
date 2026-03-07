@@ -73,14 +73,20 @@
       </a>
     </li> -->
 
-    <li class="nav-heading">Reports</li>
+    <?php if (isset($_SESSION['lakan_user_id']) && in_array($_SESSION['lakan_user_id'], [1, 294])): ?>
 
-    <li class="nav-item">
-      <a class="nav-link" data-module="sales" href="/lakan/views/sales_module.php?module=sales">
-        <i class="bi bi-file-bar-graph"></i>
-        <span>Sales Reports</span>
-      </a>
-    </li>
+
+      <li class="nav-heading">Reports</li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-module="sales" href="/lakan/views/sales_module.php?module=sales">
+          <i class="bi bi-file-bar-graph"></i>
+          <span>Sales Reports</span>
+        </a>
+      </li>
+
+    <?php endif; ?>
+
 
     <li class="nav-heading">Admin Panel</li>
 

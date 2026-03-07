@@ -123,25 +123,29 @@ if (session_status() == PHP_SESSION_NONE) {
                   <?php include './../controllers/dashboard_sales_month.php'; ?>
 
                   <!-- Sales This Month -->
-                  <div class="col-xl-3 col-md-6 mb-4 d-flex">
-                    <div class="card info-card sales-card flex-fill">
-                      <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Sales This Month</h5>
+                  <?php if (isset($_SESSION['lakan_user_id']) && in_array($_SESSION['lakan_user_id'], [1, 294])): ?>
 
-                        <div class="d-flex align-items-center mt-auto">
-                          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-wallet2"></i>
-                          </div>
-                          <div class="ps-3">
-                            <h6 style="color:#28a745; font-weight:bold;">
-                              ₱<?php echo number_format($totalSalesMonth, 2); ?>
-                            </h6>
-                            <span class="text-success small fw-bold"><?php echo $monthLabel; ?></span>
+                    <div class="col-xl-3 col-md-6 mb-4 d-flex">
+                      <div class="card info-card sales-card flex-fill">
+                        <div class="card-body d-flex flex-column">
+                          <h5 class="card-title">Sales This Month</h5>
+
+                          <div class="d-flex align-items-center mt-auto">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                              <i class="bi bi-wallet2"></i>
+                            </div>
+                            <div class="ps-3">
+                              <h6 style="color:#28a745; font-weight:bold;">
+                                ₱<?php echo number_format($totalSalesMonth, 2); ?>
+                              </h6>
+                              <span class="text-success small fw-bold"><?php echo $monthLabel; ?></span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+
+                  <?php endif; ?>
 
 
                 </div>
