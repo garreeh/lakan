@@ -194,8 +194,8 @@ if (session_status() == PHP_SESSION_NONE) {
         }
       },
       order: [
-        [0, "desc"]
-      ] // descending by first column
+        [3, "desc"] // default sort by start_date (4th column), descending
+      ]
     });
 
     window.reloadDataTable = function () {

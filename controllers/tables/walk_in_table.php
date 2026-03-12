@@ -27,8 +27,8 @@ $columns = array(
     'db' => 'walk_in_price',
     'dt' => 2,
     'field' => 'walk_in_price',
-    'formatter' => function ($lab2, $row) {
-      return $row['walk_in_price'];
+    'formatter' => function ($walkInPrice, $row) {
+      return isset($walkInPrice) ? '₱ ' . number_format($walkInPrice, 2) : '-';
     }
   ),
 
