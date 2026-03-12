@@ -65,9 +65,9 @@ if (session_status() == PHP_SESSION_NONE) {
             <!-- Left side columns -->
             <div class="col-lg-12">
 
-              <?php include './../modals/membership_type/modal_add_membership_type.php'; ?>
+              <?php include './../modals/walkin/modal_add_walkin.php'; ?>
               <a href="#" class="btn btn-sm btn-success shadow-lg mb-4" data-bs-toggle="modal"
-                data-bs-target="#addMembershipModal">
+                data-bs-target="#addWalkInModal">
                 <i class="bi bi-person-walking"></i> Add Walk-in
               </a>
 
@@ -78,17 +78,16 @@ if (session_status() == PHP_SESSION_NONE) {
                   <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
 
                     <div class="table-responsive">
-                      <div id="modalContainerMembershipType"></div>
+                      <div id="modalContainerWalkIn"></div>
 
-                      <table class="table custom-table table-hover" name="membership_type_table"
-                        id="membership_type_table">
+                      <table class="table custom-table table-hover" name="walk_in_table" id="walk_in_table">
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>Membership Type Name</th>
+                            <th>Walk-in Type</th>
                             <th>Price</th>
-                            <th>Description</th>
-                            <th>Manage</th>
+                            <th>Date</th>
+                            <th>Name</th>
                           </tr>
                         </thead>
                       </table>
@@ -133,78 +132,26 @@ if (session_status() == PHP_SESSION_NONE) {
 <script>
   // CSS responsive width for table
   $('.toggle-sidebar-btn').click(function () {
-    $('#membership_type_table').css('width', '100%');
+    $('#walk_in_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   // Table for Membership Type
   $(document).ready(function () {
-    var membership_type_table = $('#membership_type_table').DataTable({
+    var walk_in_table = $('#walk_in_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
       "serverSide": true,
-      "ajax": "./../controllers/tables/membership_type_table.php",
+      "ajax": "./../controllers/tables/walk_in_table.php",
       "order": [
         [0, "desc"]
       ] // <-- DESCENDING order by first column
     });
 
     window.reloadDataTable = function () {
-      membership_type_table.ajax.reload();
+      walk_in_table.ajax.reload();
     };
 
   });
 
-  // Edit Membership Type
-  $(document).ready(function () {
-    // Function to handle click event on datatable rows
-    $('#membership_type_table').on('click', 'tr td:nth-child(5) .fetchDataMembershipType', function () {
-      // The event.preventDefault ignores to go top of the page.
-      event.preventDefault();
-
-      var membership_type_id = $(this).closest('tr').find('td').first().text(); // Get the membership_type_id from the clicked row
-      console.log('Button clicked, User ID: ' + membership_type_id);
-
-      $.ajax({
-        url: './../modals/membership_type/modal_edit_membership_type.php', // Path to PHP script to fetch modal content
-        method: 'POST',
-        data: {
-          membership_type_id: membership_type_id
-        },
-        success: function (response) {
-          $('#modalContainerMembershipType').html(response);
-          $('#editMembershipTypeModal').modal('show');
-          console.log("Modal content loaded for Membership Type ID: " + membership_type_id);
-        },
-        error: function (xhr, status, error) {
-          console.error("Error: " + xhr.responseText);
-        }
-      });
-    });
-  });
-
-  // Delete Membership Type
-  $(document).ready(function () {
-    // Function to handle click event on datatable rows
-    $('#membership_type_table').on('click', 'tr td:nth-child(8) .fetchDataUserDelete', function () {
-      var membership_type_id = $(this).closest('tr').find('td').first().text(); // Get the membership_type_id from the clicked row
-      console.log('Button clicked, User ID: ' + membership_type_id);
-
-      $.ajax({
-        url: './../modals/users/modal_delete_user.php', // Path to PHP script to fetch modal content
-        method: 'POST',
-        data: {
-          membership_type_id: membership_type_id
-        },
-        success: function (response) {
-          $('#modalContainerMembershipType').html(response);
-          $('#deleteDataUserModal').modal('show');
-          console.log("Modal content loaded for User ID: " + membership_type_id);
-        },
-        error: function (xhr, status, error) {
-          console.error("Error: " + xhr.responseText);
-        }
-      });
-    });
-  });
 </script>

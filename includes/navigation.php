@@ -66,12 +66,12 @@
       </a>
     </li>
 
-    <!-- <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link" data-module="walkin" href="/lakan/views/walk_in.php?module=walkin">
         <i class="bi bi-person-walking"></i>
         <span>Walk-in</span>
       </a>
-    </li> -->
+    </li>
 
     <?php if (isset($_SESSION['lakan_user_id']) && in_array($_SESSION['lakan_user_id'], [1, 294])): ?>
 
