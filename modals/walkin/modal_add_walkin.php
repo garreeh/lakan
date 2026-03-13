@@ -22,7 +22,9 @@
                 <option value="" disabled selected>Select Walk-in Type</option>
                 <option value="Member" data-price="150">Member</option>
                 <option value="Non Member" data-price="180">Non Member</option>
-                <option value="Student" data-price="150">Student</option>
+                <option value="Student" data-price="150">Student (Member)</option>
+                <option value="Student" data-price="120">Student (Non Member)</option>
+
               </select>
               <label for="walk_in_type">Walk-In Type <span class="text-danger">*</span></label>
             </div>
