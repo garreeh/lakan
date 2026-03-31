@@ -124,6 +124,11 @@ if (isset($_SESSION['lakan_user_id'])) {
                       <span id="btnText">Login</span>
                       <span id="btnSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
                     </button>
+
+                    <!-- Landing page link -->
+                    <div class="text-center mt-3">
+                      <a href="https://lakanfitness.online/" class="text-decoration-none">Go to Landing Page</a>
+                    </div>
                   </div>
                 </form>
 

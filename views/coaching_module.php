@@ -23,7 +23,7 @@ if (session_status() == PHP_SESSION_NONE) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Lakan | Sales Report</title>
+  <title>Lakan | Coaching Report</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -49,13 +49,13 @@ if (session_status() == PHP_SESSION_NONE) {
       <div id="content">
 
         <div class="pagetitle">
-          <h1>Sales Report</h1>
+          <h1>Coaching Report</h1>
           <br>
 
           <nav>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/lakan/views/dashboard_module.php">Home</a></li>
-              <li class="breadcrumb-item active">Sales Report</li>
+              <li class="breadcrumb-item active">Coaching Report</li>
             </ol>
           </nav>
 
@@ -75,7 +75,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
               <div class="mb-3"></div>
 
-              <button class="btn btn-success shadow-sm w-100" id="searchSalesReport" disabled>
+              <button class="btn btn-success shadow-sm w-100" id="searchCoachingReport" disabled>
                 Search
               </button>
             </div>
@@ -117,17 +117,17 @@ if (session_status() == PHP_SESSION_NONE) {
                   <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
 
                     <div class="table-responsive">
-                      <div id="modalContainerSalesReport"></div>
+                      <div id="modalContainerCoachingSales"></div>
 
-                      <table class="table custom-table table-hover" name="sales_report_table" id="sales_report_table">
+                      <table class="table custom-table table-hover" name="coaching_report_table"
+                        id="coaching_report_table">
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Membership Date</th>
-                            <th>Membership Type</th>
-                            <th>Membership Price</th>
+                            <th>Client Name</th>
+                            <th>Coaching Type</th>
+                            <th>Coaching Price</th>
+                            <th>Date</th>
                           </tr>
                         </thead>
                       </table>
@@ -172,7 +172,7 @@ if (session_status() == PHP_SESSION_NONE) {
 <script>
   // CSS responsive width for table
   $('.toggle-sidebar-btn').click(function () {
-    $('#sales_report_table').css('width', '100%');
+    $('#coaching_report_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
@@ -180,15 +180,13 @@ if (session_status() == PHP_SESSION_NONE) {
   $(document).ready(function () {
 
     /* MEMBERSHIP TYPE TABLE */
-    var sales_report_table = $('#sales_report_table').DataTable({
+    var coaching_report_table = $('#coaching_report_table').DataTable({
       pagingType: "numbers",
       processing: true,
       serverSide: true,
       "ajax": {
-        "url": "./../controllers/tables/sales_report_table.php",
+        "url": "./../controllers/tables/coaching_report_table.php",
         "data": function (d) {
-          d.subcategory_id = $('#subcategory_id').val();
-          d.category_id = $('#category_id').val(); // Include category_id
           d.date_from = $('#date_from').val();
           d.date_to = $('#date_to').val();
         }
@@ -199,7 +197,7 @@ if (session_status() == PHP_SESSION_NONE) {
     });
 
     window.reloadDataTable = function () {
-      sales_report_table.ajax.reload();
+      coaching_report_table.ajax.reload();
     };
 
     /* ENABLE / DISABLE SEARCH BUTTON */
@@ -207,7 +205,7 @@ if (session_status() == PHP_SESSION_NONE) {
       const dateFrom = $('#date_from').val();
       const dateTo = $('#date_to').val();
 
-      $('#searchSalesReport').prop('disabled', !(dateFrom && dateTo));
+      $('#searchCoachingReport').prop('disabled', !(dateFrom && dateTo));
     }
 
     $('#date_from, #date_to').on('change', function () {
@@ -219,7 +217,7 @@ if (session_status() == PHP_SESSION_NONE) {
     });
 
     /* SEARCH BUTTON CLICK */
-    $('#searchSalesReport').on('click', function () {
+    $('#searchCoachingReport').on('click', function () {
       const btn = $(this);
       const date_from = $('#date_from').val();
       const date_to = $('#date_to').val();
@@ -227,13 +225,13 @@ if (session_status() == PHP_SESSION_NONE) {
       btn.text('Searching...').prop('disabled', true);
 
       // Reload datatable first
-      sales_report_table.ajax.reload(function () {
+      coaching_report_table.ajax.reload(function () {
 
         $.ajax({
           type: 'POST',
-          url: './../controllers/sales_report_process.php',
+          url: './../controllers/coaching_report_process.php',
           data: {
-            searchSalesReport: true,
+            searchCoachingReport: true,
             date_from: date_from,
             date_to: date_to
           },
@@ -242,27 +240,18 @@ if (session_status() == PHP_SESSION_NONE) {
               const data = JSON.parse(response);
               console.log('Sales report:', data);
 
-              // --- ADD THIS ONLY: display sales total in #salesReportResults ---
               const container = $('#salesReportResults');
               container.empty();
 
               if (data.success && data.data.length > 0) {
-                let totalSales = 0;
-
-                data.data.forEach(row => {
-                  // Remove commas and peso sign if present, then sum
-                  if (row.membership_price && row.membership_price !== '-') {
-                    const price = parseFloat(row.membership_price.replace(/[^0-9.-]+/g, ""));
-                    totalSales += price;
-                  }
-                });
+                // Use total_sales from PHP response
+                const totalSales = data.total_sales;
 
                 // Display total formatted
-                container.html(`<p><strong>Total Sales:</strong> <span style="font-size: 28px; font-weight: bold; color: #28a745;">₱ ${totalSales.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></p>`);
+                container.html(`<p><strong>Total Sales:</strong> <span style="font-size: 28px; font-weight: bold; color: #28a745;">${totalSales}</span></p>`);
               } else {
                 container.html('<p>No sales for selected dates.</p>');
               }
-              // --- END ADDITION ---
 
             } catch (e) {
               console.error('Invalid JSON response:', response);

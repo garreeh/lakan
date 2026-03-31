@@ -73,6 +73,13 @@
       </a>
     </li>
 
+    <li class="nav-item">
+      <a class="nav-link" data-module="coaching" href="/lakan/views/coaching_service.php?module=coaching">
+        <i class="bi bi-person-workspace"></i>
+        <span>Coaching Service</span>
+      </a>
+    </li>
+
     <?php if (isset($_SESSION['lakan_user_id']) && in_array($_SESSION['lakan_user_id'], [1, 294])): ?>
 
 
@@ -85,8 +92,14 @@
         </a>
       </li>
 
-    <?php endif; ?>
+      <li class="nav-item">
+        <a class="nav-link" data-module="coachingsales" href="/lakan/views/coaching_module.php?module=coachingsales">
+          <i class="bi bi-file-bar-graph"></i>
+          <span>Coaching Reports</span>
+        </a>
+      </li>
 
+    <?php endif; ?>
 
     <li class="nav-heading">Admin Panel</li>
 
