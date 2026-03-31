@@ -18,8 +18,29 @@ $columns = array(
     'db' => 'walk_in_type',
     'dt' => 1,
     'field' => 'walk_in_type',
-    'formatter' => function ($lab2, $row) {
-      return $row['walk_in_type'];
+    'formatter' => function ($type, $row) {
+
+      // Define softer pastel badge colors
+      $badgeColors = [
+        'Member' => '#a8e6cf',               // Soft green
+        'Non Member' => '#ff8b94',           // Soft red/pink
+        'Student (Non Member)' => '#a0c4ff', // Soft blue
+        'Student (Member)' => '#ffd97d',     // Soft yellow/orange
+      ];
+
+      $color = isset($badgeColors[$type]) ? $badgeColors[$type] : '#d3d3d3'; // Default light gray
+    
+      // Return badge-style span with softer look
+      return '<span style="
+                  display: inline-block;
+                  padding: 4px 10px;
+                  border-radius: 12px;
+                  font-weight: bold;
+                  color: #333;  /* Dark text for readability */
+                  background-color: ' . $color . ';
+                  font-size: 0.9em;
+                  text-align: center;
+              ">' . $type . '</span>';
     }
   ),
 

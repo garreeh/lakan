@@ -15,9 +15,37 @@ if (!isset($_SESSION['lakan_user_id'])) {
 $data = null; // Initialize
 if (isset($_GET['customer_id'])) {
   $customer_id = (int) $_GET['customer_id']; // cast to integer
-  $sql = "SELECT * FROM customer
-          LEFT JOIN membership_type ON membership_type.membership_type_id = customer.membership_type_id
-          WHERE customer_id = $customer_id";
+
+  $sql = "SELECT 
+        customer.*,
+        membership_type.membership_type_name,
+        body_fats_history.bodyfats_desc,
+        body_fats_history.date_saved_bodyfats,
+        weight_history.weight_desc,
+        weight_history.date_saved_weight
+    FROM customer
+    LEFT JOIN membership_type 
+        ON membership_type.membership_type_id = customer.membership_type_id
+
+    LEFT JOIN body_fats_history 
+        ON body_fats_history.customer_id = customer.customer_id
+        AND body_fats_history.bodyfats_id = (
+            SELECT MAX(bodyfats_id)
+            FROM body_fats_history
+            WHERE customer_id = customer.customer_id
+        )
+
+    LEFT JOIN weight_history 
+        ON weight_history.customer_id = customer.customer_id
+        AND weight_history.weight_id = (
+            SELECT MAX(weight_id)
+            FROM weight_history
+            WHERE customer_id = customer.customer_id
+        )
+
+    WHERE customer.customer_id = $customer_id
+    ";
+
   $result = mysqli_query($conn, $sql);
 
   if ($result && mysqli_num_rows($result) > 0) {
@@ -149,11 +177,32 @@ if (isset($_GET['customer_id'])) {
                       ?>
                     </h5>
 
-                    <?php if (!empty($data['membership_type_id']) && $data['membership_type_id'] == 4): ?>
-                      <div class="text-center mb-2">
-                        <span class="badge bg-warning text-dark fw-bold">VIP</span>
-                      </div>
-                    <?php endif; ?>
+                    <div class="text-center mb-2">
+                      <?php
+                      $today = date('Y-m-d');
+
+                      if (!empty($data['membership_type_id']) && $data['membership_type_id'] == 4) {
+                        // VIP badge (light blue)
+                        echo '<span class="badge fw-bold" style="background-color: #a8d8f0; color: #000;">VIP</span>';
+                      } else {
+                        // Determine Active / Expired
+                        $start = $data['start_date_membership'];
+                        $end = $data['end_date_membership'];
+
+                        if (!empty($start) && !empty($end) && $start <= $today && $end >= $today) {
+                          $status = 'Active';
+                          $bgColor = '#d4edda';  // Light green
+                          $textColor = '#155724';
+                        } else {
+                          $status = 'Expired';
+                          $bgColor = '#f8d7da';  // Light red
+                          $textColor = '#721c24';
+                        }
+
+                        echo '<span class="badge fw-bold" style="background-color: ' . $bgColor . '; color: ' . $textColor . ';">' . $status . '</span>';
+                      }
+                      ?>
+                    </div>
 
                     <!-- Dates Section -->
                     <div class="d-flex justify-content-center gap-4 mb-3">
@@ -253,6 +302,8 @@ if (isset($_GET['customer_id'])) {
                     </ul>
 
                     <div class="tab-content pt-2">
+                      <?php include './../modals/members/modal_add_body_fats.php' ?>
+                      <?php include './../modals/members/modal_add_weight.php' ?>
                       <?php include './../modals/members/modal_edit_members.php' ?>
                       <?php include 'member_tabs/personal_details.php'; ?>
                     </div>

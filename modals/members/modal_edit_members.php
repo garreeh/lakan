@@ -38,7 +38,7 @@ if (isset($_GET['customer_id'])) {
                   <?php
                   $profileImg = !empty($row['profile_pic'])
                     ? $row['profile_pic']
-                    : './assets/img/profile-img.jpg';
+                    : '../assets/img/profile-pic.png';
                   ?>
 
                   <img id="profilePreview" src="<?= $profileImg ?>" class="rounded-circle mb-2"
@@ -400,7 +400,7 @@ if (isset($_GET['customer_id'])) {
             if (members_data.profile_pic) {
               profileImg.src = members_data.profile_pic;
             } else {
-              profileImg.src = './../assets/img/profile-img.jpg';
+              profileImg.src = '../assets/img/profile-pic.png';
             }
           }
 
