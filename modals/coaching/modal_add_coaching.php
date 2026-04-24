@@ -24,8 +24,9 @@
                 <option value="Platinum" data-price="35500">⚪ Platinum</option>
                 <option value="Gold" data-price="24700">🟡 Gold</option>
                 <option value="Silver" data-price="11200">⚙️ Silver</option>
-                <option value="Bronze" data-price="24700">🟤 Bronze</option>
+                <option value="Bronze" data-price="5500">🟤 Bronze</option>
                 <option value="Single Session" data-price="500">🔵 Single Session</option>
+                <option value="Bronze (Promo)" data-price="3000">🟤 Bronze (Promo)</option>
                 <option value="Platinum (Promo)" data-price="18000">⚪ Platinum (Promo)</option>
                 <option value="Gold (Promo)" data-price="13000">🟡 Gold (Promo)</option>
                 <option value="Silver (Promo)" data-price="6000">⚙️ Silver (Promo)</option>

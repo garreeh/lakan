@@ -179,24 +179,31 @@ if (isset($_GET['customer_id'])) {
 
                     <div class="text-center mb-2">
                       <?php
+                      date_default_timezone_set('Asia/Manila');
+
                       $today = date('Y-m-d');
 
                       if (!empty($data['membership_type_id']) && $data['membership_type_id'] == 4) {
-                        // VIP badge (light blue)
+
                         echo '<span class="badge fw-bold" style="background-color: #a8d8f0; color: #000;">VIP</span>';
+
                       } else {
-                        // Determine Active / Expired
-                        $start = $data['start_date_membership'];
-                        $end = $data['end_date_membership'];
+
+                        $start = date('Y-m-d', strtotime($data['start_date_membership']));
+                        $end = date('Y-m-d', strtotime($data['end_date_membership']));
 
                         if (!empty($start) && !empty($end) && $start <= $today && $end >= $today) {
+
                           $status = 'Active';
-                          $bgColor = '#d4edda';  // Light green
+                          $bgColor = '#d4edda';
                           $textColor = '#155724';
+
                         } else {
+
                           $status = 'Expired';
-                          $bgColor = '#f8d7da';  // Light red
+                          $bgColor = '#f8d7da';
                           $textColor = '#721c24';
+
                         }
 
                         echo '<span class="badge fw-bold" style="background-color: ' . $bgColor . '; color: ' . $textColor . ';">' . $status . '</span>';

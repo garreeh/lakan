@@ -74,7 +74,7 @@ if (isset($_GET['customer_id'])) {
                         </li>
                       <?php endforeach; ?>
                     <?php else: ?>
-                      <li class="list-group-item text-center text-secondary">No history for body fats</li>
+                      <li class="list-group-item text-center text-secondary">No history for weight</li>
                     <?php endif; ?>
                   </ul>
                 </div>
