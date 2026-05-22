@@ -1,56 +1,157 @@
 <?php
 include './../connections/connections.php';
 
-if (session_status() == PHP_SESSION_NONE) {
-  session_start();
+$customer_id = (int) $_GET['customer_id'];
+
+$data = null;
+$groupedPayments = [];
+
+/* =========================
+   GET CUSTOMER INFO
+========================= */
+$sql = "SELECT 
+    customer.*,
+    membership_type.membershiptype_price
+FROM customer
+LEFT JOIN membership_type 
+    ON membership_type.membership_type_id = customer.membership_type_id
+WHERE customer.customer_id = $customer_id
+LIMIT 1";
+
+$res = mysqli_query($conn, $sql);
+
+if ($res && mysqli_num_rows($res) > 0) {
+  $data = mysqli_fetch_assoc($res);
 }
 
+/* =========================
+   GET CYCLES (WITH PRICE)
+========================= */
+$cycles = [];
 
+/* CUSTOMER (LATEST) */
+$res = mysqli_query($conn, "
+  SELECT 
+    c.start_date_membership AS start_date,
+    c.payment_type,
+    c.down_payment_amount,
+    c.membership_type_id,
+    mt.membershiptype_price
+  FROM customer c
+  LEFT JOIN membership_type mt 
+    ON mt.membership_type_id = c.membership_type_id
+  WHERE c.customer_id = $customer_id
+");
 
-if (!isset($_SESSION['lakan_user_id'])) {
-  header("Location: /lakan/index.php");
-  exit;
+while ($row = mysqli_fetch_assoc($res)) {
+  $row['source'] = 'customer';
+  $cycles[] = $row;
 }
 
-$data = null; // Initialize
-if (isset($_GET['customer_id'])) {
-  $customer_id = (int) $_GET['customer_id']; // cast to integer
+/* HISTORY (RENEWALS) */
+$res = mysqli_query($conn, "
+  SELECT 
+    h.start_date,
+    h.payment_type,
+    h.down_payment_amount,
+    h.membership_type_id,
+    mt.membershiptype_price
+  FROM membership_history h
+  LEFT JOIN membership_type mt 
+    ON mt.membership_type_id = h.membership_type_id
+  WHERE h.customer_id = $customer_id
+");
 
-  $sql = "SELECT 
-        customer.*,
-        membership_type.membership_type_name,
-        body_fats_history.bodyfats_desc,
-        body_fats_history.date_saved_bodyfats,
-        weight_history.weight_desc,
-        weight_history.date_saved_weight
-    FROM customer
-    LEFT JOIN membership_type 
-        ON membership_type.membership_type_id = customer.membership_type_id
+while ($row = mysqli_fetch_assoc($res)) {
+  $row['source'] = 'history';
+  $cycles[] = $row;
+}
 
-    LEFT JOIN body_fats_history 
-        ON body_fats_history.customer_id = customer.customer_id
-        AND body_fats_history.bodyfats_id = (
-            SELECT MAX(bodyfats_id)
-            FROM body_fats_history
-            WHERE customer_id = customer.customer_id
-        )
+/* =========================
+   SORT BY DATE
+========================= */
+usort($cycles, function ($a, $b) {
+  return strtotime($a['start_date']) <=> strtotime($b['start_date']);
+});
 
-    LEFT JOIN weight_history 
-        ON weight_history.customer_id = customer.customer_id
-        AND weight_history.weight_id = (
-            SELECT MAX(weight_id)
-            FROM weight_history
-            WHERE customer_id = customer.customer_id
-        )
+/* =========================
+   GET ALL PAYMENTS
+========================= */
+$payments = [];
 
-    WHERE customer.customer_id = $customer_id
-    ";
+$res = mysqli_query($conn, "
+  SELECT created_at, payment_amount
+  FROM downpayment_record_customer
+  WHERE customer_id = $customer_id
+");
 
-  $result = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($res)) {
+  $payments[] = $row;
+}
 
-  if ($result && mysqli_num_rows($result) > 0) {
-    $data = mysqli_fetch_assoc($result);
+/* =========================
+   BUILD GROUPS
+========================= */
+foreach ($cycles as $i => $cycle) {
+
+  $start = $cycle['start_date'];
+  $next  = $cycles[$i + 1]['start_date'] ?? null;
+
+  $key = "cycle_" . $i;
+
+  $groupedPayments[$key] = [
+    'start_date' => $start,
+    'items' => []
+  ];
+
+  /* =========================
+     FIXED LOGIC HERE
+  ========================= */
+  $dpAmount = (float)$cycle['down_payment_amount'];
+
+  // FULL PAYMENT only if NO downpayment
+  $isFullPayment = ($dpAmount <= 0);
+
+  if ($isFullPayment) {
+
+    $groupedPayments[$key]['items'][] = [
+      'date' => $start,
+      'amount' => (float)$cycle['membershiptype_price']
+    ];
+
+  } else {
+
+    // DOWNPAYMENT (INITIAL)
+    $groupedPayments[$key]['items'][] = [
+      'date' => $start,
+      'amount' => $dpAmount
+    ];
   }
+
+  /* =========================
+     ADD ACTUAL PAYMENTS
+  ========================= */
+  foreach ($payments as $p) {
+
+    $d = $p['created_at'];
+
+    if (
+      strtotime($d) >= strtotime($start) &&
+      (!$next || strtotime($d) < strtotime($next))
+    ) {
+      $groupedPayments[$key]['items'][] = [
+        'date' => $d,
+        'amount' => (float)$p['payment_amount']
+      ];
+    }
+  }
+
+  /* =========================
+     SORT ITEMS
+  ========================= */
+  usort($groupedPayments[$key]['items'], function ($a, $b) {
+    return strtotime($a['date']) <=> strtotime($b['date']);
+  });
 }
 ?>
 
@@ -189,21 +290,29 @@ if (isset($_GET['customer_id'])) {
 
                       } else {
 
-                        $start = date('Y-m-d', strtotime($data['start_date_membership']));
-                        $end = date('Y-m-d', strtotime($data['end_date_membership']));
+                        $start = !empty($data['start_date_membership']) ? date('Y-m-d', strtotime($data['start_date_membership'])) : null;
+                        $end = !empty($data['end_date_membership']) ? date('Y-m-d', strtotime($data['end_date_membership'])) : null;
 
-                        if (!empty($start) && !empty($end) && $start <= $today && $end >= $today) {
+                        if ($start && $end && $today < $start) {
 
+                          // 🟡 UPCOMING
+                          $status = 'Upcoming';
+                          $bgColor = '#fff3cd';
+                          $textColor = '#856404';
+
+                        } elseif ($start && $end && $start <= $today && $end >= $today) {
+
+                          // 🟢 ACTIVE
                           $status = 'Active';
                           $bgColor = '#d4edda';
                           $textColor = '#155724';
 
                         } else {
 
+                          // 🔴 EXPIRED
                           $status = 'Expired';
                           $bgColor = '#f8d7da';
                           $textColor = '#721c24';
-
                         }
 
                         echo '<span class="badge fw-bold" style="background-color: ' . $bgColor . '; color: ' . $textColor . ';">' . $status . '</span>';
@@ -294,11 +403,12 @@ if (isset($_GET['customer_id'])) {
                           Details</button>
                       </li>
 
-                      <!-- <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                      <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Payment
+                          Details</button>
                       </li>
 
-                      <li class="nav-item">
+                      <!-- <li class="nav-item">
                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
                       </li>
 
@@ -309,10 +419,18 @@ if (isset($_GET['customer_id'])) {
                     </ul>
 
                     <div class="tab-content pt-2">
+                      <!-- Personal Details Tab Below -->
                       <?php include './../modals/members/modal_add_body_fats.php' ?>
                       <?php include './../modals/members/modal_add_weight.php' ?>
                       <?php include './../modals/members/modal_edit_members.php' ?>
                       <?php include 'member_tabs/personal_details.php'; ?>
+                      <?php include 'member_tabs/payment_details.php'; ?>
+
+                      <!-- Payment Details Tab Below -->
+                      <?php include './../modals/members/modal_add_payments.php' ?>
+                      <?php include './../modals/members/modal_payment_history.php' ?>
+
+
                     </div>
                     <!-- End Bordered Tabs -->
                   </div>

@@ -1,42 +1,98 @@
 <?php
-include './../connections/connections.php'; // make sure connection is included
+include './../connections/connections.php';
 
-date_default_timezone_set('Asia/Manila'); // Set timezone
+date_default_timezone_set('Asia/Manila');
 
-$firstDay = date('Y-m-01'); // First day of month
-$lastDay = date('Y-m-t');    // Last day of month
-$monthLabel = date('F Y', strtotime($firstDay));
+$firstDay = date('Y-m-01');
+$lastDay = date('Y-m-t');
+$monthLabel = date('F Y');
 
 $totalMembershipSales = 0;
 $totalWalkinSales = 0;
 
-// Memberships
-$membershipSql = "SELECT mt.membershiptype_price AS amount
+/* =========================
+   CUSTOMER MEMBERSHIPS
+========================= */
+$membershipSql = "
+SELECT 
+    c.payment_type,
+    c.down_payment_amount,
+    c.start_date_membership,
+    mt.membershiptype_price
 FROM customer c
-LEFT JOIN membership_type mt ON c.membership_type_id = mt.membership_type_id
-WHERE DATE(c.start_date_membership) BETWEEN '$firstDay' AND '$lastDay'";
+LEFT JOIN membership_type mt 
+    ON c.membership_type_id = mt.membership_type_id
+WHERE DATE(c.start_date_membership) 
+    BETWEEN '$firstDay' AND '$lastDay'
+";
+
 $result = $conn->query($membershipSql);
+
 while ($row = $result->fetch_assoc()) {
-    $totalMembershipSales += $row['amount'] ?? 0;
+
+    if ($row['payment_type'] === 'Downpayment') {
+        // ✅ ONLY downpayment (initial)
+        $totalMembershipSales += (float) ($row['down_payment_amount'] ?? 0);
+    } else {
+        // ✅ Full payment / renewal
+        $totalMembershipSales += (float) ($row['membershiptype_price'] ?? 0);
+    }
 }
 
-// Membership history
-$membershipHistorySql = "SELECT mt.membershiptype_price AS amount
+/* =========================
+   MEMBERSHIP HISTORY (RENEWALS)
+========================= */
+$membershipHistorySql = "
+SELECT 
+    mt.membershiptype_price AS amount
 FROM membership_history mh
-LEFT JOIN membership_type mt ON mh.membership_type_id = mt.membership_type_id
-WHERE DATE(mh.start_date) BETWEEN '$firstDay' AND '$lastDay'";
+LEFT JOIN membership_type mt 
+    ON mh.membership_type_id = mt.membership_type_id
+WHERE DATE(mh.start_date) 
+    BETWEEN '$firstDay' AND '$lastDay'
+";
+
 $result = $conn->query($membershipHistorySql);
+
 while ($row = $result->fetch_assoc()) {
-    $totalMembershipSales += $row['amount'] ?? 0;
+    $totalMembershipSales += (float) ($row['amount'] ?? 0);
 }
 
-// Walk-ins
-$walkinSql = "SELECT walk_in_price AS amount FROM walk_in WHERE DATE(created_at) BETWEEN '$firstDay' AND '$lastDay'";
+/* =========================
+   DOWNPAYMENT PARTIAL PAYMENTS
+========================= */
+$downpaymentSql = "
+SELECT payment_amount AS amount
+FROM downpayment_record_customer
+WHERE DATE(created_at) 
+    BETWEEN '$firstDay' AND '$lastDay'
+";
+
+$result = $conn->query($downpaymentSql);
+
+while ($row = $result->fetch_assoc()) {
+    // ✅ Add ALL partial payments
+    $totalMembershipSales += (float) ($row['amount'] ?? 0);
+}
+
+/* =========================
+   WALK-IN SALES
+========================= */
+$walkinSql = "
+SELECT walk_in_price AS amount 
+FROM walk_in 
+WHERE DATE(created_at) 
+    BETWEEN '$firstDay' AND '$lastDay'
+";
+
 $result = $conn->query($walkinSql);
+
 while ($row = $result->fetch_assoc()) {
-    $totalWalkinSales += $row['amount'] ?? 0;
+    $totalWalkinSales += (float) ($row['amount'] ?? 0);
 }
 
-// Total sales
+/* =========================
+   FINAL TOTAL
+========================= */
 $totalSalesMonth = $totalMembershipSales + $totalWalkinSales;
 ?>

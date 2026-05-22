@@ -125,7 +125,7 @@ if (session_status() == PHP_SESSION_NONE) {
                             <th>ID</th>
                             <th>Firstname</th>
                             <th>Lastname</th>
-                            <th>Membership Date</th>
+                            <th>Membership / Payment Date</th>
                             <th>Membership Type</th>
                             <th>Membership Price</th>
                           </tr>

@@ -43,20 +43,6 @@ if (isset($_GET['customer_id'])) {
 
                   <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
 
-                  <!-- Start Date Membership -->
-                  <div class="input-group mb-3" id="startDateWrapper">
-                    <span class="input-group-text">
-                      <i class="bi bi-calendar-event"></i>
-                    </span>
-                    <div class="form-floating flex-grow-1">
-                      <input type="date" class="form-control" id="start_date_membership" name="start_date_membership"
-                        placeholder="Start Date" required>
-                      <label for="start_date_membership">
-                        New Start Date <span class="text-danger">*</span>
-                      </label>
-                    </div>
-                  </div>
-
                   <!-- Membership Type -->
                   <div class="input-group mb-3">
                     <!-- It has style because of the Selectize -->
@@ -64,7 +50,7 @@ if (isset($_GET['customer_id'])) {
                       <i class="bi bi-collection"></i>
                     </span>
 
-                    <select class="form-control" id="membership_type_id" name="membership_type_id" required>
+                    <select class="form-control" id="membership_type_id" name="membership_type_id" required readonly>
                       <option value="">Select New Membership Type <span class="text-danger">*</span></option>
                       <?php foreach ($membership_type_names as $membs): ?>
                         <option value="<?php echo htmlspecialchars($membs['membership_type_id']); ?>">
@@ -74,19 +60,72 @@ if (isset($_GET['customer_id'])) {
                     </select>
                   </div>
 
-                  <!-- End Date Membership -->
-                  <div class="input-group mb-3" id="endDateWrapper">
-                    <span class="input-group-text">
-                      <i class="bi bi-calendar-event-fill"></i>
-                    </span>
+                  <!-- Start Date -->
+                  <div class="input-group mb-3" id="startDateWrapper">
+                    <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
                     <div class="form-floating flex-grow-1">
-                      <input type="date" class="form-control" id="end_date_membership" name="end_date_membership"
-                        placeholder="End Date" required>
-                      <label for="end_date_membership">
-                        New End Date <span class="text-danger">*</span>
+                      <input type="date" class="form-control" id="start_date_membership" name="start_date_membership">
+                      <label for="start_date_membership">
+                        Start Date Subscription <span class="text-danger">*</span>
                       </label>
                     </div>
                   </div>
+
+                  <!-- End Date -->
+                  <div class="input-group mb-3" id="endDateWrapper">
+                    <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                    <div class="form-floating flex-grow-1">
+                      <input type="date" class="form-control" id="end_date_membership" name="end_date_membership" readonly>
+                      <label for="end_date_membership">
+                        End Date Subscription <span class="text-danger">*</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Payment Type -->
+                  <div class="input-group mb-3">
+
+                    <span class="input-group-text" style="height: 34px !important;">
+                      <i class="bi bi-cash"></i>
+                    </span>
+                    <select class="form-control" id="payment_type" name="payment_type" required>
+                      <option value="">Select Payment Type *</option>
+                      <option value="Full Payment">Full Payment</option>
+                      <option value="Downpayment">Down Payment</option>
+                    </select>
+                  </div>
+
+                  <!-- Down Payment Amount -->
+                  <div class="input-group mb-3" id="downPaymentWrapper" style="display:none;">
+                    <span class="input-group-text">
+                      <i class="bi bi-cash-stack"></i>
+                    </span>
+
+                    <div class="form-floating flex-grow-1">
+                      <!-- DISPLAY VALUE -->
+                      <input type="text" class="form-control" id="down_payment_amount" inputmode="numeric" autocomplete="off"
+                        placeholder="">
+                      <label for="down_payment_amount">Down Payment Amount <span class="text-danger">*</span></label>
+                    </div>
+
+                    <!-- RAW VALUE (THIS GETS SUBMITTED) -->
+                    <input type="hidden" id="down_payment_amount_raw" name="down_payment_amount">
+                  </div>
+
+                  <!-- Payment Terms -->
+                  <div class="input-group mb-3" id="paymentTermsWrapper" style="display:none;">
+                    <span class="input-group-text" style="height: 34px !important;">
+                      <i class="bi bi-calendar"></i>
+                    </span>
+
+                    <select class="form-control" id="payment_terms" name="payment_terms">
+                      <option value="">Select Payment Terms *</option>
+                      <option value="1 Month">1 Month</option>
+                      <option value="2 Months">2 Months</option>
+                      <option value="3 Months">3 Months</option>
+                    </select>
+                  </div>
+
 
                 </div>
                 <br>
@@ -122,51 +161,112 @@ if (isset($_GET['customer_id'])) {
   document.addEventListener('DOMContentLoaded', function () {
     const startInput = document.getElementById('start_date_membership');
     const endInput = document.getElementById('end_date_membership');
-    const discountInput = document.getElementById('discount'); // optional: fill discount automatically
+    const discountInput = document.getElementById('discount');
+
     const membershipSelect = document.getElementById('membership_type_id');
+    const paymentTypeSelect = document.getElementById('payment_type');
+
+    const paymentTermsInput = document.getElementById('payment_terms');
+    const downPaymentInput = document.getElementById('down_payment_amount');
+
+    const paymentTypeWrapper = paymentTypeSelect.closest('.input-group');
+    const downPaymentWrapper = document.getElementById('downPaymentWrapper');
+    const paymentTermsWrapper = document.getElementById('paymentTermsWrapper');
+
     const startWrapper = document.getElementById('startDateWrapper');
     const endWrapper = document.getElementById('endDateWrapper');
 
-    // Initialize Selectize if not already
-    const selectize = $(membershipSelect).selectize()[0].selectize;
+    // Selectize
+    const membershipSelectize = $(membershipSelect).selectize()[0].selectize;
+    const paymentTypeSelectize = $(paymentTypeSelect).selectize()[0].selectize;
 
+    // ===============================
+    // RESET PAYMENT
+    // ===============================
+    function resetPaymentFields() {
+      paymentTypeSelectize.clear();
+      downPaymentInput.value = '';
+      paymentTermsInput.value = '';
+
+      downPaymentWrapper.style.display = 'none';
+      paymentTermsWrapper.style.display = 'none';
+    }
+
+    // ===============================
+    // MEMBERSHIP REQUIREMENT
+    // ===============================
+    function handleMembershipRequirement() {
+      const membershipValue = membershipSelectize.getValue();
+
+      if (!membershipValue) {
+        paymentTypeSelectize.disable();
+        resetPaymentFields();
+      } else {
+        paymentTypeSelectize.enable();
+      }
+    }
+
+    // ===============================
+    // GET MEMBERSHIP TEXT
+    // ===============================
+    // function getMembershipText() {
+    //   const val = membershipSelectize.getValue();
+    //   if (val && membershipSelectize.options[val]) {
+    //     return membershipSelectize.options[val].text.trim();
+    //   }
+    //   return '';
+    // }
+
+    // ===============================
+    // END DATE + VIP LOGIC
+    // ===============================
     function updateEndDate() {
       const startDate = startInput.value;
 
       let durationMonths = 0;
       let discountPercent = 0;
 
-      if (selectize) {
-        const selectedValue = selectize.getValue();
+      const selectedValue = membershipSelectize.getValue();
 
-        if (selectedValue && selectize.options[selectedValue]) {
-          const selectedText = selectize.options[selectedValue].text.trim().toUpperCase();
+      if (selectedValue && membershipSelectize.options[selectedValue]) {
+        const selectedText = membershipSelectize.options[selectedValue].text.trim().toUpperCase();
 
-          // Hide/show Start and End date for VIP
-          if (selectedText === 'VIP') {
-            startWrapper.style.display = 'none';
-            endWrapper.style.display = 'none';
-            startInput.value = '';
-            endInput.value = '';
-            if (discountInput) discountInput.value = '';
-            return;
-          } else {
-            startWrapper.style.display = 'flex';
-            endWrapper.style.display = 'flex';
-          }
+        // VIP
+        if (selectedText === 'VIP') {
+          startWrapper.style.display = 'none';
+          endWrapper.style.display = 'none';
 
-          // Extract months (first number in text)
-          const monthMatch = selectedText.match(/(\d+)\s*MONTH/);
-          durationMonths = monthMatch ? parseInt(monthMatch[1]) : 0;
+          startInput.value = '';
+          endInput.value = '';
+          if (discountInput) discountInput.value = '';
 
-          // Extract discount (number inside parentheses with %)
-          const discountMatch = selectedText.match(/\((\d+)%\)/);
-          discountPercent = discountMatch ? parseInt(discountMatch[1]) : 0;
+          paymentTypeWrapper.style.display = 'none';
+          paymentTypeSelect.removeAttribute('required');
 
-          // Auto-fill discount input if exists
-          if (discountInput) {
-            discountInput.value = discountPercent > 0 ? discountPercent : '';
-          }
+          paymentTypeSelectize.disable();
+          resetPaymentFields();
+
+          return;
+        } else {
+          startWrapper.style.display = 'flex';
+          endWrapper.style.display = 'flex';
+
+          paymentTypeWrapper.style.display = 'flex';
+          paymentTypeSelect.setAttribute('required', 'required');
+
+          handleMembershipRequirement();
+        }
+
+        // Extract months
+        const monthMatch = selectedText.match(/(\d+)\s*MONTH/);
+        durationMonths = monthMatch ? parseInt(monthMatch[1]) : 0;
+
+        // Extract discount
+        const discountMatch = selectedText.match(/\((\d+)%\)/);
+        discountPercent = discountMatch ? parseInt(discountMatch[1]) : 0;
+
+        if (discountInput) {
+          discountInput.value = discountPercent > 0 ? discountPercent : '';
         }
       }
 
@@ -175,7 +275,6 @@ if (isset($_GET['customer_id'])) {
         return;
       }
 
-      // Compute end date
       const start = new Date(startDate);
       const end = new Date(start);
       end.setMonth(end.getMonth() + durationMonths);
@@ -183,17 +282,55 @@ if (isset($_GET['customer_id'])) {
       const yyyy = end.getFullYear();
       const mm = String(end.getMonth() + 1).padStart(2, '0');
       const dd = String(end.getDate()).padStart(2, '0');
+
       endInput.value = `${yyyy}-${mm}-${dd}`;
     }
 
-    // Trigger when start date changes
+    // ===============================
+    // PAYMENT TYPE LOGIC
+    // ===============================
+    function handlePaymentType() {
+      const type = paymentTypeSelectize.getValue();
+
+      if (type === 'Downpayment') {
+        downPaymentWrapper.style.display = 'flex';
+        paymentTermsWrapper.style.display = 'flex';
+
+        // 🔥 AUTO-FILL PAYMENT TERMS FROM MEMBERSHIP
+        // paymentTermsInput.value = getMembershipText();
+
+      } else {
+        downPaymentWrapper.style.display = 'none';
+        paymentTermsWrapper.style.display = 'none';
+
+        downPaymentInput.value = '';
+        paymentTermsInput.value = '';
+      }
+    }
+
+    // ===============================
+    // EVENTS
+    // ===============================
     startInput.addEventListener('change', updateEndDate);
 
-    // Trigger when membership type changes
-    selectize.on('change', updateEndDate);
+    membershipSelectize.on('change', function () {
+      updateEndDate();
+      handleMembershipRequirement();
 
-    // Run once on page load in case VIP is already selected
+      // 🔥 Update payment terms if already in Downpayment PAY
+      // if (paymentTypeSelectize.getValue() === 'Downpayment') {
+      //   paymentTermsInput.value = getMembershipText();
+      // }
+    });
+
+    paymentTypeSelectize.on('change', handlePaymentType);
+
+    // ===============================
+    // INITIAL STATE
+    // ===============================
+    handleMembershipRequirement();
     updateEndDate();
+    handlePaymentType();
   });
 
 
@@ -333,4 +470,30 @@ if (isset($_GET['customer_id'])) {
       'fw-bold text-danger'
     );
   }
+
+  const downPaymentInput = document.getElementById('down_payment_amount');
+  const downPaymentRaw = document.getElementById('down_payment_amount_raw');
+
+  // Add commas
+  function formatNumber(value) {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  // Remove commas
+  function unformatNumber(value) {
+    return value.replace(/,/g, '');
+  }
+
+  downPaymentInput.addEventListener('input', function (e) {
+    let value = e.target.value;
+
+    // Remove everything except numbers
+    value = value.replace(/[^0-9]/g, '');
+
+    // Save RAW value (no commas)
+    downPaymentRaw.value = value;
+
+    // Format for display
+    e.target.value = value ? formatNumber(value) : '';
+  });
 </script>
