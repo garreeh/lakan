@@ -95,7 +95,7 @@ while ($row = mysqli_fetch_assoc($res)) {
 foreach ($cycles as $i => $cycle) {
 
   $start = $cycle['start_date'];
-  $next  = $cycles[$i + 1]['start_date'] ?? null;
+  $next = $cycles[$i + 1]['start_date'] ?? null;
 
   $key = "cycle_" . $i;
 
@@ -107,7 +107,7 @@ foreach ($cycles as $i => $cycle) {
   /* =========================
      FIXED LOGIC HERE
   ========================= */
-  $dpAmount = (float)$cycle['down_payment_amount'];
+  $dpAmount = (float) $cycle['down_payment_amount'];
 
   // FULL PAYMENT only if NO downpayment
   $isFullPayment = ($dpAmount <= 0);
@@ -116,7 +116,7 @@ foreach ($cycles as $i => $cycle) {
 
     $groupedPayments[$key]['items'][] = [
       'date' => $start,
-      'amount' => (float)$cycle['membershiptype_price']
+      'amount' => (float) $cycle['membershiptype_price']
     ];
 
   } else {
@@ -141,7 +141,7 @@ foreach ($cycles as $i => $cycle) {
     ) {
       $groupedPayments[$key]['items'][] = [
         'date' => $d,
-        'amount' => (float)$p['payment_amount']
+        'amount' => (float) $p['payment_amount']
       ];
     }
   }
@@ -351,32 +351,63 @@ foreach ($cycles as $i => $cycle) {
 
 
 
-                    <div class="d-flex justify-content-center gap-2 mt-3">
-                      <!-- Renew Membership Button -->
-                      <a href="#" class="btn btn-sm btn-success shadow-lg" data-bs-toggle="modal"
-                        data-bs-target="#renewMembershipModal">
-                        <i class="bi bi-arrow-repeat me-1"></i> Renew
-                      </a>
+                    <div class="row g-2 mt-3">
+                      <!-- Renew Membership -->
+                      <div class="col-4">
+                        <a href="#" class="btn btn-sm btn-success shadow-lg w-100" data-bs-toggle="modal"
+                          data-bs-target="#renewMembershipModal">
+                          <i class="bi bi-arrow-repeat me-1"></i>
+                          <span class="d-none d-md-inline">Renew</span>
+                        </a>
+                      </div>
 
-                      <!-- Membership History Button -->
-                      <a href="#" class="btn btn-sm btn-primary shadow-lg" data-bs-toggle="modal"
-                        data-bs-target="#membershipHistoryModal">
-                        <i class="bi bi-clock-history me-1"></i> History
-                      </a>
+                      <!-- Membership History -->
+                      <div class="col-4">
+                        <a href="#" class="btn btn-sm btn-primary shadow-lg w-100" data-bs-toggle="modal"
+                          data-bs-target="#membershipHistoryModal">
+                          <i class="bi bi-clock-history me-1"></i>
+                          <span class="d-none d-md-inline">History</span>
+                        </a>
+                      </div>
 
-                      <!-- Pause Button -->
-                      <a href="#" id="pauseBtn"
-                        class="btn btn-sm btn-warning shadow-lg <?php echo ($data['is_paused'] == 1) ? 'd-none' : ''; ?>"
-                        data-bs-toggle="modal" data-bs-target="#membershipPauseModal">
-                        <i class="bi bi-pause-circle me-1"></i> Pause Subs
-                      </a>
+                      <!-- Pause -->
+                      <div class="col-4">
+                        <a href="#" id="pauseBtn"
+                          class="btn btn-sm btn-warning shadow-lg w-100 <?php echo ($data['is_paused'] == 1) ? 'd-none' : ''; ?>"
+                          data-bs-toggle="modal" data-bs-target="#membershipPauseModal">
+                          <i class="bi bi-pause-circle me-1"></i>
+                          <span class="d-none d-md-inline">Pause</span>
+                        </a>
 
-                      <!-- Resume Button -->
-                      <a href="#" id="resumeBtn"
-                        class="btn btn-sm btn-info shadow-lg <?php echo ($data['is_paused'] == 1) ? '' : 'd-none'; ?>"
-                        data-bs-toggle="modal" data-bs-target="#membershipResumeModal">
-                        <i class="bi bi-play-circle me-1"></i> Resume Subs
-                      </a>
+                        <!-- Resume -->
+                        <a href="#" id="resumeBtn"
+                          class="btn btn-sm btn-info shadow-lg w-100 <?php echo ($data['is_paused'] == 1) ? '' : 'd-none'; ?>"
+                          data-bs-toggle="modal" data-bs-target="#membershipResumeModal">
+                          <i class="bi bi-play-circle me-1"></i>
+                          <span class="d-none d-md-inline">Resume</span>
+                        </a>
+                      </div>
+
+
+                      <?php
+                      date_default_timezone_set('Asia/Manila');
+
+                      $endDate = !empty($data['end_date_membership']) ? strtotime($data['end_date_membership']) : null;
+                      $today = strtotime(date('Y-m-d'));
+                      ?>
+
+                      <!-- Modify Subscription -->
+                      <?php if ($endDate && $endDate >= $today): ?>
+
+                        <div class="col-12">
+                          <a href="#" class="btn btn-sm btn-dark shadow-lg w-100" data-bs-toggle="modal"
+                            data-bs-target="#modifySubscriptionModal">
+                            <i class="bi bi-pencil-square me-1"></i>
+                            Manage Subscription
+                          </a>
+                        </div>
+
+                      <?php endif; ?>
                     </div>
 
 
@@ -386,6 +417,8 @@ foreach ($cycles as $i => $cycle) {
                 <?php include './../modals/renew_and_history/modal_history_membership.php' ?>
                 <?php include './../modals/renew_and_history/modal_pause_membership.php' ?>
                 <?php include './../modals/renew_and_history/modal_resume_membership.php' ?>
+                <?php include './../modals/membership_type/modal_manage_subscription_membership.php' ?>
+
 
 
 
@@ -400,7 +433,7 @@ foreach ($cycles as $i => $cycle) {
 
                       <li class="nav-item">
                         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Personal
-                          Details</button>
+                          Info</button>
                       </li>
 
                       <li class="nav-item">
