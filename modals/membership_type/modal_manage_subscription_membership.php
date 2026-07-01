@@ -29,7 +29,7 @@ if (isset($_GET['customer_id'])) {
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="modifySubscriptionModal">
-                Renew Membership for
+                Manage Membership for
                 <?php
                 echo htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
                 ?>
